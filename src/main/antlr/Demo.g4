@@ -1,20 +1,23 @@
 grammar Demo;
 
 //parser
-stat : expr;
+stmt : expr;
 
-expr : expr MUL expr    #Mul
-     | expr ADD expr    #Add
-     | expr DIV expr    #Div
-     | expr MIN expr    #Min
-     | INT              #Int
+expr : expr NUL expr    # Mul
+     | expr ADD expr    # Add
+     | expr DIV expr    # Div
+     | expr MIN expr    # Min
+     | INT              # Int
      ;
 
-
-MUL : '*';
+NUL : '*';
 ADD : '+';
 DIV : '/';
 MIN : '-';
 
 INT : Digit+;
 Digit : [0-9];
+
+WS : [ \t\r\n]+ -> skip;
+
+SHEBANG : '#' '!' ~('\n'|'\r')* -> channel(HIDDEN);
