@@ -1,5 +1,4 @@
-// Generated from D:/Work/studying materials/computer related/±‡“Î∆˜øŒ≥Ã…Ëº∆/myCompiler/Mx-Compiler/src/main/antlr\Demo.g4 by ANTLR 4.10.1
-package com.antlr.out;
+// Generated from java-escape by ANTLR 4.11.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -9,9 +8,9 @@ import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
-@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class DemoLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.10.1", RuntimeMetaData.VERSION); }
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
+public class MxParserLexer extends Lexer {
+	static { RuntimeMetaData.checkVersion("4.11.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -79,13 +78,13 @@ public class DemoLexer extends Lexer {
 	}
 
 
-	public DemoLexer(CharStream input) {
+	public MxParserLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Demo.g4"; }
+	public String getGrammarFileName() { return "MxParser.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

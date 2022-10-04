@@ -1,5 +1,4 @@
-// Generated from D:/Work/studying materials/computer related/±‡“Î∆˜øŒ≥Ã…Ëº∆/myCompiler/Mx-Compiler/src/main/antlr\Demo.g4 by ANTLR 4.10.1
-package com.antlr.out;
+// Generated from java-escape by ANTLR 4.11.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -9,9 +8,9 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class DemoParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.10.1", RuntimeMetaData.VERSION); }
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
+public class MxParserParser extends Parser {
+	static { RuntimeMetaData.checkVersion("4.11.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -73,7 +72,7 @@ public class DemoParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Demo.g4"; }
+	public String getGrammarFileName() { return "java-escape"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -84,11 +83,12 @@ public class DemoParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public DemoParser(TokenStream input) {
+	public MxParserParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class StmtContext extends ParserRuleContext {
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
@@ -99,15 +99,15 @@ public class DemoParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_stmt; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DemoListener ) ((DemoListener)listener).enterStmt(this);
+			if ( listener instanceof MxParserListener ) ((MxParserListener)listener).enterStmt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DemoListener ) ((DemoListener)listener).exitStmt(this);
+			if ( listener instanceof MxParserListener ) ((MxParserListener)listener).exitStmt(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitStmt(this);
+			if ( visitor instanceof MxParserVisitor ) return ((MxParserVisitor<? extends T>)visitor).visitStmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -133,6 +133,7 @@ public class DemoParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class ExprContext extends ParserRuleContext {
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -144,6 +145,7 @@ public class DemoParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class AddContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -151,22 +153,23 @@ public class DemoParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode ADD() { return getToken(DemoParser.ADD, 0); }
+		public TerminalNode ADD() { return getToken(MxParserParser.ADD, 0); }
 		public AddContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DemoListener ) ((DemoListener)listener).enterAdd(this);
+			if ( listener instanceof MxParserListener ) ((MxParserListener)listener).enterAdd(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DemoListener ) ((DemoListener)listener).exitAdd(this);
+			if ( listener instanceof MxParserListener ) ((MxParserListener)listener).exitAdd(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitAdd(this);
+			if ( visitor instanceof MxParserVisitor ) return ((MxParserVisitor<? extends T>)visitor).visitAdd(this);
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class DivContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -174,22 +177,23 @@ public class DemoParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode DIV() { return getToken(DemoParser.DIV, 0); }
+		public TerminalNode DIV() { return getToken(MxParserParser.DIV, 0); }
 		public DivContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DemoListener ) ((DemoListener)listener).enterDiv(this);
+			if ( listener instanceof MxParserListener ) ((MxParserListener)listener).enterDiv(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DemoListener ) ((DemoListener)listener).exitDiv(this);
+			if ( listener instanceof MxParserListener ) ((MxParserListener)listener).exitDiv(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitDiv(this);
+			if ( visitor instanceof MxParserVisitor ) return ((MxParserVisitor<? extends T>)visitor).visitDiv(this);
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class MinContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -197,22 +201,23 @@ public class DemoParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode MIN() { return getToken(DemoParser.MIN, 0); }
+		public TerminalNode MIN() { return getToken(MxParserParser.MIN, 0); }
 		public MinContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DemoListener ) ((DemoListener)listener).enterMin(this);
+			if ( listener instanceof MxParserListener ) ((MxParserListener)listener).enterMin(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DemoListener ) ((DemoListener)listener).exitMin(this);
+			if ( listener instanceof MxParserListener ) ((MxParserListener)listener).exitMin(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitMin(this);
+			if ( visitor instanceof MxParserVisitor ) return ((MxParserVisitor<? extends T>)visitor).visitMin(this);
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class MulContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -220,36 +225,37 @@ public class DemoParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode NUL() { return getToken(DemoParser.NUL, 0); }
+		public TerminalNode NUL() { return getToken(MxParserParser.NUL, 0); }
 		public MulContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DemoListener ) ((DemoListener)listener).enterMul(this);
+			if ( listener instanceof MxParserListener ) ((MxParserListener)listener).enterMul(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DemoListener ) ((DemoListener)listener).exitMul(this);
+			if ( listener instanceof MxParserListener ) ((MxParserListener)listener).exitMul(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitMul(this);
+			if ( visitor instanceof MxParserVisitor ) return ((MxParserVisitor<? extends T>)visitor).visitMul(this);
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class IntContext extends ExprContext {
-		public TerminalNode INT() { return getToken(DemoParser.INT, 0); }
+		public TerminalNode INT() { return getToken(MxParserParser.INT, 0); }
 		public IntContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DemoListener ) ((DemoListener)listener).enterInt(this);
+			if ( listener instanceof MxParserListener ) ((MxParserListener)listener).enterInt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DemoListener ) ((DemoListener)listener).exitInt(this);
+			if ( listener instanceof MxParserListener ) ((MxParserListener)listener).exitInt(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DemoVisitor ) return ((DemoVisitor<? extends T>)visitor).visitInt(this);
+			if ( visitor instanceof MxParserVisitor ) return ((MxParserVisitor<? extends T>)visitor).visitInt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
