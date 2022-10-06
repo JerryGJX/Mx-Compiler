@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eec93948-06ac-4557-a182-0546fd20ae40" name="Changes" comment="modify maven format" />
+    <list default="true" id="b4929490-aeb2-4876-b622-31387dcb9f70" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,15 +16,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="$PROJECT_DIR$/../../../../../../Maven/apache-maven-3.8.6" />
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
-  <component name="ProjectId" id="2FGG25dSxXC7uHOyzRGWzAHrHVy" />
+  <component name="ProjectId" id="2FdGxyLKPBVorpvlWDUjn3NqS2r" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -34,31 +26,38 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Work/studying materials/computer related/compiler_design/myCompiler/Mx-Compiler&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Work/studying materials/computer related/compiler_design/myCompiler/try/src/grammar&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.ApplicationConfigurable&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;PLAIN_TEXT&quot;,
+      &quot;ANTLRv4&quot;
+    ]
   }
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Work\studying materials\computer related\编译器课程设计\myCompiler\Mx-Compiler\src\main\java" />
-      <recent name="D:\Work\studying materials\computer related\编译器课程设计\myCompiler\Mx-Compiler\src\main\java\ACM\Compiler" />
+      <recent name="D:\Work\studying materials\computer related\compiler_design\myCompiler\try\src\grammar" />
     </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
-      <module name="Compiler" />
+      <module name="Mx-Compiler" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="Compiler" />
+      <module name="Mx-Compiler" />
       <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -68,23 +67,28 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="eec93948-06ac-4557-a182-0546fd20ae40" name="Changes" comment="" />
-      <created>1664110798554</created>
+      <changelist id="b4929490-aeb2-4876-b622-31387dcb9f70" name="Changes" comment="" />
+      <created>1664814800093</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1664110798554</updated>
-      <workItem from="1664112730144" duration="4168000" />
-      <workItem from="1664897770102" duration="1583000" />
-      <workItem from="1664899386375" duration="740000" />
+      <updated>1664814800093</updated>
+      <workItem from="1664814800093" duration="150000" />
+      <workItem from="1664814966674" duration="1470000" />
+      <workItem from="1664900328704" duration="799000" />
+      <workItem from="1664901182612" duration="39000" />
+      <workItem from="1664901273867" duration="8398000" />
+      <workItem from="1665027847238" duration="40000" />
+      <workItem from="1665027899079" duration="91000" />
+      <workItem from="1665028004039" duration="860000" />
+      <workItem from="1665029016948" duration="110000" />
+      <workItem from="1665029140188" duration="110000" />
+      <workItem from="1665029262489" duration="340000" />
+      <workItem from="1665029619129" duration="343000" />
+      <workItem from="1665037330577" duration="101000" />
+      <workItem from="1665037451107" duration="2976000" />
+      <workItem from="1665040494418" duration="229000" />
+      <workItem from="1665040777241" duration="790000" />
     </task>
-    <task id="LOCAL-00001" summary="modify maven format">
-      <created>1664113180154</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1664113180154</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -101,8 +105,8 @@
       </map>
     </option>
   </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="modify maven format" />
-    <option name="LAST_COMMIT_MESSAGE" value="modify maven format" />
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

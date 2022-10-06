@@ -4,33 +4,35 @@
     <option name="perGrammarGenerationSettings">
       <list>
         <PerGrammarGenerationSettings>
-          <option name="fileName" value="$PROJECT_DIR$/src/main/antlr/Demo.g4" />
+          <option name="fileName" value="$PROJECT_DIR$/src/grammar/demo.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="D:\Work\studying materials\computer related\编译器课程设计\myCompiler\Mx-Compiler\src\main\antlr" />
-          <option name="libDir" value="" />
-          <option name="encoding" value="" />
-          <option name="pkg" value="com.antlr.out" />
-          <option name="language" value="" />
-          <option name="generateVisitor" value="true" />
-        </PerGrammarGenerationSettings>
-        <PerGrammarGenerationSettings>
-          <option name="fileName" value="$PROJECT_DIR$/src/main/java/ACM/Compiler/Demo.g4" />
-          <option name="autoGen" value="true" />
-          <option name="outputDir" value="D:\Work\studying materials\computer related\编译器课程设计\myCompiler\Mx-Compiler\src\main\java\ACM\grammar" />
+          <option name="outputDir" value="D:\Work\studying materials\computer related\compiler_design\myCompiler\try\src\grammar\Demo" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="" />
           <option name="language" value="" />
           <option name="generateVisitor" value="true" />
         </PerGrammarGenerationSettings>
-      </list>
-    </option>
-  </component>
-  <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="MavenProjectsManager">
-    <option name="originalFiles">
-      <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
+        <PerGrammarGenerationSettings>
+          <option name="fileName" value="$PROJECT_DIR$/src/grammar/MxLexer.g4" />
+          <option name="autoGen" value="true" />
+          <option name="outputDir" value="D:\Work\studying materials\computer related\compiler_design\myCompiler\try\src\grammar" />
+          <option name="libDir" value="" />
+          <option name="encoding" value="" />
+          <option name="pkg" value="" />
+          <option name="language" value="" />
+          <option name="generateVisitor" value="true" />
+        </PerGrammarGenerationSettings>
+        <PerGrammarGenerationSettings>
+          <option name="fileName" value="*" />
+          <option name="autoGen" value="true" />
+          <option name="outputDir" value="" />
+          <option name="libDir" value="" />
+          <option name="encoding" value="" />
+          <option name="pkg" value="" />
+          <option name="language" value="Java" />
+          <option name="generateVisitor" value="true" />
+        </PerGrammarGenerationSettings>
       </list>
     </option>
   </component>
