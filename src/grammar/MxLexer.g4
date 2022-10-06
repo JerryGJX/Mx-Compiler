@@ -5,8 +5,8 @@ lexer grammar MxLexer;
 
 // 1 Operator
 
-AddOp: '+' ;
-SubOp: '-' ;
+PlusOp: '+' ;
+MinusOp: '-' ;
 MulOp: '*' ;
 DivOp: '/' ;
 ModOp: '%' ;
@@ -22,8 +22,8 @@ LogicAndOp: '&&' ;
 LogicOrOp: '||' ;
 LogicNotOp: '!' ;
 
-ArithShiftLeftOp: '<<' ;
-ArithShiftRightOp: '>>' ;
+LeftShiftOp: '<<' ;//e.g. 1<<2 = 4
+RightShiftOp: '>>' ;
 BitAndOp: '&' ;
 BitOrOp: '|' ;
 BitXorOp: '^' ;
@@ -49,8 +49,9 @@ RightBrace: '}';
 
 QuoteOp: '"';
 
+//LambdaStartSymbol: '[&]';
+LambdaArrowSymbol: '->' ;
 
-// 2.Keyword
 
 // 2.1 Basic Type Keyword
 VoidType: 'void' ;
@@ -74,12 +75,11 @@ NewKw: 'new' ;
 ClassKw: 'class' ;
 ThisPointer: 'this' ;
 
-// 3 Blank
-WhiteSpace: [\t\r\n]+ -> skip;
+
 
 // 4 Comment
 CommentLine: '//' ~[\r\n]* -> skip ;
-//CommentPara: '/*' .*? '*/' -> skip ;
+CommentPara: '/*' .*? '*/' -> skip ;
 
 // 5 Identifier
 Identifier: [a-zA-Z] [a-zA-Z_0-9]* ;
@@ -93,15 +93,18 @@ IntegerConstant
 
 // 6.2 String Constant
 
-EscapeEnter: '\\n';
-EscapeBackslash: '\\\\';
-EscapeQuote: '\\"';
-StringContent: [ -~];
+
 
 StringConstant
-    :   QuoteOp (EscapeEnter | EscapeBackslash | EscapeQuote | StringContent)*? QuoteOp//贪婪模式
+    :   QuoteOp (StrEnter | StrBackslash | StrQuote | StringContent)*? QuoteOp//贪婪模式
     ;
 
+StrEnter: '\\n';
+StrBackslash: '\\\\';
+StrQuote: '\\"';
 
-LambdaStartSymbol: '[&]';
-LambdaArrowSymbol: '->' ;
+// 3 Blank
+WhiteSpace: [ \t\r\n]+ -> skip;
+
+StringContent: [ -~];
+
