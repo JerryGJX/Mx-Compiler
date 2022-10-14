@@ -11,6 +11,11 @@ out/
 .settings
 .springBeans
 .sts4-cache
+
+src/buildComment/test/testCase
+
+src/test/testCase
+
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/

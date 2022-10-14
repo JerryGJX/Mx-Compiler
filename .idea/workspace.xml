@@ -10,6 +10,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -27,11 +34,12 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/Work/studying materials/computer related/compiler_design/myCompiler/try/src/grammar",
+    "last_opened_file_path": "D:/Work/studying materials/computer related/compiler_design/myCompiler/Mx-Compiler/src/test/testCase/sema/basic-package/basic-8.mx",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -89,7 +97,12 @@
       <workItem from="1665037451107" duration="2976000" />
       <workItem from="1665040494418" duration="229000" />
       <workItem from="1665040777241" duration="790000" />
-      <workItem from="1665041738746" duration="22880000" />
+      <workItem from="1665041738746" duration="27937000" />
+      <workItem from="1665496849137" duration="627000" />
+      <workItem from="1665553937185" duration="3119000" />
+      <workItem from="1665557963194" duration="150000" />
+      <workItem from="1665558236983" duration="6909000" />
+      <workItem from="1665760235134" duration="6493000" />
     </task>
     <servers />
   </component>

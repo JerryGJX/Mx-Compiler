@@ -1,6 +1,6 @@
 lexer grammar MxLexer;
 
-//@header {package grammar;}
+@header {package grammar;}
 
 
 // 1 Operator
@@ -49,7 +49,6 @@ RightBrace: '}';
 
 QuoteOp: '"';
 
-//LambdaStartSymbol: '[&]';
 LambdaArrowSymbol: '->' ;
 
 
@@ -92,19 +91,15 @@ IntegerConstant
     ;
 
 // 6.2 String Constant
-
-
-
 StringConstant
-    :   QuoteOp (StrEnter | StrBackslash | StrQuote | StringContent)*? QuoteOp//贪婪模式
+    :   QuoteOp (StringConstantChar)*? QuoteOp//非贪婪
+    ;
+fragment StringConstantChar
+    :   '\\n' | '\\\\' | '\\"' | .
     ;
 
-StrEnter: '\\n';
-StrBackslash: '\\\\';
-StrQuote: '\\"';
 
 // 3 Blank
 WhiteSpace: [ \t\r\n]+ -> skip;
 
-StringContent: [ -~];
 

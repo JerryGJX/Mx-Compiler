@@ -4,7 +4,7 @@ options {
     tokenVocab = MxLexer;
 }
 
-//@header {package grammar;}
+@header {package grammar;}
 
 mxProgram : (classDef|funcDef|varDefStmt)* EOF;
 
