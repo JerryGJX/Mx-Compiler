@@ -6,6 +6,11 @@ import org.antlr.v4.runtime.Token;
 public class Position {
     private final int line, column;
 
+    public Position() {
+        line = 0;
+        column = 0;
+    }
+
     public Position(int line, int column) {
         this.line = line;
         this.column = column;

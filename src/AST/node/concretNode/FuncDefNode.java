@@ -6,6 +6,7 @@ import AST.node.concretNode.stmtNode.SuiteStmtNode;
 import Utils.Position;
 import java.util.ArrayList;
 import AST.typeNode.BasicVarTypeNode;
+import Utils.scope.FuncBodyScope;
 
 public class FuncDefNode extends ASTNode {
     public BasicVarTypeNode returnType; //constructor will set it to null
@@ -13,6 +14,8 @@ public class FuncDefNode extends ASTNode {
     public ArrayList<VarDefUnitNode> paramList;
     public SuiteStmtNode funcBodyNode;
     public boolean isBuiltin;
+
+    public FuncBodyScope funcAndLoopScope;
 
     public FuncDefNode(BasicVarTypeNode _returnType, String _funcName, ArrayList<VarDefUnitNode> _paramList, SuiteStmtNode _funcBody, Position _nodePos) {
         super(_nodePos);

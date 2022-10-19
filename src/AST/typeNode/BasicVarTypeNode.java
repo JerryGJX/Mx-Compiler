@@ -11,9 +11,9 @@ public abstract class BasicVarTypeNode extends ASTNode {
         super(nodePos);
         typeInfo = _typeInfo;
     }
-    public BasicVarTypeNode(TypeEnum _typeEnum, String _typeName, Position nodePos) {
+    public BasicVarTypeNode(TypeEnum _typeEnum, String _Id, Position nodePos) {
         super(nodePos);
-        this.typeInfo = new TypeInfo(_typeEnum, _typeName);
+        this.typeInfo = new TypeInfo(_typeEnum, _Id);
     }
 
     public boolean matchName(BasicVarTypeNode node) {
