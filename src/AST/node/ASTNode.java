@@ -4,14 +4,14 @@ import AST.ASTVisitor;
 import Utils.Position;
 
 public abstract class ASTNode {
-    private Position pos;
+    private Position nodePos;
 
-    public ASTNode(Position nodePos) {
-        this.pos = nodePos;
+    public ASTNode(Position _nodePos) {
+        this.nodePos = _nodePos;
     }
 
-    public Position getPos() {
-        return pos;
+    public Position getNodePos() {
+        return nodePos;
     }
 
     abstract public void accept(ASTVisitor visitor);

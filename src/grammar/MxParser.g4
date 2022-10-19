@@ -54,7 +54,7 @@ varType : basicVarType (LeftBracket RightBracket)*;
 //变量赋值&声明
 varDefUnit : Identifier (AssignOp expression)?;//e.g. A = 10 or A
 //变量定义
-varDefBody : varType varDefUnit (Comma varDefUnit)?;//e.g. int A = 10 (, B = 20)
+varDefBody : varType varDefUnit (Comma varDefUnit)*;//e.g. int A = 10 (, B = 20)
 
 
 //statement

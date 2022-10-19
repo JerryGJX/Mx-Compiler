@@ -1,4 +1,4 @@
-package Utils.Error;
+package Utils.error;
 import Utils.Position;
 
 abstract public class error extends RuntimeException{

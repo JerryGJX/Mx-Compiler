@@ -1,6 +1,6 @@
 package Utils;
 
-import Utils.Error.syntaxError;
+import Utils.error.syntaxError;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
