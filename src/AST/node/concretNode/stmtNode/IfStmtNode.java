@@ -4,18 +4,22 @@ import AST.ASTVisitor;
 import AST.node.abstractNode.ExpNode;
 import AST.node.abstractNode.StmtNode;
 import Utils.Position;
-import Utils.scope.FuncBodyScope;
 
 public class IfStmtNode extends StmtNode {
     public ExpNode condExpNode;
-    public StmtNode ifTrueStmtNode,elseStmtNode;
+    public StmtNode trueStmtNode,elseStmtNode;
 
-    public FuncBodyScope funcAndLoopScope;
+    public IfStmtNode(Position _nodePos) {
+        super(_nodePos);
+        this.condExpNode = null;
+        this.trueStmtNode = null;
+        this.elseStmtNode = null;
+    }
 
     public IfStmtNode(Position _nodePos, ExpNode _conditionExpNode, StmtNode _ifTrueStmtNode) {
         super(_nodePos);
         this.condExpNode = _conditionExpNode;
-        this.ifTrueStmtNode = _ifTrueStmtNode;
+        this.trueStmtNode = _ifTrueStmtNode;
         this.elseStmtNode = null;
     }
 

@@ -4,7 +4,7 @@ import AST.ASTVisitor;
 import Utils.Position;
 
 public class IntExpNode extends AtomExpNode {
-    private int value;
+    public int value;
 
     public IntExpNode(int value, Position _position) {
         super(_position);

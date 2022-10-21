@@ -7,7 +7,7 @@ import AST.typeNode.VarTypeNode;
 
 import java.util.HashMap;
 
-public class GlobalScope extends BaseScope {
+public class GlobalScope extends Scope {
     private HashMap<String, VarTypeNode> gloVarTable;
     private HashMap<String, FuncDefNode> gloFuncTable;
     private HashMap<String, ClassDefNode> gloClassTable;
@@ -43,10 +43,6 @@ public class GlobalScope extends BaseScope {
         return gloClassTable.getOrDefault(_identifier, null);
     }
 
-    @Override
-    public BaseScope parentScope() {
-        return this.parentScope;
-    }
 
 }
 

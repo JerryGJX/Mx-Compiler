@@ -7,6 +7,10 @@ import org.antlr.v4.runtime.misc.Pair;
 public abstract class BasicVarTypeNode extends ASTNode {
     public TypeInfo typeInfo;
 
+    public BasicVarTypeNode(Position _nodePos) {
+        super(_nodePos);
+        typeInfo = null;
+    }
     public BasicVarTypeNode(TypeInfo _typeInfo, Position nodePos) {
         super(nodePos);
         typeInfo = _typeInfo;

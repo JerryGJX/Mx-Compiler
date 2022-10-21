@@ -6,6 +6,12 @@ import Utils.Position;
 public class ReturnTypeNode extends BasicVarTypeNode{
     public int dimSize;
 
+
+    public ReturnTypeNode(Position _nodePos) {
+        super(_nodePos);
+        this.dimSize = 0;
+    }
+
     public  ReturnTypeNode(BasicVarTypeNode _node, Position _nodePos) {
         super(_node.typeInfo,_nodePos);
         if(_node instanceof ReturnTypeNode) {

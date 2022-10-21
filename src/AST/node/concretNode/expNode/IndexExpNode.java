@@ -4,11 +4,11 @@ import AST.ASTVisitor;
 import AST.node.abstractNode.ExpNode;
 import Utils.Position;
 
-public class ArrAccessExpNode extends ExpNode {
+public class IndexExpNode extends ExpNode {
     public ExpNode array;
     public ExpNode index;
 
-    public ArrAccessExpNode(ExpNode _array, ExpNode _index, Position _nodePos) {
+    public IndexExpNode(ExpNode _array, ExpNode _index, Position _nodePos) {
         super(_nodePos);
         this.array = _array;
         this.index = _index;

@@ -1,8 +1,8 @@
 package AST.typeNode;
 
 public class TypeInfo {
-    TypeEnum typeEnum;
-    String typeName;
+    public TypeEnum typeEnum;
+    public String typeName;
 
     public TypeInfo(TypeEnum typeEnum) {
         this.typeEnum = typeEnum;

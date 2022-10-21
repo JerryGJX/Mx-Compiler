@@ -5,6 +5,10 @@ import AST.node.abstractNode.ExpNode;
 import Utils.Position;
 
 public class BinaryBoolExpNode extends BinaryExpNode {
+    public BinaryBoolExpNode(Position _nodePos){
+        super(_nodePos);
+    }
+
     public BinaryBoolExpNode(ExpNode _left, ExpNode _right, BinaryOp _operator, Position _position) {
         super(_left,  _operator,_right, _position);
     }

@@ -8,6 +8,7 @@ options {
 
 mxProgram : (classDef|funcDef|varDefStmt)* EOF;
 
+
 /*
 the sequence of classDef, funcDef, varDefStmt is set on account of
 the fact that class contains function and variable definition, and
@@ -34,8 +35,7 @@ returnType : varType | VoidType;
 //函数定义
 funcDef : returnType Identifier LeftParen funcDefArgList? RightParen suiteStmt;
 //函数参数列表
-funcDefArgList : varType Identifier (Comma varType Identifier)*;
-funcCallArgList : expression (Comma expression)*;
+
 
 //7.Variable
 //变量基本类型
@@ -77,12 +77,12 @@ statement
     ;
 
 //if语句
-ifStmt : IfKw LeftParen expression RightParen statement (ElseKw statement)?;
+ifStmt : IfKw LeftParen expression RightParen trueStmt = statement (ElseKw elseStmt = statement)?;
 //while语句
 whileStmt : WhileKw LeftParen expression RightParen statement;
 //for语句
 forInit : (varDefBody | expression);
-forStmt : ForKw LeftParen forInit? SemiColon expression? SemiColon expression? RightParen statement;
+forStmt : ForKw LeftParen forInit? SemiColon forCondition = expression? SemiColon forStep = expression? RightParen statement;
 //break语句
 breakStmt : BreakKw SemiColon;
 //continue语句
@@ -117,31 +117,36 @@ equalityOps : (EqualOp|NotEqualOp);//e.g. a==b a!=b
 
 //expression
 expression
-        :   atomExpression
-        |   LeftParen expression RightParen
-        |   NewKw basicVarType (LeftBracket expression? RightBracket)*//e.g. new int[10]
+        :   atomExpression                                                                    #atomExp
+        |   LeftParen expression RightParen                                                   #parenExp
+        |   NewKw basicVarType newArrSize* (LeftParen RightParen)?                            #newExp
         //left to right
-        |   expression suffixOps
-        |   Identifier LeftParen funcCallArgList? RightParen//e.g. a(1,2,3)
-        |   expression LeftBracket expression RightBracket//e.g. a[1]
-        |   expression MemberOp Identifier//e.g. a.b
-        |   lambdaExpression
+        |   expression suffixOps                                                              #suffixExp
+        |   expression LeftParen funcCallArgList? RightParen/*e.g. a(1,2,3)*/                 #funcCallExp
+        |   expression LeftBracket expression RightBracket/*e.g. a[1]*/                       #indexExp
+        |   expression MemberOp Identifier/*e.g. a.b*/                                        #memberExp
+        |   lambdaExpression                                                                  #lambdaExp
         //right to left
-        |   <assoc = right> prefixOps expression
-        |   <assoc = right> unaryOps expression
+        |   <assoc = right> prefixOps expression                                              #prefixExp
+        |   <assoc = right> unaryOps expression                                               #unaryExp
         //left to right
-        |   expression mulLevelOps expression
-        |   expression addLevelOps expression
-        |   expression shiftOps expression
-        |   expression relationalOps expression
-        |   expression equalityOps expression
-        |   expression BitAndOp expression
-        |   expression BitXorOp expression
-        |   expression BitOrOp expression
-        |   expression LogicAndOp expression
-        |   expression LogicOrOp expression
+        |   expression mulLevelOps expression                                                 #binaryExp
+        |   expression addLevelOps expression                                                 #binaryExp
+        |   expression shiftOps expression                                                    #binaryExp
+        |   expression relationalOps expression                                               #binaryBoolExp
+        |   expression equalityOps expression                                                 #binaryBoolExp
+        |   expression BitAndOp expression                                                    #binaryExp
+        |   expression BitXorOp expression                                                    #binaryExp
+        |   expression BitOrOp expression                                                     #binaryExp
+        |   expression LogicAndOp expression                                                  #binaryBoolExp
+        |   expression LogicOrOp expression                                                   #binaryBoolExp
         //right to left
-        |   <assoc = right> expression AssignOp expression
+        |   <assoc = right> expression AssignOp expression                                    #assignExp
         ;
 
-lambdaExpression : LeftBracket BitAndOp RightBracket LeftParen funcDefArgList? RightParen LambdaArrowSymbol suiteStmt LeftParen funcCallArgList? RightParen;
+newArrSize : LeftBracket expression? RightBracket ;
+
+funcDefArgList : varType Identifier (Comma varType Identifier)*;
+funcCallArgList : expression (Comma expression)*;
+
+lambdaExpression : LeftBracket BitAndOp? RightBracket (LeftParen funcDefArgList? RightParen)? LambdaArrowSymbol suiteStmt LeftParen funcCallArgList? RightParen;

@@ -2,7 +2,6 @@ package AST.node.concretNode.stmtNode;
 
 import AST.ASTVisitor;
 import AST.node.abstractNode.StmtNode;
-import AST.node.concretNode.VarDefUnitNode;
 import Utils.Position;
 
 import java.util.ArrayList;

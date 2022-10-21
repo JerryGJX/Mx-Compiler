@@ -5,12 +5,18 @@ import AST.node.abstractNode.ExpNode;
 import Utils.Position;
 
 public class AssignExpNode extends ExpNode {
-    public ExpNode left, right;
+    public ExpNode rhs, lhs;
+
+    public AssignExpNode(Position _nodePos) {
+        super(_nodePos);
+        this.rhs =null;
+        this.lhs =null;
+    }
 
     public AssignExpNode(ExpNode _left, ExpNode _right, Position _nodePos) {
         super(_nodePos);
-        this.left = _left;
-        this.right = _right;
+        this.rhs = _left;
+        this.lhs = _right;
     }
 
     @Override

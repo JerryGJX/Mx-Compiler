@@ -13,6 +13,12 @@ public class NewExpNode extends ExpNode {
 
     public ArrayList<ExpNode> SizeList;
 
+    public NewExpNode(Position _nodePos){
+        super(_nodePos);
+        SizeList = new ArrayList<>();
+        newType = null;
+    }
+
     public NewExpNode(VarTypeNode _newType, ArrayList<ExpNode> _SizeList, Position _nodePos) {
         super(_nodePos);
         this.newType = _newType;

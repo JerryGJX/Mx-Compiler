@@ -17,6 +17,11 @@ public class RootNode extends ASTNode {
         this.childNodes = _childNodes;
     }
 
+    public RootNode(Position _nodePos) {
+        super(_nodePos);
+        this.childNodes = new ArrayList<>();
+    }
+
     @Override
     public void accept(ASTVisitor _visitor) {
         _visitor.visit(this);

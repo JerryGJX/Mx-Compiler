@@ -17,13 +17,20 @@ public class BinaryExpNode extends ExpNode {
         }
 
     public BinaryOp operator;
-    public ExpNode left, right;
+    public ExpNode lhs, rhs;
+
+    public BinaryExpNode(Position _nodePos){
+        super(_nodePos);
+        operator = null;
+        lhs = null;
+        rhs = null;
+    }
 
     public BinaryExpNode(ExpNode _left, BinaryOp _operator, ExpNode _right, Position _nodePos) {
         super(_nodePos);
-        this.left = _left;
+        this.lhs = _left;
         this.operator = _operator;
-        this.right = _right;
+        this.rhs = _right;
     }
 
     @Override

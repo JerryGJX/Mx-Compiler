@@ -2,18 +2,16 @@ package AST.node.concretNode;
 
 import AST.ASTVisitor;
 import AST.node.ASTNode;
+import AST.node.concretNode.stmtNode.VarDefUnitNode;
 import Utils.Position;
-import Utils.scope.ClassScope;
 
 import java.util.ArrayList;
 
 public class ClassDefNode extends ASTNode {
     public String className;
-    public FuncDefNode constructorDefNode;
+    public ConsDefNode constructorDefNode;
     public ArrayList<VarDefUnitNode> memberVarList;
     public ArrayList<FuncDefNode> memberFuncList;
-
-    public ClassScope classScope;
 
     public ClassDefNode(Position _nodePos) {
         super(_nodePos);

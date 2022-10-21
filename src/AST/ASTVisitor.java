@@ -1,9 +1,6 @@
 package AST;
 
-import AST.node.concretNode.ClassDefNode;
-import AST.node.concretNode.FuncDefNode;
-import AST.node.concretNode.RootNode;
-import AST.node.concretNode.VarDefUnitNode;
+import AST.node.concretNode.*;
 import AST.node.concretNode.expNode.*;
 import AST.node.concretNode.expNode.atomExpNode.AtomExpNode;
 import AST.node.concretNode.stmtNode.*;
@@ -16,7 +13,7 @@ public interface ASTVisitor {
     void visit(RootNode node);
 
     //Exp related
-    void visit(ArrAccessExpNode node);
+    void visit(IndexExpNode node);
     void visit(AssignExpNode node);
     void visit(AtomExpNode node);
     void visit(BinaryExpNode node);
@@ -44,4 +41,6 @@ public interface ASTVisitor {
     void visit(VarTypeNode node);
 
     void visit(ReturnTypeNode node);
+
+    void visit(ConsDefNode node);
 }
