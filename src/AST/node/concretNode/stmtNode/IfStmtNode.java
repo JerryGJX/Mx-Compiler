@@ -5,22 +5,24 @@ import AST.node.abstractNode.ExpNode;
 import AST.node.abstractNode.StmtNode;
 import Utils.Position;
 
+import java.util.ArrayList;
+
 public class IfStmtNode extends StmtNode {
     public ExpNode condExpNode;
-    public StmtNode trueStmtNode,elseStmtNode;
+    public ArrayList<StmtNode> trueStmtList, elseStmtList;
 
     public IfStmtNode(Position _nodePos) {
         super(_nodePos);
         this.condExpNode = null;
-        this.trueStmtNode = null;
-        this.elseStmtNode = null;
+        this.trueStmtList = null;
+        this.elseStmtList = null;
     }
 
-    public IfStmtNode(Position _nodePos, ExpNode _conditionExpNode, StmtNode _ifTrueStmtNode) {
+    public IfStmtNode(Position _nodePos, ExpNode _conditionExpNode, ArrayList<StmtNode> _ifTrueStmtList) {
         super(_nodePos);
         this.condExpNode = _conditionExpNode;
-        this.trueStmtNode = _ifTrueStmtNode;
-        this.elseStmtNode = null;
+        this.trueStmtList = _ifTrueStmtList;
+        this.elseStmtList = null;
     }
 
     @Override

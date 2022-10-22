@@ -1,25 +1,33 @@
 package AST.typeNode;
 
 import AST.ASTVisitor;
+import AST.node.ASTNode;
 import Utils.Position;
 
 
-public class VarTypeNode extends BasicVarTypeNode{
-    public int dimSize;
+public class VarTypeNode extends ASTNode {
+    public Type varType;
 
-    public  VarTypeNode(BasicVarTypeNode _node, Position _nodePos) {
-        super(_node.typeInfo,_nodePos);
-        if(_node instanceof VarTypeNode) {
-            this.dimSize = ((VarTypeNode) _node).dimSize;
-        }
-        else {
-            this.dimSize = 0;//表示没有“[]”
-        }
+    public VarTypeNode(String _typeName,Integer _dimSize, Position _nodePos) {
+        super(_nodePos);
+        varType = new Type(_typeName,_dimSize,false);
     }
-    public VarTypeNode(TypeEnum _typeEnum, String _typeName,Position _nodePos,int _dimSize){
-        super(_typeEnum, _typeName, _nodePos);
-        this.dimSize = _dimSize;
+
+    public VarTypeNode(Type _type, Position _nodePos) {
+        super(_nodePos);
+        varType = _type;
     }
+
+    public String PrintType() {
+        String ret = "";
+        ret += "[typeName: " + this.varType.typeName + ", dimSize: " + varType.dimSize +"]";
+        return ret;
+    }
+
+    public Boolean VarTypeMatch(Type _aimType){
+        return this.varType.typeName.equals(_aimType.typeName);
+    }
+
     @Override
     public void accept(ASTVisitor _visitor) {
         _visitor.visit(this);

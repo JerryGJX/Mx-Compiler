@@ -13,12 +13,6 @@ public class AssignExpNode extends ExpNode {
         this.lhs =null;
     }
 
-    public AssignExpNode(ExpNode _left, ExpNode _right, Position _nodePos) {
-        super(_nodePos);
-        this.rhs = _left;
-        this.lhs = _right;
-    }
-
     @Override
     public void accept(ASTVisitor _visitor) {
         _visitor.visit(this);

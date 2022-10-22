@@ -42,5 +42,5 @@ public interface ASTVisitor {
 
     void visit(ReturnTypeNode node);
 
-    void visit(ConsDefNode node);
+    void visit(ConstructorDefNode node);
 }

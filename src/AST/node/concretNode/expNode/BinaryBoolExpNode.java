@@ -9,14 +9,8 @@ public class BinaryBoolExpNode extends BinaryExpNode {
         super(_nodePos);
     }
 
-    public BinaryBoolExpNode(ExpNode _left, ExpNode _right, BinaryOp _operator, Position _position) {
-        super(_left,  _operator,_right, _position);
-    }
-
     @Override
     public void accept(ASTVisitor _visitor) {
         _visitor.visit(this);
     }
-
-
 }

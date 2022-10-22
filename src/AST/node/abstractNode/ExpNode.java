@@ -1,12 +1,12 @@
 package AST.node.abstractNode;
 
-import AST.ASTVisitor;
 import AST.node.ASTNode;
-import AST.typeNode.BasicVarTypeNode;
+import AST.typeNode.Type;
+import AST.typeNode.VarTypeNode;
 import Utils.Position;
 
 public abstract class ExpNode extends ASTNode {
-    public BasicVarTypeNode exprType;
+    public Type exprType;
 //    public boolean isLeftValue;
 
     public ExpNode(Position _nodePos) {

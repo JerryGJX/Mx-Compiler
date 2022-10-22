@@ -7,13 +7,14 @@ import Utils.Position;
 import java.util.ArrayList;
 
 public class FuncCallExpNode extends ExpNode {
-    public ExpNode func; //可能有成员函数
-    public ArrayList<ExpNode> ArgList;
+
+    public ExpNode function; //可能有成员函数
+    public ArrayList<ExpNode> paraList;
 
     public FuncCallExpNode(ExpNode _func, ArrayList<ExpNode> _ArgList, Position _nodePos) {
         super(_nodePos);
-        this.func = _func;
-        this.ArgList = _ArgList;
+        this.function = _func;
+        this.paraList = _ArgList;
     }
 
     @Override

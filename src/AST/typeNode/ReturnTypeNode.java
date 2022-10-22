@@ -1,29 +1,21 @@
 package AST.typeNode;
 
 import AST.ASTVisitor;
+import AST.node.ASTNode;
 import Utils.Position;
 
-public class ReturnTypeNode extends BasicVarTypeNode{
-    public int dimSize;
+public class ReturnTypeNode extends ASTNode {
+    public Type returnType;
 
-
-    public ReturnTypeNode(Position _nodePos) {
+    public ReturnTypeNode(String _typeName, Integer _dimSize, Position _nodePos) {
         super(_nodePos);
-        this.dimSize = 0;
+        returnType = new Type(_typeName,_dimSize,false);
     }
 
-    public  ReturnTypeNode(BasicVarTypeNode _node, Position _nodePos) {
-        super(_node.typeInfo,_nodePos);
-        if(_node instanceof ReturnTypeNode) {
-            this.dimSize = ((ReturnTypeNode) _node).dimSize;
-        }
-        else {
-            this.dimSize = 0;//表示没有“[]”
-        }
-    }
-    public ReturnTypeNode(TypeEnum _typeEnum, String _typeName,Position _nodePos,int _dimSize){
-        super(_typeEnum,_typeName,_nodePos);
-        this.dimSize = _dimSize;
+    public String PrintType() {
+        String ret = "";
+        ret += "[typeName: " + returnType.typeName + ", dimSize: " + returnType.dimSize + "]";
+        return ret;
     }
 
     @Override
