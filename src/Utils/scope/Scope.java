@@ -21,12 +21,13 @@ public class Scope {
     public Boolean inLoop;
 
 
-    public Scope(Boolean _inClass,ClassDefNode _classDefNode,Boolean _inFunc,Boolean _inLoop,Scope _parent){
+    public Scope(Boolean _inClass,ClassDefNode _classDefNode,Boolean _inFunc,Type _returnType,Boolean _inLoop,Scope _parent){
         varTable = new HashMap<>();
         this.parentScope = _parent;
         this.inClass = _inClass;
         this.classDefNode = _classDefNode;
         this.inFunc = _inFunc;
+        this.returnType = _returnType;
         this.inLoop = _inLoop;
     }
 
@@ -34,14 +35,22 @@ public class Scope {
         varTable.put(name, _varDefUnitNode);
     }
 
-    public Boolean hasVar(String name) {
+    public Boolean VarUsable(String name) {
         if (varTable.containsKey(name)) {
             return true;
         }else if (parentScope != null) {
-            return parentScope.hasVar(name);
+            return parentScope.VarUsable(name);
         }else {
             return false;
         }
+    }
+
+    public Boolean VarDefinable(String name) {
+        return !varTable.containsKey(name);
+    }
+
+    public void DeleteVar(String name){
+        varTable.remove(name);
     }
 
     public VarDefUnitNode getVarDef(String _identifier) {

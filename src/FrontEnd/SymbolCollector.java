@@ -11,14 +11,16 @@ import AST.node.concretNode.stmtNode.*;
 import AST.typeNode.ReturnTypeNode;
 import AST.typeNode.VarTypeNode;
 import Utils.error.syntaxError;
+import Utils.log.Log;
 import Utils.scope.GlobalScope;
 
 public class SymbolCollector implements ASTVisitor {
     public GlobalScope globalScope;
+    public Log log;
 
-    public SymbolCollector(GlobalScope _globalScope) {
+    public SymbolCollector(GlobalScope _globalScope, Log _log) {
         this.globalScope = _globalScope;
-
+        this.log = _log;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class SymbolCollector implements ASTVisitor {
     public void visit(ClassDefNode _node) {
         if (globalScope.hasClass(_node.className)) {
             throw new syntaxError("Class " + _node.className + " has been defined", _node.nodePos);
-        }else if(globalScope.hasFunc(_node.className)){
+        } else if (globalScope.hasFunc(_node.className)) {
             throw new syntaxError("Class " + _node.className + " has been defined as a function", _node.nodePos);
         }
         globalScope.addClass(_node.className, _node);
@@ -41,9 +43,10 @@ public class SymbolCollector implements ASTVisitor {
 
     @Override
     public void visit(FuncDefNode node) {
-        if(globalScope.hasFunc(node.funcName)) {
+        log.addLog("SymbolCollector: visit FuncDefNode " + node.funcName);
+        if (globalScope.hasFunc(node.funcName)) {
             throw new syntaxError("Function " + node.funcName + " has been defined", node.nodePos);
-        }else if(globalScope.hasClass(node.funcName)){
+        } else if (globalScope.hasClass(node.funcName)) {
             throw new syntaxError("Function " + node.funcName + " has been defined as a class", node.nodePos);
         }
         globalScope.addFunc(node.funcName, node);

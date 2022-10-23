@@ -57,8 +57,8 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
     public ASTNode visitClassDef(MxParser.ClassDefContext ctx) {
         ClassDefNode classDefNode = new ClassDefNode(new Position(ctx));
 
-        LinkedHashMap<String,VarDefUnitNode> memberVarList = new LinkedHashMap<>();
-        LinkedHashMap<String,FuncDefNode> memberFuncList = new LinkedHashMap<>();
+        LinkedHashMap<String, VarDefUnitNode> memberVarList = new LinkedHashMap<>();
+        LinkedHashMap<String, FuncDefNode> memberFuncList = new LinkedHashMap<>();
         ConstructorDefNode constructorDefNode = null;
 
 //        if (ctx.varDefStmt() != null) {
@@ -79,10 +79,10 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
         for (int i = 0; i < ctx.getChildCount(); i++) {
             if (ctx.getChild(i) instanceof MxParser.ConstructorDefContext) {
 
-                if(constructorDefNode != null){
+                if (constructorDefNode != null) {
                     throw new semanticError("Class " + ctx.Identifier().getText() + " has more than one constructor", new Position(ctx));
                 }
-                if(!ctx.getChild(i).getChild(i).getText().equals(ctx.Identifier().getText())) {
+                if (!ctx.getChild(i).getChild(i).getText().equals(ctx.Identifier().getText())) {
                     throw new semanticError("Constructor name should be the same as class name", new Position(ctx));
                 }
 
@@ -90,28 +90,28 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
             } else if (ctx.getChild(i) instanceof MxParser.FuncDefContext) {
                 FuncDefNode funcDefNode = (FuncDefNode) visit(ctx.getChild(i));
 
-                if(memberFuncList.containsKey(funcDefNode.funcName)){
+                if (memberFuncList.containsKey(funcDefNode.funcName)) {
                     throw new semanticError("Class " + ctx.Identifier().getText() + " has more than one function named " + funcDefNode.funcName, new Position(ctx));
                 }
 //                if(funcDefNode.funcName.equals(ctx.Identifier().getText())){
 //                    throw new semanticError("Class " + ctx.Identifier().getText() + " has a function named " + funcDefNode.funcName + " which is the same as the class name", new Position(ctx));
 //                }
 
-                memberFuncList.put(funcDefNode.funcName,funcDefNode);
+                memberFuncList.put(funcDefNode.funcName, funcDefNode);
             } else if (ctx.getChild(i) instanceof MxParser.VarDefStmtContext) {
                 VarDefStmtNode varDefStmtNode = (VarDefStmtNode) visit(ctx.getChild(i));
                 for (int j = 0; j < varDefStmtNode.varDefUnitNodes.size(); j++) {
                     VarDefUnitNode varDefUnitNode = varDefStmtNode.varDefUnitNodes.get(j);
                     varDefUnitNode.isGlobal = false;
 
-                    if(memberVarList.containsKey(varDefUnitNode.varName)){
+                    if (memberVarList.containsKey(varDefUnitNode.varName)) {
                         throw new semanticError("Class " + ctx.Identifier().getText() + " has more than one variable named " + varDefUnitNode.varName, new Position(ctx));
                     }
 //                    if(varDefUnitNode.varName.equals(ctx.Identifier().getText())){
 //                        throw new semanticError("Class " + ctx.Identifier().getText() + " has a variable named " + varDefUnitNode.varName + " which is the same as the class name", new Position(ctx));
 //                    }
 
-                    memberVarList.put(varDefUnitNode.varName,varDefUnitNode);
+                    memberVarList.put(varDefUnitNode.varName, varDefUnitNode);
                 }
             }
         }
@@ -145,7 +145,7 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
                 varDefUnitNode.varType = varType.varType;
                 varDefUnitNode.varName = varName;
 
-                if(paramNameList.contains(varName)){
+                if (paramNameList.contains(varName)) {
                     throw new semanticError("Function " + funcName + " has more than one parameter named " + varName, new Position(ctx));
                 }
 
@@ -293,7 +293,7 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
         }
 
         if (elseStmtNode instanceof SuiteStmtNode) {
-           elseStmtList.addAll(((SuiteStmtNode) elseStmtNode).stmtList);
+            elseStmtList.addAll(((SuiteStmtNode) elseStmtNode).stmtList);
         }
 
         ifStmtNode.trueStmtList = trueStmtList;
@@ -307,18 +307,14 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
     public ASTNode visitWhileStmt(MxParser.WhileStmtContext ctx) {
         WhileStmtNode whileStmtNode = new WhileStmtNode(new Position(ctx));
 
-        var condition = (ExpNode) visit(ctx.expression());
+        whileStmtNode.condExpNode = (ExpNode) visit(ctx.expression());
         StmtNode body = (StmtNode) visit(ctx.statement());
 
         if (body instanceof SuiteStmtNode) {
-            var stmtList = new ArrayList<StmtNode>();
-            stmtList = ((SuiteStmtNode) body).stmtList;
-            body = new SuiteStmtNode(new Position(ctx));
-            ((SuiteStmtNode) body).stmtList = stmtList;
+            whileStmtNode.bodyStmtList.addAll(((SuiteStmtNode) body).stmtList);
+        } else {
+            whileStmtNode.bodyStmtList.add(body);
         }
-
-        whileStmtNode.condExpNode = condition;
-        whileStmtNode.bodyStmtNode = body;
 
         return whileStmtNode;
     }
@@ -341,14 +337,21 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
             forStmtNode.stepExpNode = (ExpNode) visit(ctx.forStep);
         }
         var body = (StmtNode) visit(ctx.statement());
-        if (!(body instanceof SuiteStmtNode)) {
-            var stmtList = new ArrayList<StmtNode>();
-            stmtList.add(body);
-            body = new SuiteStmtNode(new Position(ctx));
-            ((SuiteStmtNode) body).stmtList = stmtList;
+        if (body instanceof SuiteStmtNode) {
+            forStmtNode.bodyStmtNode = new SuiteStmtNode(new Position(ctx));
+            forStmtNode.bodyStmtNode = (SuiteStmtNode) body;
+        } else {
+            if (body instanceof ReturnStmtNode) {
+                forStmtNode.bodyStmtNode = new SuiteStmtNode(new Position(ctx));
+                forStmtNode.bodyStmtNode.stmtList.add(body);
+                forStmtNode.bodyStmtNode.hasReturn = true;
+                forStmtNode.bodyStmtNode.retType = ((ReturnStmtNode) body).returnExp.exprType;
+            } else {
+                forStmtNode.bodyStmtNode = new SuiteStmtNode(new Position(ctx));
+                forStmtNode.bodyStmtNode.stmtList.add(body);
+            }
         }
 
-        forStmtNode.bodyStmtNode = (SuiteStmtNode) body;
         return forStmtNode;
     }
 

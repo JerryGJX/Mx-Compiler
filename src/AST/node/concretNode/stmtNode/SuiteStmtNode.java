@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class SuiteStmtNode extends StmtNode {
     public ArrayList<StmtNode> stmtList;
 
+
     public Type retType;
 
     public SuiteStmtNode(Position _nodePos) {

@@ -9,7 +9,7 @@ import Utils.Position;
 import java.util.ArrayList;
 
 public class BuiltInParaList {
-    public ArrayList<VarDefUnitNode> paraList;
+    public ArrayList<VarDefUnitNode> paraList = new ArrayList<>();
 
     public BuiltInParaList(ArrayList<Type> _paraTypeList, Position _nodePos) {
         for(int i = 0;i<_paraTypeList.size();i++) {

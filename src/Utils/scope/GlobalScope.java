@@ -12,7 +12,7 @@ public class GlobalScope extends Scope implements BuiltInElements {
     public HashMap<String, ClassDefNode> classTable;
 
     public GlobalScope() {
-        super(false,null,false,false,null);
+        super(false,null,false,null,false,null);
         funcTable = new HashMap<>();
         classTable = new HashMap<>();
 

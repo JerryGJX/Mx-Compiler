@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class ForStmtNode extends StmtNode {
     public ExpNode initExpNode, condExpNode, stepExpNode;
     public SuiteStmtNode bodyStmtNode;
+
     public ArrayList<VarDefUnitNode> initVarDefUnitList;
 
     public ForStmtNode(Position _nodePos) {

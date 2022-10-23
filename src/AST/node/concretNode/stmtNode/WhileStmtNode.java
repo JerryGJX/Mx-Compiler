@@ -5,14 +5,16 @@ import AST.node.abstractNode.ExpNode;
 import AST.node.abstractNode.StmtNode;
 import Utils.Position;
 
+import java.util.ArrayList;
+
 public class WhileStmtNode extends StmtNode {
     public ExpNode condExpNode;
-    public StmtNode bodyStmtNode;
+    public ArrayList<StmtNode> bodyStmtList;
 
     public WhileStmtNode(Position _nodePos) {
         super(_nodePos);
         this.condExpNode = null;
-        this.bodyStmtNode = null;
+        this.bodyStmtList = new ArrayList<>();
     }
 
     @Override

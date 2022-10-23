@@ -15,6 +15,9 @@ public interface BuiltInElements {
     Type voidType = new Type("void", 0, false);
     Type nullType = new Type("null", 0, false);
 
+    Type autoType = new Type("_auto", 0, false);
+    Type idType = new Type("_id", 0, false);
+
     BuiltInFuncDefNode FuncPrint = new BuiltInFuncDefNode(voidType,"print",stringType,null);
     BuiltInFuncDefNode FuncPrintln = new BuiltInFuncDefNode(voidType,"println",stringType,null);
     BuiltInFuncDefNode FuncPrintInt = new BuiltInFuncDefNode(voidType,"printInt",intType,null);
@@ -28,7 +31,7 @@ public interface BuiltInElements {
     BuiltInFuncDefNode FuncStringParseInt = new BuiltInFuncDefNode(intType,"parseInt",null,null);
     BuiltInFuncDefNode FuncStringOrd = new BuiltInFuncDefNode(intType,"ord",intType,null);
     
-    BuiltInFuncDefNode FuncArrSize = new BuiltInFuncDefNode(intType,"size",stringType,null);
+    BuiltInFuncDefNode FuncArrSize = new BuiltInFuncDefNode(intType,"size",null,null);
 
 
 }

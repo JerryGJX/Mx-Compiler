@@ -13,26 +13,31 @@ import AST.typeNode.Type;
 import AST.typeNode.VarTypeNode;
 import Utils.error.semanticError;
 import Utils.error.syntaxError;
+import Utils.log.Log;
 import Utils.scope.GlobalScope;
 import Utils.scope.Scope;
 
 public class SemanticChecker implements ASTVisitor, BuiltInElements {
     private GlobalScope globalScope;
+    Log log;
     private Scope currentScope;
 
+    Boolean idForFunc = false;
 
-    public SemanticChecker(GlobalScope _globalScope) {
+
+    public SemanticChecker(GlobalScope _globalScope, Log _log) {
         this.globalScope = _globalScope;
+        this.log = _log;
     }
 
 
     @Override
     public void visit(RootNode node) {
-        currentScope = globalScope;
+        currentScope = new Scope(false, null, false, null, false, globalScope);
         //double def has been checked when doing AST building
         if (!globalScope.hasFunc("main")) {
             throw new syntaxError("No main function", node.nodePos);
-        } else if (globalScope.getFuncDef("main").returnType != intType) {
+        } else if (!intType.Match(globalScope.getFuncDef("main").returnType)) {
             throw new syntaxError("Main function should return int", node.nodePos);
         } else if (globalScope.getFuncDef("main").argList.size() != 0) {
             throw new syntaxError("Main function should have no parameter", node.nodePos);
@@ -44,7 +49,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
     @Override
     public void visit(ClassDefNode node) {
-        currentScope = new Scope(true, node, false, false, currentScope);
+        currentScope = new Scope(true, node, false, null, false, currentScope);
 
         //check var def and add to scope
         node.memberVarMap.forEach((key, value) -> value.accept(this));
@@ -62,7 +67,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
     @Override
     public void visit(ConstructorDefNode node) {
-        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, true, false, currentScope);
+        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, true, null, false, currentScope);
 
         if (!currentScope.inClass) {
             throw new syntaxError("Constructor should be in a class", node.nodePos);
@@ -77,10 +82,10 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
     @Override
     public void visit(FuncDefNode node) {
         //funcName has been added to globalScope
-        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, true, false, currentScope);
+        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, true, node.returnType, false, currentScope);
 
         //check return type
-        if (!globalScope.hasClass(node.returnType.typeName)) {
+        if (!globalScope.hasClass(node.returnType.typeName) && !voidType.Match(node.returnType)) {
             throw new syntaxError("Return type " + node.returnType.typeName + " is not defined", node.nodePos);
         }
 
@@ -102,26 +107,74 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
     }
 
     //expression
-    @Override
+    @Override//todo
     public void visit(IndexExpNode node) {
+        log.addLog("[IndexExpNode]");
+
         node.array.accept(this);
+
+        if (idType.Match(node.array.exprType)) {
+            if (currentScope.VarUsable(((IdExpNode) node.array).id)) {
+                node.array.exprType = currentScope.getVarDef(((IdExpNode) node.array).id).varType;
+            } else {
+                throw new semanticError("Variable " + ((IdExpNode) node.array).id + " is not defined", node.nodePos);
+            }
+        }
+
+        log.addLog("array type: " + node.array.exprType.PrintType());
+
         node.index.accept(this);
+
+        if (idType.Match(node.index.exprType)) {
+            if (currentScope.VarUsable(((IdExpNode) node.index).id)) {
+                node.index.exprType = currentScope.getVarDef(((IdExpNode) node.index).id).varType;
+            } else {
+                throw new semanticError("Variable " + ((IdExpNode) node.index).id + " is not defined", node.nodePos);
+            }
+        }
+
+        log.addLog("index type: " + node.index.exprType.PrintType());
+
         if (node.array.exprType == null || node.index.exprType == null || !node.index.exprType.Match(intType)) {
             throw new semanticError("IndexExpNode is invalid", node.nodePos);
         }
-        node.exprType = node.array.exprType;
-        node.exprType.dimSize--;
+//        node.exprType = node.array.exprType;
+
+        node.exprType = new Type(node.array.exprType.typeName, node.array.exprType.dimSize - 1, false);
 
         if (node.exprType.dimSize < 0) {
-            throw new semanticError("Can't visit a 0 dim array", node.nodePos);
+            throw new semanticError("Can't visit a 0 dim array ", node.nodePos);
         }
 
     }
 
     @Override
     public void visit(AssignExpNode node) {
+
+        log.addLog("Visit AssignExpNode");
+
+
         node.lhs.accept(this);
+        if (idType.Match(node.lhs.exprType)) {
+            if (currentScope.VarUsable(((IdExpNode) node.lhs).id)) {
+
+                log.addLog("lhs type in scope: " + currentScope.getVarDef(((IdExpNode) node.lhs).id).varType.PrintType());
+
+                node.lhs.exprType = currentScope.getVarDef(((IdExpNode) node.lhs).id).varType;
+            } else {
+                throw new semanticError("[Assign] Variable " + ((IdExpNode) node.lhs).id + " is not defined", node.nodePos);
+            }
+        }
+
         node.rhs.accept(this);
+        if (idType.Match(node.rhs.exprType)) {
+            if (currentScope.VarUsable(((IdExpNode) node.rhs).id)) {
+                node.rhs.exprType = currentScope.getVarDef(((IdExpNode) node.rhs).id).varType;
+            } else {
+                throw new semanticError("[Assign] Variable " + ((IdExpNode) node.rhs).id + " is not defined", node.nodePos);
+            }
+        }
+
         if (node.lhs.exprType == null || node.rhs.exprType == null) {
             throw new semanticError("AssignExpNode is invalid", node.nodePos);
         }
@@ -129,12 +182,17 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             throw new semanticError("Can't assign to void", node.nodePos);
         }
 
-        if (!voidType.Match(node.lhs.exprType)) {
+        if (voidType.Match(node.lhs.exprType)) {
             throw new semanticError("rhs can't be voidType", node.nodePos);
         }
 
-        if (!node.lhs.exprType.Match(node.rhs.exprType) && !(node.exprType.NullAssignable() && nullType.Match(node.rhs.exprType))) {
-            throw new semanticError("AssignExpNode is mismatched", node.nodePos);
+        if (!node.lhs.exprType.Match(node.rhs.exprType)) {
+            log.addLog("lhs type: " + node.lhs.exprType.PrintType());
+            log.addLog("rhs type: " + node.rhs.exprType.PrintType());
+
+            if (!(node.lhs.exprType.NullAssignable() && nullType.Match(node.rhs.exprType))) {
+                throw new semanticError("AssignExpNode is mismatched", node.nodePos);
+            }
         }
 
         if (!node.lhs.isLeftValue()) {
@@ -150,11 +208,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (node instanceof BoolExpNode) {
             node.exprType = boolType;
         } else if (node instanceof IdExpNode) {
-            String Id = ((IdExpNode) node).id;
-            if (!currentScope.hasVar(Id)) {
-                throw new semanticError("Id " + Id + " is not defined", node.nodePos);
-            }
-            node.exprType = new Type(currentScope.getVarDef(Id).varType);
+            node.exprType = idType;
         } else if (node instanceof IntExpNode) {
             node.exprType = intType;
         } else if (node instanceof NullExpNode) {
@@ -172,13 +226,28 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
     @Override//todo
     public void visit(BinaryExpNode node) {
         node.lhs.accept(this);
+        if (idType.Match(node.lhs.exprType)) {
+            if (currentScope.VarUsable(((IdExpNode) node.lhs).id)) {
+                node.lhs.exprType = currentScope.getVarDef(((IdExpNode) node.lhs).id).varType;
+            } else {
+                throw new semanticError("[BinaryExp] Variable " + ((IdExpNode) node.lhs).id + " is not defined", node.nodePos);
+            }
+        }
+
         node.rhs.accept(this);
+        if (idType.Match(node.rhs.exprType)) {
+            if (currentScope.VarUsable(((IdExpNode) node.rhs).id)) {
+                node.rhs.exprType = currentScope.getVarDef(((IdExpNode) node.rhs).id).varType;
+            } else {
+                throw new semanticError("[BinaryExp] Variable " + ((IdExpNode) node.rhs).id + " is not defined", node.nodePos);
+            }
+        }
+
 
         Type resultType = null;
         if (node instanceof BinaryBoolExpNode) {
             resultType = boolType;
         }
-
 
         if (nullType.Match(node.lhs.exprType)) {
             throw new semanticError("Can't use null in lhs", node.nodePos);
@@ -187,16 +256,20 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             if (!intType.Match(node.rhs.exprType)) {
                 throw new semanticError("BinaryExpNode is mismatched in IntType", node.nodePos);
             }
-            if (!node.operator.equals(BinaryExpNode.BinaryOp.PlusOp) &&
-                    !node.operator.equals(BinaryExpNode.BinaryOp.EqualOp) &&
-                    !node.operator.equals(BinaryExpNode.BinaryOp.NotEqualOp) &&
-                    !node.operator.equals(BinaryExpNode.BinaryOp.LessOp) &&
-                    !node.operator.equals(BinaryExpNode.BinaryOp.LessEqualOp) &&
-                    !node.operator.equals(BinaryExpNode.BinaryOp.GreaterOp) &&
-                    !node.operator.equals(BinaryExpNode.BinaryOp.GreaterEqualOp)) {
-                throw new semanticError("BinaryExpNode has undefined op in IntType", node.nodePos);
+            if (node.operator.equals(BinaryExpNode.BinaryOp.EqualOp) ||
+                    node.operator.equals(BinaryExpNode.BinaryOp.NotEqualOp) ||
+                    node.operator.equals(BinaryExpNode.BinaryOp.LessOp) ||
+                    node.operator.equals(BinaryExpNode.BinaryOp.LessEqualOp) ||
+                    node.operator.equals(BinaryExpNode.BinaryOp.GreaterOp) ||
+                    node.operator.equals(BinaryExpNode.BinaryOp.GreaterEqualOp)
+            ) {
+                resultType = boolType;
+            } else if(node.operator.equals(BinaryExpNode.BinaryOp.LogicAndOp) ||
+                    node.operator.equals(BinaryExpNode.BinaryOp.LogicOrOp)){
+                throw new semanticError("Can't use logic operator on int", node.nodePos);
+            }else{
+                resultType = intType;
             }
-            resultType = intType;
         }
 
         if (boolType.Match(node.lhs.exprType)) {
@@ -204,7 +277,9 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                 throw new semanticError("BinaryExpNode is mismatched in BoolType", node.nodePos);
             }
             if (!node.operator.equals(BinaryExpNode.BinaryOp.EqualOp) &&
-                    !node.operator.equals(BinaryExpNode.BinaryOp.NotEqualOp)) {
+                    !node.operator.equals(BinaryExpNode.BinaryOp.NotEqualOp) &&
+                    !node.operator.equals(BinaryExpNode.BinaryOp.LogicAndOp) &&
+                    !node.operator.equals(BinaryExpNode.BinaryOp.LogicOrOp)) {
                 throw new semanticError("BinaryExpNode has undefined op in BoolType", node.nodePos);
             }
             resultType = boolType;
@@ -250,9 +325,18 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
     @Override
     public void visit(FuncCallExpNode node) {
-        ClassDefNode classDefNode = null;
-        FuncDefNode funcDefNode = null;
+        log.addLog("[FuncCallExpNode]");
+
+        ClassDefNode classDefNode;
+        FuncDefNode funcDefNode;
         node.function.accept(this);
+
+        if (idType.Match(node.function.exprType)) {
+            if (globalScope.hasFunc(((IdExpNode) node.function).id)) {
+                funcDefNode = globalScope.getFuncDef(((IdExpNode) node.function).id);
+            } else
+                throw new semanticError("Function " + ((IdExpNode) node.function).id + " is not defined", node.nodePos);
+        }
 
         if (node.function instanceof MemberExpNode) {
             var classId = ((MemberExpNode) node.function).base.exprType.typeName;
@@ -289,16 +373,36 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             }
         }
 
+        log.addLog("funcDefNode: " + funcDefNode.funcName);
+
         if (node.paraList.size() != funcDefNode.argList.size()) {
+            log.addLog("paraList.size() = " + node.paraList.size());
+            log.addLog("funcDefNode.argList.size() = " + funcDefNode.argList.size());
             throw new semanticError("Function " + funcDefNode.funcName + " has " + funcDefNode.argList.size() + " arguments", node.nodePos);
         }
 
+        //check idType
+        node.paraList.forEach(para -> {
+            para.accept(this);
+            if (idType.Match(para.exprType)) {
+                if (currentScope.VarUsable(((IdExpNode) para).id)) {
+                    para.exprType = currentScope.getVarDef(((IdExpNode) para).id).varType;
+                } else {
+                    throw new semanticError("Variable " + ((IdExpNode) para).id + " is not defined", para.nodePos);
+                }
+            }
+        });
+
+
         for (int i = 0; i < node.paraList.size(); i++) {
-            node.paraList.get(i).accept(this);
             Type paraType = node.paraList.get(i).exprType;
             Type defType = funcDefNode.argList.get(i).varType;
-            if (!paraType.Match(defType) && !(paraType.NullAssignable() && nullType.Match(paraType))) {
-                throw new semanticError("Function " + funcDefNode.funcName + " has wrong argument type", node.nodePos);
+            if (!paraType.Match(defType)) {
+                if (!(paraType.NullAssignable() && nullType.Match(paraType))) {
+                    log.addLog("paraType: " + paraType.typeName);
+                    log.addLog("defType: " + defType.typeName);
+                    throw new semanticError("Function " + funcDefNode.funcName + " has wrong argument type", node.nodePos);
+                }
             }
         }
         node.exprType = new Type(funcDefNode.returnType);
@@ -307,7 +411,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
     @Override//todo
     public void visit(LambdaExpNode node) {
         Scope tmpScope = currentScope;
-        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, true, currentScope.inLoop, node.isCapture ? globalScope : null);
+        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, true, autoType, currentScope.inLoop, node.isCapture ? globalScope : null);
 
         node.paraList.forEach(para -> para.accept(this));
 
@@ -326,13 +430,24 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         }
 
         node.body.accept(this);
-        node.exprType = new Type(node.body.retType);
+        if (node.body.hasReturn) node.exprType = new Type(node.body.retType);
+        else node.exprType = new Type(voidType);
+        currentScope = tmpScope;
 
     }
 
     @Override//when call var, expType is var type
     public void visit(MemberExpNode node) {
         node.base.accept(this);
+
+        if (idType.Match(node.base.exprType)) {
+            if (currentScope.VarUsable(((IdExpNode) node.base).id)) {
+                node.base.exprType = currentScope.getVarDef(((IdExpNode) node.base).id).varType;
+            } else {
+                throw new semanticError("Variable " + ((IdExpNode) node.base).id + " is not defined", node.nodePos);
+            }
+        }
+
 
         if (node.base.exprType.isClass && node.base.exprType.dimSize == 0) {
             var classId = node.base.exprType.typeName;
@@ -350,19 +465,35 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                     node.memberVarType = classDefNode.memberVarMap.get(memberName).varType;
                 }
                 if (!node.isFunc && !node.isVar) {
-                    throw new semanticError("Member " + memberName + " is not defined", node.nodePos);
+                    throw new semanticError("[1]Member " + memberName + " is not defined", node.nodePos);
                 }
             }
         } else {
-            throw new semanticError("MemberExpNode is not a class", node.nodePos);
+            if (node.base.exprType.dimSize > 0 && node.memberName.equals("size")) {
+                node.isFunc = true;
+                node.memberFunc = globalScope.getFuncDef("size");
+            } else {
+                log.addLog("node.base.exprType.dimSize = " + node.base.exprType.dimSize);
+                log.addLog("node.memberName = " + node.memberName);
+                throw new semanticError("[2]Member " + node.memberName + " is not defined", node.nodePos);
+            }
         }
         node.exprType = node.isVar ? node.memberVarType : null;
     }
 
     @Override
     public void visit(NewExpNode node) {
+        log.addLog("[NewExpNode]");
+
         for (var dim : node.SizeList) {
             dim.accept(this);
+            if (idType.Match(dim.exprType)) {
+                if (currentScope.VarUsable(((IdExpNode) dim).id)) {
+                    dim.exprType = currentScope.getVarDef(((IdExpNode) dim).id).varType;
+                } else {
+                    throw new semanticError("Variable " + ((IdExpNode) dim).id + " is not defined", dim.nodePos);
+                }
+            }
             if (!intType.Match(dim.exprType)) {
                 throw new semanticError("NewExpNode has wrong dim type", node.nodePos);//已在ASTBuild检查中间加“[]”的问题
             }
@@ -370,12 +501,20 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (!globalScope.hasClass(node.resultType.typeName)) {
             throw new syntaxError("Variable type " + node.resultType.typeName + " is not defined", node.nodePos);
         }
-        node.exprType = new Type(node.resultType);
+        node.exprType = new Type(node.resultType.typeName, node.SizeList.size(), false);
+        log.addLog("new exp: " + node.exprType.toString());
     }
 
     @Override
     public void visit(PrefixExpNode node) {
         node.value.accept(this);
+        if (idType.Match(node.value.exprType)) {
+            if (currentScope.VarUsable(((IdExpNode) node.value).id)) {
+                node.value.exprType = currentScope.getVarDef(((IdExpNode) node.value).id).varType;
+            } else {
+                throw new semanticError("Variable " + ((IdExpNode) node.value).id + " is not defined", node.nodePos);
+            }
+        }
         if (nullType.Match(node.value.exprType)) {
             throw new semanticError("PrefixExpNode has null type", node.nodePos);
         }
@@ -388,6 +527,15 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
     @Override
     public void visit(SuffixExpNode node) {
         node.value.accept(this);
+
+        if (idType.Match(node.value.exprType)) {
+            if (currentScope.VarUsable(((IdExpNode) node.value).id)) {
+                node.value.exprType = currentScope.getVarDef(((IdExpNode) node.value).id).varType;
+            } else {
+                throw new semanticError("Variable " + ((IdExpNode) node.value).id + " is not defined", node.nodePos);
+            }
+        }
+
         if (nullType.Match(node.value.exprType)) {
             throw new semanticError("SuffixExpNode has null type", node.nodePos);
         }
@@ -400,6 +548,15 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
     @Override
     public void visit(UnaryExpNode node) {
         node.value.accept(this);
+
+        if (idType.Match(node.value.exprType)) {
+            if (currentScope.VarUsable(((IdExpNode) node.value).id)) {
+                node.value.exprType = currentScope.getVarDef(((IdExpNode) node.value).id).varType;
+            } else {
+                throw new semanticError("Variable " + ((IdExpNode) node.value).id + " is not defined", node.nodePos);
+            }
+        }
+
         if (nullType.Match(node.value.exprType)) {
             throw new semanticError("UnaryExpNode has null type", node.nodePos);
         }
@@ -443,18 +600,20 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
     @Override
     public void visit(ForStmtNode node) {
-        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, true, currentScope);
+        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, currentScope.returnType, true, currentScope);
         if (node.initExpNode != null) {
             node.initExpNode.accept(this);
         }
         if (node.initVarDefUnitList != null) {
             for (var varDefUnit : node.initVarDefUnitList) {
                 varDefUnit.accept(this);
+                currentScope.addVar(varDefUnit.varName, varDefUnit);
             }
         }
         if (node.condExpNode != null) {
             node.condExpNode.accept(this);
             if (!boolType.Match(node.condExpNode.exprType)) {
+                log.addLog("condExpNode: " + node.condExpNode.exprType.PrintType());
                 throw new semanticError("ForStmtNode has wrong cond type", node.nodePos);
             }
         }
@@ -462,6 +621,11 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             node.stepExpNode.accept(this);
         }
         node.bodyStmtNode.accept(this);
+
+        if (node.bodyStmtNode.hasReturn) {
+            node.hasReturn = true;
+        }
+
         currentScope = currentScope.parentScope;
     }
 
@@ -473,35 +637,92 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                 throw new semanticError("IfStmtNode has wrong cond type", node.nodePos);
             }
         }
-        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, false, currentScope);
-        node.trueStmtList.forEach(stmt -> stmt.accept(this));
+        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, currentScope.returnType, false, currentScope);
+        node.trueStmtList.forEach(stmt -> {
+            stmt.accept(this);
+            if (stmt.hasReturn) {
+                node.hasReturn = true;
+            }
+        });
         currentScope = currentScope.parentScope;
-        if(node.elseStmtList != null) {
-            currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, false, currentScope);
-            node.elseStmtList.forEach(stmt -> stmt.accept(this));
+        if (node.elseStmtList != null) {
+            currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, currentScope.returnType, false, currentScope);
+            node.elseStmtList.forEach(stmt -> {
+                stmt.accept(this);
+                if (stmt.hasReturn) {
+                    node.hasReturn = true;
+                }
+            });
             currentScope = currentScope.parentScope;
         }
-
     }
 
     @Override
     public void visit(ReturnStmtNode node) {
-        
+        node.returnExp.accept(this);
+        if (!currentScope.inFunc) {
+            throw new semanticError("ReturnStmtNode is not in function", node.nodePos);
+        }
+        if (voidType.Match(currentScope.returnType)) {
+            if (node.returnExp != null) {
+                throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
+            }
+            node.returnType = new Type(voidType);
+        }
+
+        if (node.returnExp == null) {
+            if (autoType.Match(currentScope.returnType)) {
+                node.returnType = new Type(voidType);
+            } else if (currentScope.returnType.NullAssignable()) {
+                node.returnType = new Type(currentScope.returnType);
+            } else {
+                throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
+            }
+
+        } else {
+            if (autoType.Match(currentScope.returnType)) {
+                node.returnType = new Type(node.returnExp.exprType);
+            } else if (currentScope.returnType.Match(node.returnExp.exprType)) {
+                node.returnType = new Type(currentScope.returnType);
+            } else {
+                throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
+            }
+        }
     }
 
     @Override
     public void visit(WhileStmtNode node) {
-
+        node.condExpNode.accept(this);
+        if (!boolType.Match(node.condExpNode.exprType)) {
+            throw new semanticError("WhileStmtNode has wrong cond type", node.nodePos);
+        }
+        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, currentScope.returnType, true, currentScope);
+        node.bodyStmtList.forEach(stmt -> {
+            stmt.accept(this);
+            if (stmt.hasReturn) {
+                node.hasReturn = true;
+            }
+        });
+        currentScope = currentScope.parentScope;
     }
 
     @Override
     public void visit(SuiteStmtNode node) {
+        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, currentScope.returnType, currentScope.inLoop, currentScope);
 
+        node.stmtList.forEach(stmt -> {
+            stmt.accept(this);
+            if (stmt.hasReturn) {
+                node.hasReturn = true;
+            }
+        });
+
+        currentScope = currentScope.parentScope;
     }
 
     @Override
     public void visit(VarDefStmtNode node) {
-
+        node.varDefUnitNodes.forEach(varDefUnit -> varDefUnit.accept(this));
     }
 
     @Override
@@ -509,7 +730,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (!globalScope.hasClass(node.varType.typeName)) {
             throw new syntaxError("Variable type " + node.varType.typeName + " is not defined", node.nodePos);
         }
-        if (currentScope.hasVar(node.varName)) {
+        if (!currentScope.VarDefinable(node.varName)) {
             throw new syntaxError("Variable " + node.varName + " has been defined", node.nodePos);
         } else {
             currentScope.addVar(node.varName, node);
