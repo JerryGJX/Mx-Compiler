@@ -13,6 +13,7 @@ out/
 .sts4-cache
 
 src/buildComment/test/testCase
+src/grammar/*.class
 
 src/test/testCase
 
