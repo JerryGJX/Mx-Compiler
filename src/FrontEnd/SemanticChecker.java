@@ -264,10 +264,10 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                     node.operator.equals(BinaryExpNode.BinaryOp.GreaterEqualOp)
             ) {
                 resultType = boolType;
-            } else if(node.operator.equals(BinaryExpNode.BinaryOp.LogicAndOp) ||
-                    node.operator.equals(BinaryExpNode.BinaryOp.LogicOrOp)){
+            } else if (node.operator.equals(BinaryExpNode.BinaryOp.LogicAndOp) ||
+                    node.operator.equals(BinaryExpNode.BinaryOp.LogicOrOp)) {
                 throw new semanticError("Can't use logic operator on int", node.nodePos);
-            }else{
+            } else {
                 resultType = intType;
             }
         }
@@ -659,33 +659,41 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
     @Override
     public void visit(ReturnStmtNode node) {
-        node.returnExp.accept(this);
-        if (!currentScope.inFunc) {
-            throw new semanticError("ReturnStmtNode is not in function", node.nodePos);
-        }
-        if (voidType.Match(currentScope.returnType)) {
-            if (node.returnExp != null) {
-                throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
-            }
-            node.returnType = new Type(voidType);
-        }
-
         if (node.returnExp == null) {
-            if (autoType.Match(currentScope.returnType)) {
-                node.returnType = new Type(voidType);
-            } else if (currentScope.returnType.NullAssignable()) {
-                node.returnType = new Type(currentScope.returnType);
-            } else {
+            if (!voidType.Match(currentScope.returnType)) {
                 throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
+            } else {
+                node.returnType = new Type(voidType);
+            }
+        } else {
+            node.returnExp.accept(this);
+            if (!currentScope.inFunc) {
+                throw new semanticError("ReturnStmtNode is not in function", node.nodePos);
+            }
+            if (voidType.Match(currentScope.returnType)) {
+                if (node.returnExp != null) {
+                    throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
+                }
+                node.returnType = new Type(voidType);
             }
 
-        } else {
-            if (autoType.Match(currentScope.returnType)) {
-                node.returnType = new Type(node.returnExp.exprType);
-            } else if (currentScope.returnType.Match(node.returnExp.exprType)) {
-                node.returnType = new Type(currentScope.returnType);
+            if (node.returnExp == null) {
+                if (autoType.Match(currentScope.returnType)) {
+                    node.returnType = new Type(voidType);
+                } else if (currentScope.returnType.NullAssignable()) {
+                    node.returnType = new Type(currentScope.returnType);
+                } else {
+                    throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
+                }
+
             } else {
-                throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
+                if (autoType.Match(currentScope.returnType)) {
+                    node.returnType = new Type(node.returnExp.exprType);
+                } else if (currentScope.returnType.Match(node.returnExp.exprType)) {
+                    node.returnType = new Type(currentScope.returnType);
+                } else {
+                    throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
+                }
             }
         }
     }

@@ -419,15 +419,19 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
         String returnTypeName = null;
         int dim = ctx.newArrSize().size() + ((ctx.LeftParen() != null) ? 1 : 0);
 //        TypeEnum builtInType = null;
-        for (var i = 0; i < dim; i++) {
+        for (var i = 0; i < ctx.newArrSize().size(); i++) {
             if (ctx.newArrSize(i) != null) {
                 if (ctx.newArrSize(i).expression() != null) {
                     newExpNode.SizeList.add((ExpNode) visit(ctx.newArrSize(i).expression()));
-                } else {
-                    throw new semanticError("Array size cannot be empty", new Position(ctx.newArrSize(i)));
                 }
+//                else {
+//                    throw new semanticError("New Array size cannot be empty", new Position(ctx.newArrSize(i)));
+//                }
             }
         }
+
+
+
         if (ctx.basicVarType() != null) {
             returnTypeName = ctx.basicVarType().getText();
         }
