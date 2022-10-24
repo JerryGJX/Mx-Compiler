@@ -40,7 +40,6 @@ public class GlobalScope extends Scope implements BuiltInElements {
         classTable.put("int", intClass);
         classTable.put("bool", boolClass);
         classTable.put("string", stringClass);
-
     }
 
     public void addFunc(String name, FuncDefNode _funcDefNode) {

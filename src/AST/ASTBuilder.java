@@ -365,7 +365,7 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
                 forStmtNode.bodyStmtNode = new SuiteStmtNode(new Position(ctx));
                 forStmtNode.bodyStmtNode.stmtList.add(body);
                 forStmtNode.bodyStmtNode.hasReturn = true;
-                forStmtNode.bodyStmtNode.retType = ((ReturnStmtNode) body).returnExp.exprType;
+                forStmtNode.bodyStmtNode.returnType = ((ReturnStmtNode) body).returnExp.exprType;
             } else {
                 forStmtNode.bodyStmtNode = new SuiteStmtNode(new Position(ctx));
                 forStmtNode.bodyStmtNode.stmtList.add(body);

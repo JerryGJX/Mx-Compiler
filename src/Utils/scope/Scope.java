@@ -32,6 +32,7 @@ public class Scope {
     }
 
     public void addVar(String name, VarDefUnitNode _varDefUnitNode) {
+//        System.out.println("addVar: " + name);
         varTable.put(name, _varDefUnitNode);
     }
 

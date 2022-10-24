@@ -19,7 +19,7 @@ import java.io.PrintStream;
 
 public class Compiler {
     public static void main(String[] args) throws Exception {
-//        String fileName = "D:\\Work\\studying materials\\computer related\\compiler_design\\myCompiler\\Mx-Compiler\\src\\test\\testCase\\sema\\scope-package\\scope-6.mx";
+//        String fileName = "D:\\Work\\studying materials\\computer related\\compiler_design\\myCompiler\\Mx-Compiler\\src\\test\\testCase\\sema\\lambda-package\\lambda-8.mx";
 //        InputStream inputStream = new FileInputStream(fileName);
         CharStream inputStream = CharStreams.fromStream(System.in);
         PrintStream outputStream = System.out;
@@ -29,7 +29,6 @@ public class Compiler {
         try {
 
             RootNode ASTRoot;
-
             MxLexer lexer = new MxLexer(inputStream);
             lexer.removeErrorListeners();
             lexer.addErrorListener(new MxErrorListener());

@@ -11,12 +11,11 @@ public class SuiteStmtNode extends StmtNode {
     public ArrayList<StmtNode> stmtList;
 
 
-    public Type retType;
+//    public Type retType;
 
     public SuiteStmtNode(Position _nodePos) {
         super(_nodePos);
         this.stmtList = new ArrayList<>();
-        retType = null;
     }
 
 
