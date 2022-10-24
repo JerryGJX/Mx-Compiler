@@ -94,11 +94,15 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         node.funcBodyNode.accept(this);
 
         boolean hasReturn = false;
-        if (node.funcBodyNode.retType != null) {
+
+
+        if (node.funcBodyNode.hasReturn) {
+            log.addLog("Function " + node.funcName + " has return");
             hasReturn = true;
-            if (!node.returnType.Match(node.funcBodyNode.retType)) {
-                throw new syntaxError("Function " + node.funcName + " should return " + node.returnType.typeName, node.nodePos);
-            }
+//            if (node.funcBodyNode.retType == null || !node.returnType.Match(node.funcBodyNode.retType)) {
+//                if (!node.funcName.equals("main"))
+//                    throw new syntaxError("Function " + node.funcName + " should return " + node.returnType.typeName, node.nodePos);
+//            }
         }
         if (!node.returnType.Match(voidType) && !hasReturn && !node.funcName.equals("main")) {
             throw new syntaxError("Function " + node.funcName + " should have return", node.nodePos);
@@ -313,7 +317,11 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             }
             if (!node.operator.equals(BinaryExpNode.BinaryOp.PlusOp) &&
                     !node.operator.equals(BinaryExpNode.BinaryOp.EqualOp) &&
-                    !node.operator.equals(BinaryExpNode.BinaryOp.NotEqualOp)) {
+                    !node.operator.equals(BinaryExpNode.BinaryOp.NotEqualOp) &&
+                    !node.operator.equals(BinaryExpNode.BinaryOp.LessOp) &&
+                    !node.operator.equals(BinaryExpNode.BinaryOp.LessEqualOp) &&
+                    !node.operator.equals(BinaryExpNode.BinaryOp.GreaterOp) &&
+                    !node.operator.equals(BinaryExpNode.BinaryOp.GreaterEqualOp)) {
                 throw new semanticError("BinaryExpNode has undefined op in StringType", node.nodePos);
             }
             if (node.operator.equals(BinaryExpNode.BinaryOp.PlusOp)) resultType = stringType;
@@ -327,7 +335,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
     public void visit(FuncCallExpNode node) {
         log.addLog("[FuncCallExpNode]");
 
-        ClassDefNode classDefNode;
+        ClassDefNode classDefNode = null;
         FuncDefNode funcDefNode;
         node.function.accept(this);
 
@@ -338,7 +346,10 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                 throw new semanticError("Function " + ((IdExpNode) node.function).id + " is not defined", node.nodePos);
         }
 
+//        log.addLog("Function"+ );
+
         if (node.function instanceof MemberExpNode) {
+            log.addLog("[FuncCallExpNode] MemberExpNode");
             var classId = ((MemberExpNode) node.function).base.exprType.typeName;
             var funcId = ((MemberExpNode) node.function).memberFunc.funcName;
             if (!globalScope.hasClass(classId)) {
@@ -372,6 +383,10 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                 throw new semanticError("Not a function", node.nodePos);
             }
         }
+        if (classDefNode != null) {
+            log.addLog("class name: " + classDefNode.className);
+        }
+
 
         log.addLog("funcDefNode: " + funcDefNode.funcName);
 
@@ -449,7 +464,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         }
 
 
-        if (node.base.exprType.isClass && node.base.exprType.dimSize == 0) {
+        if ((node.base.exprType.isClass || stringType.Match(node.base.exprType)) && node.base.exprType.dimSize == 0) {
             var classId = node.base.exprType.typeName;
             var memberName = node.memberName;
             if (!globalScope.hasClass(classId)) {
@@ -474,6 +489,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                 node.memberFunc = globalScope.getFuncDef("size");
             } else {
                 log.addLog("node.base.exprType.dimSize = " + node.base.exprType.dimSize);
+                log.addLog("node.base.exprType = " + node.base.exprType.PrintType());
+                log.addLog("node.base.exprType is stringType" + stringType.Match(node.base.exprType));
                 log.addLog("node.memberName = " + node.memberName);
                 throw new semanticError("[2]Member " + node.memberName + " is not defined", node.nodePos);
             }
@@ -659,6 +676,10 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
     @Override
     public void visit(ReturnStmtNode node) {
+        node.hasReturn = true;
+        if (!currentScope.inFunc) {
+            throw new semanticError("ReturnStmtNode is not in function", node.nodePos);
+        }
         if (node.returnExp == null) {
             if (!voidType.Match(currentScope.returnType)) {
                 throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
@@ -667,26 +688,19 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             }
         } else {
             node.returnExp.accept(this);
-            if (!currentScope.inFunc) {
-                throw new semanticError("ReturnStmtNode is not in function", node.nodePos);
-            }
             if (voidType.Match(currentScope.returnType)) {
-                if (node.returnExp != null) {
-                    throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
-                }
-                node.returnType = new Type(voidType);
+                if (node.returnExp != null) throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
             }
 
-            if (node.returnExp == null) {
-                if (autoType.Match(currentScope.returnType)) {
-                    node.returnType = new Type(voidType);
-                } else if (currentScope.returnType.NullAssignable()) {
-                    node.returnType = new Type(currentScope.returnType);
-                } else {
-                    throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
-                }
-
-            } else {
+//            if (node.returnExp == null) {
+//                if (autoType.Match(currentScope.returnType)) {
+//                    node.returnType = new Type(voidType);
+//                } else if (currentScope.returnType.NullAssignable()) {
+//                    node.returnType = new Type(currentScope.returnType);
+//                } else {
+//                    throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
+//                }
+//            } else {
                 if (autoType.Match(currentScope.returnType)) {
                     node.returnType = new Type(node.returnExp.exprType);
                 } else if (currentScope.returnType.Match(node.returnExp.exprType)) {
@@ -694,7 +708,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                 } else {
                     throw new semanticError("ReturnStmtNode has wrong type", node.nodePos);
                 }
-            }
+//            }
         }
     }
 
