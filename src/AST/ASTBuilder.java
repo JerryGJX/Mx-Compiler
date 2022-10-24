@@ -82,7 +82,7 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
                 if (constructorDefNode != null) {
                     throw new semanticError("Class " + ctx.Identifier().getText() + " has more than one constructor", new Position(ctx));
                 }
-                if (!ctx.getChild(i).getChild(i).getText().equals(ctx.Identifier().getText())) {
+                if (!((MxParser.ConstructorDefContext) ctx.getChild(i)).Identifier().getText().equals(ctx.Identifier().getText())) {
                     throw new semanticError("Constructor name should be the same as class name", new Position(ctx));
                 }
 
