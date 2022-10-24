@@ -679,11 +679,21 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
     public void visit(IfStmtNode node) {
         if (node.condExpNode != null) {
             node.condExpNode.accept(this);
+
+            if(idType.Match(node.condExpNode.exprType)){
+                if(currentScope.VarUsable(((IdExpNode)node.condExpNode).id)){
+                    node.condExpNode.exprType = currentScope.getVarDef(((IdExpNode)node.condExpNode).id).varType;
+                }else{
+                    throw new semanticError("Variable " + ((IdExpNode)node.condExpNode).id + " is not defined", node.nodePos);
+                }
+            }
+
             if (!boolType.Match(node.condExpNode.exprType)) {
+                log.addLog("condExpNode: " + node.condExpNode.exprType.PrintType());
                 throw new semanticError("IfStmtNode has wrong cond type", node.nodePos);
             }
         }
-        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, currentScope.returnType, false, currentScope);
+        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, currentScope.returnType, currentScope.inLoop, currentScope);
         node.trueStmtList.forEach(stmt -> {
             stmt.accept(this);
             if (stmt.hasReturn) {
