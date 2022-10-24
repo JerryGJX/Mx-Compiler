@@ -82,6 +82,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
     @Override
     public void visit(FuncDefNode node) {
         //funcName has been added to globalScope
+        log.addLog("[funcDefNode]");
         currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, true, node.returnType, false, currentScope);
 
         //check return type
@@ -515,6 +516,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                 throw new semanticError("NewExpNode has wrong dim type", node.nodePos);//已在ASTBuild检查中间加“[]”的问题
             }
         }
+        log.addLog("node.resultType = " + node.resultType.PrintType());
         if (!globalScope.hasClass(node.resultType.typeName)) {
             throw new syntaxError("Variable type " + node.resultType.typeName + " is not defined", node.nodePos);
         }
@@ -612,6 +614,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
     @Override
     public void visit(ExpStmtNode node) {
+        log.addLog("[ExpStmtNode]");
         node.expNode.accept(this);
     }
 
@@ -730,9 +733,12 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
     @Override
     public void visit(SuiteStmtNode node) {
+        log.addLog("[SuiteStmtNode]");
         currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, currentScope.returnType, currentScope.inLoop, currentScope);
 
+        log.addLog("SuiteStmtNode: " + node.stmtList.size());
         node.stmtList.forEach(stmt -> {
+            log.addLog("SuiteStmtNode: " + stmt.getClass().getName());
             stmt.accept(this);
             if (stmt.hasReturn) {
                 node.hasReturn = true;
@@ -754,9 +760,15 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         }
         if (!currentScope.VarDefinable(node.varName)) {
             throw new syntaxError("Variable " + node.varName + " has been defined", node.nodePos);
-        } else {
-            currentScope.addVar(node.varName, node);
         }
+
+        if(node.initValue!=null){
+            node.initValue.accept(this);
+            if (!node.initValue.exprType.Match(node.varType)) {
+                throw new semanticError("VarDefUnitNode has wrong type", node.nodePos);
+            }
+        }
+            currentScope.addVar(node.varName, node);
     }
 
     //type
