@@ -422,12 +422,14 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
         if(ctx.newArrSize().size() == 0) {
 
         } else {
-            for (var i = 0; i < ctx.newArrSize().size()-1; i++) {
+            boolean isAllBlank = true;
+            for (var i =ctx.newArrSize().size()-1 ; i >= 0 ; i--) {
                 if (ctx.newArrSize(i) != null) {
                     if (ctx.newArrSize(i).expression() != null) {
+                        isAllBlank = false;
                         newExpNode.SizeList.add((ExpNode) visit(ctx.newArrSize(i).expression()));
                     }else {
-                        throw new semanticError("new array size error", new Position(ctx.newArrSize(i)));
+                        if(!isAllBlank) throw new semanticError("[ASTBuilder]new array size error", new Position(ctx.newArrSize(i)));
                     }
 //                else {
 //                    throw new semanticError("New Array size cannot be empty", new Position(ctx.newArrSize(i)));
