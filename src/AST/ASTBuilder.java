@@ -87,6 +87,14 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
                 }
 
                 constructorDefNode = (ConstructorDefNode) visit(ctx.getChild(i));
+                constructorDefNode.returnType = new Type(ctx.Identifier().getText(), 0, false);
+//                FuncDefNode funcDefNode = new FuncDefNode(new Position(ctx));
+//                funcDefNode.funcName = ctx.Identifier().getText();
+//                funcDefNode.funcBodyNode = constructorDefNode.funcBodyNode;
+//                funcDefNode.argList = new ArrayList<>();
+//                funcDefNode.returnType = new Type(ctx.Identifier().getText(),0,false);
+//                memberFuncList.put(constructorDefNode.funcName, funcDefNode);
+
             } else if (ctx.getChild(i) instanceof MxParser.FuncDefContext) {
                 FuncDefNode funcDefNode = (FuncDefNode) visit(ctx.getChild(i));
 
@@ -107,14 +115,20 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
                     if (memberVarList.containsKey(varDefUnitNode.varName)) {
                         throw new semanticError("Class " + ctx.Identifier().getText() + " has more than one variable named " + varDefUnitNode.varName, new Position(ctx));
                     }
-//                    if(varDefUnitNode.varName.equals(ctx.Identifier().getText())){
-//                        throw new semanticError("Class " + ctx.Identifier().getText() + " has a variable named " + varDefUnitNode.varName + " which is the same as the class name", new Position(ctx));
-//                    }
 
                     memberVarList.put(varDefUnitNode.varName, varDefUnitNode);
                 }
             }
         }
+
+//        if (constructorDefNode == null) {
+//            FuncDefNode funcDefNode = new FuncDefNode(new Position(ctx));
+//            funcDefNode.funcName = ctx.Identifier().getText();
+//            funcDefNode.returnType = new Type(ctx.Identifier().getText(),0,false);
+//            memberFuncList.put(ctx.Identifier().getText(), funcDefNode);
+//        }
+
+
         classDefNode.className = ctx.Identifier().getText();
         classDefNode.memberVarMap = memberVarList;
         classDefNode.memberFuncMap = memberFuncList;
@@ -417,19 +431,20 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
     public ASTNode visitNewExp(MxParser.NewExpContext ctx) {
         NewExpNode newExpNode = new NewExpNode(new Position(ctx));
         String returnTypeName = null;
-        int dim = ctx.newArrSize().size() + ((ctx.LeftParen() != null) ? 1 : 0);
+        int dim = ctx.newArrSize().size();
 //        TypeEnum builtInType = null;
-        if(ctx.newArrSize().size() == 0) {
+        if (ctx.newArrSize().size() == 0) {
 
         } else {
             boolean isAllBlank = true;
-            for (var i =ctx.newArrSize().size()-1 ; i >= 0 ; i--) {
+            for (var i = ctx.newArrSize().size(); i >= 0; i--) {
                 if (ctx.newArrSize(i) != null) {
                     if (ctx.newArrSize(i).expression() != null) {
                         isAllBlank = false;
                         newExpNode.SizeList.add((ExpNode) visit(ctx.newArrSize(i).expression()));
-                    }else {
-                        if(!isAllBlank) throw new semanticError("[ASTBuilder]new array size error", new Position(ctx.newArrSize(i)));
+                    } else {
+                        if (!isAllBlank)
+                            throw new semanticError("[ASTBuilder]new array size error", new Position(ctx.newArrSize(i)));
                     }
 //                else {
 //                    throw new semanticError("New Array size cannot be empty", new Position(ctx.newArrSize(i)));
@@ -437,8 +452,6 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
                 }
             }
         }
-
-
 
 
         if (ctx.basicVarType() != null) {

@@ -5,7 +5,7 @@ import AST.node.ASTNode;
 import AST.node.concretNode.stmtNode.SuiteStmtNode;
 import Utils.Position;
 
-public class ConstructorDefNode extends ASTNode {
+public class ConstructorDefNode extends FuncDefNode {
 
     public String funcName;
     public SuiteStmtNode funcBodyNode;

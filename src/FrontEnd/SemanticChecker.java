@@ -17,6 +17,8 @@ import Utils.log.Log;
 import Utils.scope.GlobalScope;
 import Utils.scope.Scope;
 
+import java.util.ArrayList;
+
 public class SemanticChecker implements ASTVisitor, BuiltInElements {
     private GlobalScope globalScope;
     Log log;
@@ -60,8 +62,16 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (node.constructorDefNode != null) {
             //secure the constructor name match the class name in ASTBuilder
             node.constructorDefNode.accept(this);
+            globalScope.addFunc(node.constructorDefNode.funcName, node.constructorDefNode);
+        }else{
+            ConstructorDefNode consFunc = new ConstructorDefNode(node.nodePos);
+            consFunc.returnType = new Type(node.className, 0, false);
+            consFunc.funcBodyNode = null;
+            consFunc.argList = new ArrayList<>();
+            globalScope.addFunc(node.className, consFunc);
         }
 
+        globalScope.addFunc(node.className, node.constructorDefNode);
         currentScope = currentScope.parentScope;
     }
 
@@ -74,7 +84,6 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         } else if (!currentScope.classDefNode.className.equals(node.funcName)) {
             throw new syntaxError("Constructor name should match the class name", node.nodePos);
         }
-
         node.funcBodyNode.accept(this);
         currentScope = currentScope.parentScope;
     }
@@ -337,7 +346,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         log.addLog("[FuncCallExpNode]");
 
         ClassDefNode classDefNode = null;
-        FuncDefNode funcDefNode;
+        FuncDefNode funcDefNode = null;
         node.function.accept(this);
 
         if (idType.Match(node.function.exprType)) {
@@ -381,6 +390,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                     }
                 }
             } else {
+                log.addLog(node.function.getClass().toString());
+
                 throw new semanticError("Not a function", node.nodePos);
             }
         }
@@ -463,8 +474,6 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                 throw new semanticError("Variable " + ((IdExpNode) node.base).id + " is not defined", node.nodePos);
             }
         }
-
-
         if ((node.base.exprType.isClass || stringType.Match(node.base.exprType)) && node.base.exprType.dimSize == 0) {
             var classId = node.base.exprType.typeName;
             var memberName = node.memberName;
