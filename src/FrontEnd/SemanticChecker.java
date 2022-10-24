@@ -315,7 +315,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
         if (node.lhs.exprType.isClass && node.lhs.exprType.dimSize == 0) {
             if (!node.lhs.exprType.Match(node.rhs.exprType)) {
-                throw new semanticError("BinaryExpNode is mismatched in ClassType", node.nodePos);
+                if(!nullType.Match(node.rhs.exprType))  throw new semanticError("BinaryExpNode is mismatched in ClassType", node.nodePos);
             }
             if (!node.operator.equals(BinaryExpNode.BinaryOp.EqualOp) &&
                     !node.operator.equals(BinaryExpNode.BinaryOp.NotEqualOp)) {
@@ -441,10 +441,10 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             Type paraType = node.paraList.get(i).exprType;
             Type defType = funcDefNode.argList.get(i).varType;
             if (!paraType.Match(defType)) {
-                if (!(paraType.NullAssignable() && nullType.Match(paraType))) {
+                if (!(defType.NullAssignable() && nullType.Match(paraType))) {
                     log.addLog("paraType: " + paraType.typeName);
                     log.addLog("defType: " + defType.typeName);
-                    throw new semanticError("Function " + funcDefNode.funcName + " has wrong argument type", node.nodePos);
+                    throw new semanticError("Function " + funcDefNode.funcName + " has wrong argument type" , node.nodePos);
                 }
             }
         }
