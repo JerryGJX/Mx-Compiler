@@ -353,24 +353,29 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             if (globalScope.hasFunc(((IdExpNode) node.function).id)) {
                 funcDefNode = globalScope.getFuncDef(((IdExpNode) node.function).id);
             } else
-                throw new semanticError("Function " + ((IdExpNode) node.function).id + " is not defined", node.nodePos);
+                throw new semanticError("[1]Function " + ((IdExpNode) node.function).id + " is not defined", node.nodePos);
         }
 
 //        log.addLog("Function"+ );
 
         if (node.function instanceof MemberExpNode) {
             log.addLog("[FuncCallExpNode] MemberExpNode");
-            var classId = ((MemberExpNode) node.function).base.exprType.typeName;
-            var funcId = ((MemberExpNode) node.function).memberFunc.funcName;
-            if (!globalScope.hasClass(classId)) {
-                throw new semanticError("Class " + classId + " is not defined", node.nodePos);
-            } else {
-                classDefNode = globalScope.getClassDef(classId);
-                if (!classDefNode.memberFuncMap.containsKey(funcId)) {
-                    throw new semanticError("Function " + classId + "." + funcId + " is not defined", node.nodePos);
-                } else {
-                    funcDefNode = classDefNode.memberFuncMap.get(funcId);
-                }
+//            var classId = ((MemberExpNode) node.function).base.exprType.typeName;
+//            var funcId = ((MemberExpNode) node.function).memberFunc.funcName;
+//            if (!globalScope.hasClass(classId)) {
+//                throw new semanticError("Class " + classId + " is not defined", node.nodePos);
+//            } else {
+//                classDefNode = globalScope.getClassDef(classId);
+//                if (!classDefNode.memberFuncMap.containsKey(funcId)) {
+//                    throw new semanticError("Function " + classId + "." + funcId + " is not defined", node.nodePos);
+//                } else {
+//                    funcDefNode = classDefNode.memberFuncMap.get(funcId);
+//                }
+//            }
+            if(((MemberExpNode)node.function).isFunc){
+                funcDefNode = ((MemberExpNode)node.function).memberFunc;
+            }else{
+                throw new semanticError("[2]Function " + ((MemberExpNode)node.function).memberFunc.funcName + " is not defined", node.nodePos);
             }
         } else {
             if (node.function instanceof IdExpNode) {
@@ -405,7 +410,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (node.paraList.size() != funcDefNode.argList.size()) {
             log.addLog("paraList.size() = " + node.paraList.size());
             log.addLog("funcDefNode.argList.size() = " + funcDefNode.argList.size());
-            throw new semanticError("Function " + funcDefNode.funcName + " has " + funcDefNode.argList.size() + " arguments", node.nodePos);
+            throw new semanticError("[3]Function " + funcDefNode.funcName + " has " + funcDefNode.argList.size() + " arguments", node.nodePos);
         }
 
         //check idType
