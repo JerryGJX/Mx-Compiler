@@ -63,7 +63,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             //secure the constructor name match the class name in ASTBuilder
             node.constructorDefNode.accept(this);
             globalScope.addFunc(node.constructorDefNode.funcName, node.constructorDefNode);
-        }else{
+        } else {
             ConstructorDefNode consFunc = new ConstructorDefNode(node.nodePos);
             consFunc.returnType = new Type(node.className, 0, false);
             consFunc.funcBodyNode = null;
@@ -264,7 +264,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         }
 
         if (nullType.Match(node.lhs.exprType)) {
-            if(!node.operator.equals(BinaryExpNode.BinaryOp.EqualOp) && !node.operator.equals(BinaryExpNode.BinaryOp.NotEqualOp)){
+            if (!node.operator.equals(BinaryExpNode.BinaryOp.EqualOp) && !node.operator.equals(BinaryExpNode.BinaryOp.NotEqualOp)) {
                 throw new semanticError("Can't use null in lhs", node.nodePos);
             }
             resultType = boolType;
@@ -355,8 +355,14 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (idType.Match(node.function.exprType)) {
             if (globalScope.hasFunc(((IdExpNode) node.function).id)) {
                 funcDefNode = globalScope.getFuncDef(((IdExpNode) node.function).id);
-            } else
+            } else if (currentScope.inClass) {
+                classDefNode = currentScope.classDefNode;
+                if (classDefNode.memberFuncMap.containsKey(node.function.exprType.typeName)) {
+                    funcDefNode = classDefNode.memberFuncMap.get(node.function.exprType.typeName);
+                }
+            } else {
                 throw new semanticError("[1]Function " + ((IdExpNode) node.function).id + " is not defined", node.nodePos);
+            }
         }
 
 //        log.addLog("Function"+ );
@@ -375,10 +381,10 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 //                    funcDefNode = classDefNode.memberFuncMap.get(funcId);
 //                }
 //            }
-            if(((MemberExpNode)node.function).isFunc){
-                funcDefNode = ((MemberExpNode)node.function).memberFunc;
-            }else{
-                throw new semanticError("[2]Function " + ((MemberExpNode)node.function).memberFunc.funcName + " is not defined", node.nodePos);
+            if (((MemberExpNode) node.function).isFunc) {
+                funcDefNode = ((MemberExpNode) node.function).memberFunc;
+            } else {
+                throw new semanticError("[2]Function " + ((MemberExpNode) node.function).memberFunc.funcName + " is not defined", node.nodePos);
             }
         } else {
             if (node.function instanceof IdExpNode) {
@@ -388,7 +394,9 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                     if (classDefNode.memberFuncMap.containsKey(funcId)) {
                         funcDefNode = classDefNode.memberFuncMap.get(funcId);
                     } else {
-                        throw new semanticError("Member Function " + funcId + " is not defined", node.nodePos);
+                        if (globalScope.hasFunc(funcId)) {
+                            funcDefNode = globalScope.getFuncDef(funcId);
+                        } else throw new semanticError("Member Function " + funcId + " is not defined", node.nodePos);
                     }
                 } else {
                     if (!globalScope.hasFunc(funcId)) {
