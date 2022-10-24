@@ -77,7 +77,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
     @Override
     public void visit(ConstructorDefNode node) {
-        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, true, null, false, currentScope);
+        currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, true, voidType, false, currentScope);
 
         if (!currentScope.inClass) {
             throw new syntaxError("Constructor should be in a class", node.nodePos);
