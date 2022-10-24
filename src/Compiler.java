@@ -19,7 +19,7 @@ import java.io.PrintStream;
 
 public class Compiler {
     public static void main(String[] args) throws Exception {
-//        String fileName = "D:\\Work\\studying materials\\computer related\\compiler_design\\myCompiler\\Mx-Compiler\\src\\test\\testCase\\sema\\class-package\\class-2.mx";
+//        String fileName = "D:\\Work\\studying materials\\computer related\\compiler_design\\myCompiler\\Mx-Compiler\\src\\test\\testCase\\sema\\scope-package\\scope-6.mx";
 //        InputStream inputStream = new FileInputStream(fileName);
         CharStream inputStream = CharStreams.fromStream(System.in);
         PrintStream outputStream = System.out;

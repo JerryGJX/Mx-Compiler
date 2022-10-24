@@ -304,11 +304,17 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
 
         if (trueStmtNode instanceof SuiteStmtNode) {
             trueStmtList.addAll(((SuiteStmtNode) trueStmtNode).stmtList);
+        }else if(trueStmtNode != null){
+            trueStmtList.add(trueStmtNode);
         }
 
         if (elseStmtNode instanceof SuiteStmtNode) {
             elseStmtList.addAll(((SuiteStmtNode) elseStmtNode).stmtList);
+        }else if(elseStmtNode != null){
+            elseStmtList.add(elseStmtNode);
         }
+
+
 
         ifStmtNode.trueStmtList = trueStmtList;
         ifStmtNode.elseStmtList = elseStmtList;

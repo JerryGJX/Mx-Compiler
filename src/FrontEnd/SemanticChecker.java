@@ -103,6 +103,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
         node.funcBodyNode.accept(this);
 
+        log.addLog("[func def] funcBodyNode has return " + node.funcBodyNode.hasReturn);
+
         boolean hasReturn = false;
 
 
@@ -694,6 +696,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             }
         }
         currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, currentScope.returnType, currentScope.inLoop, currentScope);
+        log.addLog("[ifStmt] trueStmt size " + node.trueStmtList.size());
         node.trueStmtList.forEach(stmt -> {
             stmt.accept(this);
             if (stmt.hasReturn) {
@@ -702,13 +705,14 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         });
         currentScope = currentScope.parentScope;
         if (node.elseStmtList != null) {
-            currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, currentScope.returnType, false, currentScope);
+            currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, currentScope.inFunc, currentScope.returnType, currentScope.inLoop, currentScope);
             node.elseStmtList.forEach(stmt -> {
                 stmt.accept(this);
                 if (stmt.hasReturn) {
                     node.hasReturn = true;
                 }
             });
+            log.addLog("[ifStmt] IfStmtNode has return " + node.hasReturn);
             currentScope = currentScope.parentScope;
         }
     }
@@ -747,6 +751,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                 throw new semanticError("[3]ReturnStmtNode has wrong type", node.nodePos);
             }
         }
+
     }
 
     @Override
@@ -798,8 +803,17 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
         if (node.initValue != null) {
             node.initValue.accept(this);
+            if(idType.Match(node.initValue.exprType)){
+                if(currentScope.VarUsable(((IdExpNode)node.initValue).id)){
+                    node.initValue.exprType = currentScope.getVarDef(((IdExpNode)node.initValue).id).varType;
+                }else{
+                    throw new semanticError("Variable " + ((IdExpNode)node.initValue).id + " is not defined", node.nodePos);
+                }
+            }
             if (!node.initValue.exprType.Match(node.varType)) {
                 if (!node.varType.NullAssignable() && !nullType.Match(node.initValue.exprType)) {
+                    log.addLog("node.initValue.exprType: " + node.initValue.exprType.PrintType());
+                    log.addLog("node.varType: " + node.varType.PrintType());
                     throw new semanticError("Variable " + node.varName + " has wrong type", node.nodePos);
                 }
             }
