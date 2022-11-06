@@ -1,7 +1,7 @@
 package FrontEnd;
 
 import AST.node.concretNode.BuiltInFuncDefNode.BuiltInFuncDefNode;
-import AST.node.concretNode.BuiltInFuncDefNode.BuiltInParaList;
+//import AST.node.concretNode.BuiltInFuncDefNode.BuiltInParaList;
 import AST.node.concretNode.FuncDefNode;
 import AST.node.concretNode.stmtNode.VarDefUnitNode;
 import AST.typeNode.Type;

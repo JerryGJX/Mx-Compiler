@@ -36,7 +36,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Work/studying materials/computer related/compiler_design/myCompiler/Mx-Compiler/src/test/testCase/sema/basic-package/basic-8.mx&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Download/SystemVerilog-2022.1.0.zip&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -45,7 +45,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
@@ -120,7 +120,14 @@
       <workItem from="1666524691802" duration="3000" />
       <workItem from="1666534481398" duration="2975000" />
       <workItem from="1666569937848" duration="26970000" />
-      <workItem from="1666611837516" duration="4348000" />
+      <workItem from="1666611837516" duration="5166000" />
+      <workItem from="1667028362156" duration="718000" />
+      <workItem from="1667029102621" duration="46000" />
+      <workItem from="1667029172933" duration="1213000" />
+      <workItem from="1667378769294" duration="77000" />
+      <workItem from="1667621580309" duration="3486000" />
+      <workItem from="1667627863410" duration="4662000" />
+      <workItem from="1667746664773" duration="2201000" />
     </task>
     <servers />
   </component>

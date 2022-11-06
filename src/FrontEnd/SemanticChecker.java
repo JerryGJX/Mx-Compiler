@@ -64,6 +64,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             node.constructorDefNode.accept(this);
             globalScope.addFunc(node.constructorDefNode.funcName, node.constructorDefNode);
         } else {
+            //加入默认构造函数
             ConstructorDefNode consFunc = new ConstructorDefNode(node.nodePos);
             consFunc.returnType = new Type(node.className, 0, false);
             consFunc.funcBodyNode = null;
@@ -460,10 +461,10 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         Scope tmpScope = currentScope;
         currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, true, autoType, currentScope.inLoop, node.isCapture ? currentScope : null);
 
-        for(int i=0;i<currentScope.varTable.size();i++){
-            var variable = currentScope.varTable.get(i);
-            log.addLog("var name: "+variable.varName);
-        }
+//        for(int i=0;i<currentScope.varTable.size();i++){
+//            var variable = currentScope.varTable.get(i);
+//            log.addLog("var name: "+variable.varName);
+//        }
 
         node.paraList.forEach(para -> {
             para.accept(this);

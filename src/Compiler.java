@@ -27,7 +27,6 @@ public class Compiler {
         Log log = new Log();
         GlobalScope globalScope = new GlobalScope();
         try {
-
             RootNode ASTRoot;
             MxLexer lexer = new MxLexer(inputStream);
             lexer.removeErrorListeners();
