@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4929490-aeb2-4876-b622-31387dcb9f70" name="Changes" comment="" />
+    <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Mx-Compiler.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IR/Type/ArrayType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IR/Type/BasicType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IR/Type/FunctionType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IR/Type/IntegerType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IR/Type/PointerType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IR/Type/StructType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IR/Type/TypeEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IrBuilder.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +26,6 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -22,112 +33,64 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="IlluminatedCloudWorkspaceSettings">
+    <option name="projectWorkspaceSettings">
+      <ProjectWorkspaceSettings>
+        <option name="anonymousApexSettings">
+          <AnonymousApexSettings>
+            <option name="savedDocuments">
+              <list>
+                <AnonymousApexSavedDocument>
+                  <option name="name" value="Anonymous Apex 1" />
+                </AnonymousApexSavedDocument>
+              </list>
+            </option>
+          </AnonymousApexSettings>
+        </option>
+      </ProjectWorkspaceSettings>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2FdGxyLKPBVorpvlWDUjn3NqS2r" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="2HhPpAvhzScFjEp98aOvn4CjMp9" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Download/SystemVerilog-2022.1.0.zip&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
-  },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;PLAIN_TEXT&quot;,
-      &quot;ANTLRv4&quot;
-    ]
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "19",
+    "last_opened_file_path": "D:/Users/JXGuo/OneDrive/studying materials/computer related/compiler_design/myCompiler/Mx-Compiler",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.ApplicationConfigurable"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Work\studying materials\computer related\compiler_design\myCompiler\Mx-Compiler\src\grammar" />
-      <recent name="D:\Work\studying materials\computer related\compiler_design\myCompiler\try\src\grammar" />
-    </key>
-  </component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="Mx-Compiler" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="Mx-Compiler" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b4929490-aeb2-4876-b622-31387dcb9f70" name="Changes" comment="" />
-      <created>1664814800093</created>
+      <changelist id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="" />
+      <created>1668734523178</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1664814800093</updated>
-      <workItem from="1664814800093" duration="150000" />
-      <workItem from="1664814966674" duration="1470000" />
-      <workItem from="1664900328704" duration="799000" />
-      <workItem from="1664901182612" duration="39000" />
-      <workItem from="1664901273867" duration="8398000" />
-      <workItem from="1665027847238" duration="40000" />
-      <workItem from="1665027899079" duration="91000" />
-      <workItem from="1665028004039" duration="860000" />
-      <workItem from="1665029016948" duration="110000" />
-      <workItem from="1665029140188" duration="110000" />
-      <workItem from="1665029262489" duration="340000" />
-      <workItem from="1665029619129" duration="343000" />
-      <workItem from="1665037330577" duration="101000" />
-      <workItem from="1665037451107" duration="2976000" />
-      <workItem from="1665040494418" duration="229000" />
-      <workItem from="1665040777241" duration="790000" />
-      <workItem from="1665041738746" duration="27937000" />
-      <workItem from="1665496849137" duration="627000" />
-      <workItem from="1665553937185" duration="3119000" />
-      <workItem from="1665557963194" duration="150000" />
-      <workItem from="1665558236983" duration="6909000" />
-      <workItem from="1665760235134" duration="6493000" />
-      <workItem from="1665800751717" duration="12906000" />
-      <workItem from="1665912895393" duration="547000" />
-      <workItem from="1665916707403" duration="1807000" />
-      <workItem from="1665921384246" duration="5982000" />
-      <workItem from="1666074007169" duration="5440000" />
-      <workItem from="1666145173610" duration="19322000" />
-      <workItem from="1666186833507" duration="10620000" />
-      <workItem from="1666234581046" duration="3431000" />
-      <workItem from="1666246989440" duration="56543000" />
-      <workItem from="1666419881494" duration="1795000" />
-      <workItem from="1666426479495" duration="30205000" />
-      <workItem from="1666496341063" duration="17242000" />
-      <workItem from="1666524691802" duration="3000" />
-      <workItem from="1666534481398" duration="2975000" />
-      <workItem from="1666569937848" duration="26970000" />
-      <workItem from="1666611837516" duration="5166000" />
-      <workItem from="1667028362156" duration="718000" />
-      <workItem from="1667029102621" duration="46000" />
-      <workItem from="1667029172933" duration="1213000" />
-      <workItem from="1667378769294" duration="77000" />
-      <workItem from="1667621580309" duration="3486000" />
-      <workItem from="1667627863410" duration="4662000" />
-      <workItem from="1667746664773" duration="2201000" />
+      <updated>1668734523178</updated>
+      <workItem from="1668734524676" duration="91000" />
+      <workItem from="1668734626605" duration="32000" />
+      <workItem from="1668734711543" duration="97000" />
+      <workItem from="1668734992215" duration="5783000" />
+      <workItem from="1668845824181" duration="6084000" />
+      <workItem from="1668924913301" duration="88000" />
+      <workItem from="1668925351921" duration="6757000" />
     </task>
     <servers />
   </component>

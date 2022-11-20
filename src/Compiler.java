@@ -19,16 +19,16 @@ import java.io.PrintStream;
 
 public class Compiler {
     public static void main(String[] args) throws Exception {
-//        String fileName = "D:\\Work\\studying materials\\computer related\\compiler_design\\myCompiler\\Mx-Compiler\\src\\test\\testCase\\sema\\lambda-package\\lambda-8.mx";
-//        InputStream inputStream = new FileInputStream(fileName);
-        CharStream inputStream = CharStreams.fromStream(System.in);
+        String fileName = "D:\\Users\\JXGuo\\OneDrive\\studying materials\\computer related\\compiler_design\\myCompiler\\Mx-Compiler\\src\\test\\testCase\\sema\\expression-package\\expression-2.mx";
+        InputStream inputStream = new FileInputStream(fileName);
+//        CharStream inputStream = CharStreams.fromStream(inputStream);
         PrintStream outputStream = System.out;
 
         Log log = new Log();
         GlobalScope globalScope = new GlobalScope();
         try {
             RootNode ASTRoot;
-            MxLexer lexer = new MxLexer(inputStream);
+            MxLexer lexer = new MxLexer(CharStreams.fromStream(inputStream));
             lexer.removeErrorListeners();
             lexer.addErrorListener(new MxErrorListener());
             MxParser parser = new MxParser(new CommonTokenStream(lexer));
