@@ -4,16 +4,25 @@ public class IntegerType extends BasicType {
     public int bitWidth;//INT1, INT8, INT16, INT32, INT64
 
     public IntegerType(int _bitWidth) {
-        super(TypeEnum.IntegerType);
         this.bitWidth = _bitWidth;
     }
 
-    public String toString(){
+
+    @Override
+    public String toString() {
         return "i" + this.bitWidth;
     }
 
-    public boolean equals(BasicType other){
-        if(other == null)return false;
-        return other instanceof IntegerType && this.bitWidth == ((IntegerType) other).bitWidth;
+    @Override
+    public boolean equals(BasicType _basicType) {
+        if (_basicType instanceof IntegerType) {
+            return this.bitWidth == ((IntegerType) _basicType).bitWidth;
+        }
+        return false;
+    }
+
+    @Override
+    public int sizeof() {
+        return this.bitWidth / 8;
     }
 }

@@ -4,36 +4,27 @@ import java.util.ArrayList;
 
 public class ArrayType extends BasicType {
     public BasicType elementType;
-    public ArrayList<Integer> dimList = new ArrayList<>();
+    public int dimSize;
 
-    public ArrayType(BasicType elementType) {
-        super(TypeEnum.ArrayType);
+    public ArrayType(BasicType elementType,int _dimSize) {
         this.elementType = elementType;
-    }
-
-    public void addDim(int dim) {
-        dimList.add(dim);
+        this.dimSize = _dimSize;
     }
 
     @Override
     public String toString() {
-        if (dimList.size() == 0) return elementType.toString();
-        else {
-            var subArrayType = new ArrayType(elementType);
-            subArrayType.dimList.addAll(dimList.subList(1, dimList.size()));
-            return "[" + dimList.get(0) + " x " + subArrayType.toString() + "]";
-        }
+            return "[" + dimSize + " x " + this.elementType.toString() + "]";
     }
 
     public boolean equals(BasicType other) {
         if (other == null) return false;
-        if (!(other instanceof ArrayType otherArrayType)) return false;
-        if (dimList.size() != otherArrayType.dimList.size()) return false;
-        for (int i = 0; i < dimList.size(); ++i) {
-            if (!dimList.get(i).equals(otherArrayType.dimList.get(i))) return false;
-        }
-        return elementType.equals(otherArrayType.elementType);
+        if(other instanceof ArrayType){
+            return this.elementType.equals(((ArrayType) other).elementType) && this.dimSize == ((ArrayType) other).dimSize;
+        }else return false;
     }
 
-
+    @Override
+    public int sizeof() {
+        return elementType.sizeof() * dimSize;
+    }
 }

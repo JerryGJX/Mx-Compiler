@@ -11,8 +11,8 @@ mxProgram : (classDef|funcDef|varDefStmt)* EOF;
 
 /*
 the sequence of classDef, funcDef, varDefStmt is set on account of
-the fact that class contains function and variable definition, and
-function definition contains variable definition.
+the fact that class contains IRFunction and variable definition, and
+IRFunction definition contains variable definition.
 
 But I'm still not sure whether the sequence is correct.(2022/10/6)
 */
