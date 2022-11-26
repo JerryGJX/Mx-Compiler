@@ -6,7 +6,7 @@ public class StructType extends BasicType {
     public String classId;
     public ArrayList<BasicType> memberTypeList = new ArrayList<>();
 
-//    public ArrayList<Integer> memberSizeList = new ArrayList<>();
+
 
     public StructType(String _classId) {
         this.classId = "class." + _classId;
@@ -27,10 +27,10 @@ public class StructType extends BasicType {
     }
 
     @Override
-    public int sizeof() {
+    public int size() {
         int size = 0;
         for(BasicType memberType : memberTypeList){
-            size += memberType.sizeof();
+            size += memberType.size();
         }
         return size;
     }

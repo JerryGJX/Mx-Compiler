@@ -22,7 +22,7 @@ public class IntegerType extends BasicType {
     }
 
     @Override
-    public int sizeof() {
+    public int size() {
         return this.bitWidth / 8;
     }
 }

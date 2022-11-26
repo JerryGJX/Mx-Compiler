@@ -2,49 +2,50 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/IR/IRModule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/IRVisitor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Type/BoolType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Type/VoidType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/IRArgument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/IRBasicBlock.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/IRDefine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/IRUse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/IRValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRGlobalVariable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/MemberFunc.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRBoolConst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRIntConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRNullptrConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRStrConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRZeroInitConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/IRUser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRAllocaInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBinaryInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBitcastInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBranchInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRCallInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRGEPInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRIcmpInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRInstruction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRLoadInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRTruncInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRZextInst.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MiddleEnd/IRGlobalScope.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MiddleEnd/IRScope.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IR/Type/LabelType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IR/Type/StringType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/GlobalVariable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRRetInst.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Utils/VarInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Utils/scope/IRScope.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/IRTest/test.ll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/IRTest/test.mx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Type/ArrayType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/ArrayType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AST/node/abstractNode/ExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/node/abstractNode/ExpNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AST/node/concretNode/expNode/atomExpNode/AtomExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/node/concretNode/expNode/atomExpNode/AtomExpNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AST/node/concretNode/expNode/atomExpNode/IdExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/node/concretNode/expNode/atomExpNode/IdExpNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AST/typeNode/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/typeNode/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FrontEnd/SemanticChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/SemanticChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/IRModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/IRModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/IRVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/IRVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Type/ArrayType.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Type/BasicType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/BasicType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Type/BoolType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/BoolType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Type/FunctionType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/FunctionType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Type/IntegerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/IntegerType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Type/PointerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/PointerType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Type/StructType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/StructType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/grammar/MxParser.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/grammar/MxParser.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Type/VoidType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/VoidType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/IRBasicBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRBasicBlock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/IRDefine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRDefine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/IRValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRGlobalVariable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRBoolConst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRBoolConst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRIntConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRIntConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRNullptrConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRNullptrConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRStrConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRStrConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRZeroInitConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRZeroInitConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRAllocaInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRAllocaInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBranchInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBrInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRInstruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRInstruction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRLoadInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRLoadInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRGlobalScope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/scope/IRGlobalScope.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRScope.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +99,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;19&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Users/JXGuo/OneDrive/studying materials/computer related/compiler_design/myCompiler/reference/CompilerStorm-master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Users/JXGuo/OneDrive/studying materials/computer related/compiler_design/myCompiler/reference/Masterball-main&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
@@ -106,6 +107,26 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.ApplicationConfigurable&quot;
   }
 }</component>
+  <component name="RunManager">
+    <configuration name="PrintAndDebug" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.IR.PrintAndDebug" />
+      <module name="Mx-Compiler" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.IR.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.PrintAndDebug" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -122,7 +143,9 @@
       <workItem from="1668924913301" duration="88000" />
       <workItem from="1668925351921" duration="18675000" />
       <workItem from="1669044617028" duration="14895000" />
-      <workItem from="1669182216421" duration="1574000" />
+      <workItem from="1669182216421" duration="2721000" />
+      <workItem from="1669199143478" duration="14509000" />
+      <workItem from="1669291631160" duration="49305000" />
     </task>
     <servers />
   </component>

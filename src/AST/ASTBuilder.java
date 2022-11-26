@@ -117,6 +117,7 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
                     }
 
                     memberVarList.put(varDefUnitNode.varName, varDefUnitNode);
+                    classDefNode.memberVarNameList.add(varDefUnitNode.varName);
                 }
             }
         }

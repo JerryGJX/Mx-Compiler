@@ -2,8 +2,8 @@ package IR;
 
 import IR.Value.IRBasicBlock;
 import IR.Value.User.Constant.*;
+import IR.Value.User.Constant.GlobalValue.GlobalVariable;
 import IR.Value.User.Constant.GlobalValue.IRFunction;
-import IR.Value.User.Constant.GlobalValue.IRGlobalVariable;
 import IR.Value.User.Instruction.IRInstruction;
 
 public interface IRVisitor {
@@ -16,9 +16,9 @@ public interface IRVisitor {
 
     void visit(IRBoolConst IRBoolConst);
 
-    void visit(IRGlobalVariable IRGlobalVariable);
-
     void visit(IRBasicBlock IRBasicBlock);
 
     void visit(IRFunction function);
+
+    void visit(GlobalVariable globalVariable);
 }

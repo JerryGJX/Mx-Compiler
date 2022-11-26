@@ -3,57 +3,47 @@ package IR.Type;
 public class PointerType extends BasicType {
     public boolean isNullptr;
     public BasicType baseType;
-    public int dimSize;//pointer of high dimension
 
-    public PointerType(BasicType _baseType) {
+    public int length;
+
+    public PointerType(BasicType _baseType, int _length) {
         if (_baseType == null) {
             isNullptr = true;
         } else {
-            if (_baseType instanceof PointerType) {
-                this.baseType = ((PointerType) _baseType).baseType;
-                this.dimSize = ((PointerType) _baseType).dimSize + 1;
-            } else {
-                this.baseType = _baseType;
-                this.dimSize = 1;
-            }
+            this.baseType = _baseType;
+            this.length = _length;
         }
     }
 
-    public PointerType(BasicType _baseType, int _dimSize) {
-        if (_baseType == null) {
-            isNullptr = true;
-        } else {
-            if (_baseType instanceof PointerType) {
-                this.baseType = ((PointerType) _baseType).baseType;
-                this.dimSize = ((PointerType) _baseType).dimSize + _dimSize;
-            } else {
-                this.baseType = _baseType;
-                this.dimSize = _dimSize;
-            }
+    public static PointerType RecursiveBuildPointer(BasicType _baseType, int _dimSize) {
+        PointerType pointerType = new PointerType(_baseType, 0);
+        for (int i = 0; i < _dimSize; i++) {
+            pointerType = new PointerType(pointerType, 0);
         }
+        return pointerType;
     }
+
 
     public BasicType Dereference() {
-        if(isNullptr)throw new RuntimeException("Dereference nullptr");
-        if (dimSize == 1) return baseType;
-        else return new PointerType(baseType, dimSize - 1);
+        if (isNullptr) throw new RuntimeException("Dereference nullptr");
+        return baseType;
     }
 
 
     @Override
     public String toString() {
-        return this.baseType.toString() + "*".repeat(dimSize);
+        return this.baseType.toString() + "*";
     }
 
     @Override
     public boolean equals(BasicType _basicType) {
         if (_basicType instanceof PointerType) {
-            return this.baseType.equals(((PointerType) _basicType).baseType) && this.dimSize == ((PointerType) _basicType).dimSize;
+            return this.baseType.equals(((PointerType) _basicType).baseType);
         } else return false;
     }
 
     @Override
-    public int sizeof() {
+    public int size() {
         return 4;
     }
 }

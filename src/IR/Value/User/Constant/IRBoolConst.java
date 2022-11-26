@@ -11,7 +11,7 @@ public class IRBoolConst extends IRConstant {
         constBoolData = _constBoolData;
     }
 
-    @Override
+//    @Override
     public String getIdentifier() {
         return constBoolData ? "true" : "false";
     }
@@ -27,7 +27,7 @@ public class IRBoolConst extends IRConstant {
         }
     }
 
-    @Override
+
     public void accept(IRVisitor _visitor) {
         _visitor.visit(this);
     }

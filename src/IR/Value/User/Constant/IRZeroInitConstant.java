@@ -8,7 +8,17 @@ public class IRZeroInitConstant extends IRConstant {
         super(_basicType);
     }
 
+//    @Override
+    public String getIdentifier() {
+        return null;
+    }
+
     @Override
+    public boolean equals(IRConstant _IR_constant) {
+        return false;
+    }
+
+
     public void accept(IRVisitor _visitor) {
         _visitor.visit(this);
     }

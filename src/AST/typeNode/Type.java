@@ -1,6 +1,12 @@
 package AST.typeNode;
 
-import Utils.Position;
+
+import IR.Type.*;
+
+
+import java.util.HashMap;
+
+import static IR.Type.PointerType.RecursiveBuildPointer;
 
 public class Type {
     public String typeName;//不含维数
@@ -9,7 +15,8 @@ public class Type {
     public boolean isFunction;
 
 
-    public Type(Type _type){
+
+    public Type(Type _type) {
         this.typeName = _type.typeName;
         this.dimSize = _type.dimSize;
         this.isClass = _type.isClass;
@@ -17,7 +24,7 @@ public class Type {
     }
 
 
-    public Type(String _typeName,Integer _dimSize, Boolean _isFunction) {
+    public Type(String _typeName, Integer _dimSize, Boolean _isFunction) {
         this.typeName = _typeName;
         this.dimSize = _dimSize;
         if (!typeName.equals("void")
@@ -32,8 +39,8 @@ public class Type {
     }
 
 
-    public Boolean Match(Type _aimType){
-        if(_aimType == null) return false;
+    public Boolean Match(Type _aimType) {
+        if (_aimType == null) return false;
         return this.typeName.equals(_aimType.typeName) && this.dimSize == _aimType.dimSize;
     }
 
@@ -43,7 +50,31 @@ public class Type {
         return ret;
     }
 
-    public Boolean NullAssignable(){
+    public Boolean NullAssignable() {
         return this.isClass || this.dimSize > 0;
     }
+
+    public BasicType toIRType(HashMap<String, StructType> typeMap) {
+        BasicType baseType;
+        if (typeName.equals("int")) {
+            baseType = new IntegerType(32);
+        } else if (typeName.equals("bool")) {
+            baseType = new BoolType();
+        } else if (typeName.equals("void")) {
+            return new VoidType();
+//            throw new RuntimeException("void type cannot be member type of struct");
+        } else if (!typeMap.containsKey(this.typeName)) {
+            throw new RuntimeException("[IR] Type not found: " + typeName);
+        } else {
+            baseType = typeMap.get(typeName);
+        }
+
+        if (dimSize == 0) {
+            return baseType;
+        } else {
+            return RecursiveBuildPointer(baseType, dimSize);
+        }
+    }
+
+
 }

@@ -1,6 +1,9 @@
 package IR.Type;
 
-public class VoidType extends BasicType {
+public class LabelType extends BasicType {
+    public LabelType() {
+
+    }
 
     @Override
     public String toString() {
@@ -8,8 +11,8 @@ public class VoidType extends BasicType {
     }
 
     @Override
-    public boolean equals(BasicType other) {
-        return other instanceof VoidType;
+    public boolean equals(BasicType _basicType) {
+        return false;
     }
 
     @Override

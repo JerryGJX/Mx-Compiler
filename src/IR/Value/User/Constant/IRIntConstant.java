@@ -21,12 +21,12 @@ public class IRIntConstant extends IRConstant {
         }
     }
 
-    @Override
+//    @Override
     public String getIdentifier() {
         return Integer.toString(constIntData);
     }
 
-    @Override
+
     public void accept(IRVisitor _visitor) {
         _visitor.visit(this);
     }

@@ -19,5 +19,5 @@ public abstract class BasicType {
 
     public abstract boolean equals(BasicType _basicType);
 
-    public abstract int sizeof();
+    public abstract int size();
 }

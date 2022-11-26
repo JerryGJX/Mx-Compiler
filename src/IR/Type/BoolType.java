@@ -13,7 +13,7 @@ public class BoolType extends BasicType {
     }
 
     @Override
-    public int sizeof() {
+    public int size() {
         return 1;
     }
 }

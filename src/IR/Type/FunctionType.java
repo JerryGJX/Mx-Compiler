@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class FunctionType extends BasicType {
     public BasicType returnType;
-    String funcName;
+    public String funcName;
     public ArrayList<BasicType> parameterTypeList = new ArrayList<>();
 
     public FunctionType(BasicType _returnType, String _funcName) {
@@ -12,9 +12,14 @@ public class FunctionType extends BasicType {
         this.funcName = _funcName;
     }
 
+    public void addParameterType(BasicType parameterType) {
+        parameterTypeList.add(parameterType);
+    }
+
     @Override
     public String toString() {
-        throw new Error("FunctionType.toString() not implemented");
+//        throw new Error("FunctionType.toString() not implemented");
+        return "";
     }
 
     @Override
@@ -32,7 +37,7 @@ public class FunctionType extends BasicType {
     }
 
     @Override
-    public int sizeof() {
+    public int size() {
         return 0;
     }
 }

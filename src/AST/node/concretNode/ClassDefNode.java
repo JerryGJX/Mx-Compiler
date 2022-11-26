@@ -5,12 +5,15 @@ import AST.node.ASTNode;
 import AST.node.concretNode.stmtNode.VarDefUnitNode;
 import Utils.Position;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class ClassDefNode extends ASTNode {
     public String className;
     public ConstructorDefNode constructorDefNode;
     public LinkedHashMap<String,VarDefUnitNode> memberVarMap;
+
+    public ArrayList<String> memberVarNameList;
     public LinkedHashMap<String,FuncDefNode> memberFuncMap;
 
     public ClassDefNode(Position _nodePos) {

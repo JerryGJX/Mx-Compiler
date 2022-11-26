@@ -6,17 +6,24 @@ import IR.Value.IRBasicBlock;
 import IR.Value.User.IRUser;
 
 public abstract class IRInstruction extends IRUser {
-    IRBasicBlock parentBlock;
+    public IRBasicBlock parentBlock;
 
-    public IRInstruction(BasicType _basicType) {
-        super(_basicType);
-    }
+    public IRInstruction(String _valueName,BasicType _valueType){
+        super(_valueName,_valueType);
+    };
 
-    public IRInstruction(String _valueName, BasicType _basicType) {
-        super(_valueName, _basicType);
-    }
+//    public IRInstruction(String _insComment, BasicType _basicType) {
+//        super(_basicType);
+//        this.insComment = _insComment;
+//    }
 
-    @Override
+//    public String GetInstComment() {
+//        return insComment;
+//    }
+
+    public abstract String toString();
+
+
     public void accept(IRVisitor _visitor) {
         _visitor.visit(this);
     }

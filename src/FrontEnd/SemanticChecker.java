@@ -133,6 +133,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (idType.Match(node.array.exprType)) {
             if (currentScope.VarUsable(((IdExpNode) node.array).id)) {
                 node.array.exprType = currentScope.getVarDef(((IdExpNode) node.array).id).varType;
+                //for LLVM
+                node.array.exprType.isFunction = false;
             } else {
                 throw new semanticError("Variable " + ((IdExpNode) node.array).id + " is not defined", node.nodePos);
             }
@@ -145,6 +147,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (idType.Match(node.index.exprType)) {
             if (currentScope.VarUsable(((IdExpNode) node.index).id)) {
                 node.index.exprType = currentScope.getVarDef(((IdExpNode) node.index).id).varType;
+                //for LLVM
+                node.array.exprType.isFunction = false;
             } else {
                 throw new semanticError("Variable " + ((IdExpNode) node.index).id + " is not defined", node.nodePos);
             }
@@ -174,6 +178,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (idType.Match(node.rhs.exprType)) {
             if (currentScope.VarUsable(((IdExpNode) node.rhs).id)) {
                 node.rhs.exprType = currentScope.getVarDef(((IdExpNode) node.rhs).id).varType;
+                //for LLVM
+                node.rhs.exprType.isFunction = false;
             } else {
                 throw new semanticError("[Assign] Variable " + ((IdExpNode) node.rhs).id + " is not defined", node.nodePos);
             }
@@ -186,6 +192,9 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                 log.addLog("lhs type in scope: " + currentScope.getVarDef(((IdExpNode) node.lhs).id).varType.PrintType());
 
                 node.lhs.exprType = currentScope.getVarDef(((IdExpNode) node.lhs).id).varType;
+                //for LLVM
+                node.lhs.exprType.isFunction = false;
+
             } else {
                 throw new semanticError("[Assign] Variable " + ((IdExpNode) node.lhs).id + " is not defined", node.nodePos);
             }
@@ -246,6 +255,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (idType.Match(node.lhs.exprType)) {
             if (currentScope.VarUsable(((IdExpNode) node.lhs).id)) {
                 node.lhs.exprType = currentScope.getVarDef(((IdExpNode) node.lhs).id).varType;
+                //for LLVM
+                node.lhs.exprType.isFunction = false;
             } else {
                 throw new semanticError("[BinaryExp] Variable " + ((IdExpNode) node.lhs).id + " is not defined", node.nodePos);
             }
@@ -255,6 +266,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (idType.Match(node.rhs.exprType)) {
             if (currentScope.VarUsable(((IdExpNode) node.rhs).id)) {
                 node.rhs.exprType = currentScope.getVarDef(((IdExpNode) node.rhs).id).varType;
+                //for LLVM
+                node.rhs.exprType.isFunction = false;
             } else {
                 throw new semanticError("[BinaryExp] Variable " + ((IdExpNode) node.rhs).id + " is not defined", node.nodePos);
             }
@@ -359,10 +372,16 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (idType.Match(node.function.exprType)) {
             if (globalScope.hasFunc(((IdExpNode) node.function).id)) {
                 funcDefNode = globalScope.getFuncDef(((IdExpNode) node.function).id);
+
+                //for LLVM
+                node.function.exprType.isFunction = true;
+
             } else if (currentScope.inClass) {
                 classDefNode = currentScope.classDefNode;
                 if (classDefNode.memberFuncMap.containsKey(node.function.exprType.typeName)) {
                     funcDefNode = classDefNode.memberFuncMap.get(node.function.exprType.typeName);
+                    //for LLVM
+                    node.function.exprType.isFunction = true;
                 }
             } else {
                 throw new semanticError("[1]Function " + ((IdExpNode) node.function).id + " is not defined", node.nodePos);
@@ -434,6 +453,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             if (idType.Match(para.exprType)) {
                 if (currentScope.VarUsable(((IdExpNode) para).id)) {
                     para.exprType = currentScope.getVarDef(((IdExpNode) para).id).varType;
+                    //for LLVM
+                    para.exprType.isFunction = false;
                 } else {
                     throw new semanticError("Variable " + ((IdExpNode) para).id + " is not defined", para.nodePos);
                 }
@@ -487,6 +508,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             if(idType.Match(paraType)){
                 if(currentScope.VarUsable(((IdExpNode)node.callArgList.get(i)).id)){
                     paraType = currentScope.getVarDef(((IdExpNode)node.callArgList.get(i)).id).varType;
+                    //for LLVM
+                    paraType.isFunction = false;
                 }else{
                     log.addLog("paraType.typeName: "+paraType.typeName);
 
@@ -517,6 +540,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (idType.Match(node.base.exprType)) {
             if (currentScope.VarUsable(((IdExpNode) node.base).id)) {
                 node.base.exprType = currentScope.getVarDef(((IdExpNode) node.base).id).varType;
+                //for LLVM
+                node.base.exprType.isFunction = false;
             } else {
                 throw new semanticError("Variable " + ((IdExpNode) node.base).id + " is not defined", node.nodePos);
             }
@@ -564,6 +589,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             if (idType.Match(dim.exprType)) {
                 if (currentScope.VarUsable(((IdExpNode) dim).id)) {
                     dim.exprType = currentScope.getVarDef(((IdExpNode) dim).id).varType;
+                    //for LLVM
+                    dim.exprType.isFunction = false;
                 } else {
                     throw new semanticError("Variable " + ((IdExpNode) dim).id + " is not defined", dim.nodePos);
                 }
@@ -587,6 +614,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (idType.Match(node.value.exprType)) {
             if (currentScope.VarUsable(((IdExpNode) node.value).id)) {
                 node.value.exprType = currentScope.getVarDef(((IdExpNode) node.value).id).varType;
+                //for LLVM
+                node.value.exprType.isFunction = false;
             } else {
                 throw new semanticError("Variable " + ((IdExpNode) node.value).id + " is not defined", node.nodePos);
             }
@@ -607,6 +636,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (idType.Match(node.value.exprType)) {
             if (currentScope.VarUsable(((IdExpNode) node.value).id)) {
                 node.value.exprType = currentScope.getVarDef(((IdExpNode) node.value).id).varType;
+                //for LLVM
+                node.value.exprType.isFunction = false;
             } else {
                 throw new semanticError("Variable " + ((IdExpNode) node.value).id + " is not defined", node.nodePos);
             }
@@ -628,6 +659,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         if (idType.Match(node.value.exprType)) {
             if (currentScope.VarUsable(((IdExpNode) node.value).id)) {
                 node.value.exprType = currentScope.getVarDef(((IdExpNode) node.value).id).varType;
+                //for LLVM
+                node.value.exprType.isFunction = false;
             } else {
                 throw new semanticError("Variable " + ((IdExpNode) node.value).id + " is not defined", node.nodePos);
             }
@@ -715,6 +748,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             if (idType.Match(node.condExpNode.exprType)) {
                 if (currentScope.VarUsable(((IdExpNode) node.condExpNode).id)) {
                     node.condExpNode.exprType = currentScope.getVarDef(((IdExpNode) node.condExpNode).id).varType;
+                    //for LLVM
+                    node.condExpNode.exprType.isFunction = false;
                 } else {
                     throw new semanticError("Variable " + ((IdExpNode) node.condExpNode).id + " is not defined", node.nodePos);
                 }
@@ -769,6 +804,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             if (idType.Match(node.returnExp.exprType)) {
                 if (currentScope.VarUsable(((IdExpNode) node.returnExp).id)) {
                     node.returnExp.exprType = currentScope.getVarDef(((IdExpNode) node.returnExp).id).varType;
+                    //for LLVM
+                    node.returnExp.exprType.isFunction = false;
                 } else {
                     throw new semanticError("Variable " + ((IdExpNode) node.returnExp).id + " is not defined", node.nodePos);
                 }
@@ -842,6 +879,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
             if (idType.Match(node.initValue.exprType)) {
                 if (currentScope.VarUsable(((IdExpNode) node.initValue).id)) {
                     node.initValue.exprType = currentScope.getVarDef(((IdExpNode) node.initValue).id).varType;
+                    //for LLVM
+                    node.initValue.exprType.isFunction = false;
                 } else {
                     throw new semanticError("Variable " + ((IdExpNode) node.initValue).id + " is not defined", node.nodePos);
                 }
