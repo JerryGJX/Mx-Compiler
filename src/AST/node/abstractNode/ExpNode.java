@@ -10,12 +10,12 @@ public abstract class ExpNode extends ASTNode {
     public Type exprType;
 //    public boolean isLeftValue;
 
-    public IRValue irValue;
+    public IRValue irValue;    //int or register
+    public IRValue irAddress;  //xxx.addr, InstAlloc, InstGetElementPtr
 
     public ExpNode(Position _nodePos) {
         super(_nodePos);
         this.exprType = null;
-        //this.isLeftValue = false;
     }
 
     public abstract boolean isLeftValue();

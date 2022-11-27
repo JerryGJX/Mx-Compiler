@@ -12,7 +12,7 @@ public class IRBoolConst extends IRConstant {
     }
 
 //    @Override
-    public String getIdentifier() {
+    public String toString() {
         return constBoolData ? "true" : "false";
     }
 

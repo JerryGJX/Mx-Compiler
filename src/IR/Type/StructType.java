@@ -9,7 +9,7 @@ public class StructType extends BasicType {
 
 
     public StructType(String _classId) {
-        this.classId = "class." + _classId;
+        this.classId = _classId;
     }
 
     public void addMemberType(BasicType memberType) {
@@ -18,7 +18,19 @@ public class StructType extends BasicType {
 
     @Override
     public String toString() {
-        return "%" + classId;
+        return "%class." + classId;
+    }
+
+    public String PrintStructType() {
+        StringBuilder Ans = new StringBuilder("%class." + classId + " = type {");
+        for (BasicType memberType : memberTypeList) {
+            Ans.append(memberType.toString());
+            if(memberType != memberTypeList.get(memberTypeList.size() - 1)) {
+                Ans.append(", ");
+            }
+        }
+        Ans.append("}");
+        return Ans.toString();
     }
 
     @Override

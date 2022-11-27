@@ -4,7 +4,7 @@ public class BoolType extends BasicType {
 
     @Override
     public String toString() {
-        return "i8";
+        return "i1";
     }
 
     @Override

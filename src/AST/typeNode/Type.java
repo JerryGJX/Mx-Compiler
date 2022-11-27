@@ -6,8 +6,6 @@ import IR.Type.*;
 
 import java.util.HashMap;
 
-import static IR.Type.PointerType.RecursiveBuildPointer;
-
 public class Type {
     public String typeName;//不含维数
     public int dimSize;
@@ -37,7 +35,10 @@ public class Type {
 
         this.isFunction = _isFunction;
     }
-
+//for LLVM
+    public boolean isVarType() {
+        return !isFunction;
+    }
 
     public Boolean Match(Type _aimType) {
         if (_aimType == null) return false;
@@ -53,28 +54,4 @@ public class Type {
     public Boolean NullAssignable() {
         return this.isClass || this.dimSize > 0;
     }
-
-    public BasicType toIRType(HashMap<String, StructType> typeMap) {
-        BasicType baseType;
-        if (typeName.equals("int")) {
-            baseType = new IntegerType(32);
-        } else if (typeName.equals("bool")) {
-            baseType = new BoolType();
-        } else if (typeName.equals("void")) {
-            return new VoidType();
-//            throw new RuntimeException("void type cannot be member type of struct");
-        } else if (!typeMap.containsKey(this.typeName)) {
-            throw new RuntimeException("[IR] Type not found: " + typeName);
-        } else {
-            baseType = typeMap.get(typeName);
-        }
-
-        if (dimSize == 0) {
-            return baseType;
-        } else {
-            return RecursiveBuildPointer(baseType, dimSize);
-        }
-    }
-
-
 }

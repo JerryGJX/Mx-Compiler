@@ -21,6 +21,7 @@ public class ClassDefNode extends ASTNode {
         this.className = null;
         this.constructorDefNode = null;
         this.memberVarMap = new LinkedHashMap<>();
+        this.memberVarNameList = new ArrayList<>();
         this.memberFuncMap = new LinkedHashMap<>();
     }
 
@@ -29,6 +30,7 @@ public class ClassDefNode extends ASTNode {
         this.className = _className;
         this.constructorDefNode = null;
         this.memberVarMap = new LinkedHashMap<>();
+        this.memberVarNameList = new ArrayList<>();
         this.memberFuncMap = new LinkedHashMap<>();
     }
 

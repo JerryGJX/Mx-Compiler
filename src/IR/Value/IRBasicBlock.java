@@ -4,23 +4,30 @@ import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Type.LabelType;
 import IR.Value.User.Constant.GlobalValue.IRFunction;
+import IR.Value.User.Instruction.IRAllocaInst;
 import IR.Value.User.Instruction.IRInstruction;
 
 import java.util.LinkedList;
 
 public class IRBasicBlock extends IRValue {
+
     public String blockName;
     public LinkedList<IRInstruction> instList = new LinkedList<>();
     public IRInstruction terminator;
-    public IRFunction parentFunc;
+//    public IRFunction parentFunc;
 
     public IRBasicBlock(String _blockName) {
         super(new LabelType());
         this.blockName = _blockName;
+//        this.parentFunc = _parentFunc;
     }
 
     public void addInst(IRInstruction _inst) {
         instList.add(_inst);
+    }
+
+    public void AddTerminator(IRInstruction _terminator) {
+        terminator = _terminator;
     }
 
     public String GetBlockName() {
@@ -28,10 +35,10 @@ public class IRBasicBlock extends IRValue {
     }
 
     public String toString() {
-        StringBuilder ans = new StringBuilder(this.blockName + ":\n");
-        for (IRInstruction inst : instList) {
-            ans.append("    ").append(inst.toString()).append("\n");
-        }
+        StringBuilder ans = new StringBuilder("\n" + this.blockName + ":\n");
+        for (IRInstruction inst : instList) ans.append("    ").append(inst.toString()).append("\n");
+        if (terminator == null) throw new Error("[IRBasicBlock] " + this.blockName + ": with out terminator instruction");
+        ans.append("    ").append(terminator.toString()).append("\n");
         return ans.toString();
     }
 

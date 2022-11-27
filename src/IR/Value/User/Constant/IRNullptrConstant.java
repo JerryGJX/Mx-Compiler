@@ -9,7 +9,7 @@ public class IRNullptrConstant extends IRConstant {
 //    }
 
     public IRNullptrConstant(){
-        super(new PointerType(null,0));
+        super(new PointerType(null));
     }
 
     @Override
@@ -20,7 +20,7 @@ public class IRNullptrConstant extends IRConstant {
     }
 
 //    @Override
-    public String getIdentifier() {
+    public String toString() {
         return NULLPTR_IDENTIFIER;
     }
 

@@ -17,6 +17,10 @@ public class FuncDefNode extends ASTNode {
     public SuiteStmtNode funcBodyNode;
     public boolean isBuiltin;
 
+    public boolean isMember;
+
+    public String className;
+
 //    public FuncDefNode(ReturnTypeNode _returnType, String _funcName, ArrayList<VarDefUnitNode> _paramList, SuiteStmtNode _funcBody, Position _nodePos, Boolean _isBuiltin) {
 //        super(_nodePos);
 //        this.returnType = _returnType;

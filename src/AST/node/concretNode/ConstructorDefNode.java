@@ -7,13 +7,14 @@ import Utils.Position;
 
 public class ConstructorDefNode extends FuncDefNode {
 
-    public String funcName;
-    public SuiteStmtNode funcBodyNode;
+//    public String funcName;
+//    public SuiteStmtNode funcBodyNode;
 
     public ConstructorDefNode(Position _nodePos) {
         super(_nodePos);
-        funcName = null;
-        funcBodyNode = null;
+        this.funcName = null;
+        this.funcBodyNode = null;
+        this.isMember = true;
     }
 
     @Override

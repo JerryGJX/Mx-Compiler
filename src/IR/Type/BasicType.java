@@ -1,6 +1,8 @@
 package IR.Type;
 
-public abstract class BasicType {
+import IR.Value.IRDefine;
+
+public abstract class BasicType implements IRDefine {
 //    String typeName; //不含维数
 //    public TypeEnum typeEnum;
 //    public int dimSize = 0;

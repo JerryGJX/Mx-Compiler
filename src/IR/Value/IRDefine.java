@@ -12,6 +12,8 @@ public interface IRDefine {
 
     Integer POINTER_SIZE = 4;//risc-v 32
 
+    Integer STRING_ALIGN = 1;//?
+
     String GLOBAL_PREFIX = "@";
     String LOCAL_PREFIX = "%";
     String STRING_PREFIX = "str";

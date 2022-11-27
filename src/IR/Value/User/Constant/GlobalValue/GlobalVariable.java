@@ -12,23 +12,22 @@ public class GlobalVariable extends IRConstant {
 
 //    public boolean isGlobal = false;
 
-    public GlobalVariable(BasicType _basicType, String _varName,IRValue _initIRValue) {
-        super(new PointerType(_basicType, 1));
+    public GlobalVariable(BasicType _basicType, String _varName, IRValue _initIRValue) {
+        super(_basicType);
         this.varName = _varName;
 //        this.isGlobal = _isGlobal;
         this.initIRValue = _initIRValue;
     }
 
 
-
     public String toString() {
-            return GLOBAL_PREFIX + this.varName;
+        return GLOBAL_PREFIX + this.varName;
     }
 
 
     @Override
     public String getIdentifier() {
-        return null;
+        return GLOBAL_PREFIX + this.varName;
     }
 
 

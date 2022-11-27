@@ -13,7 +13,9 @@ public abstract class IRConstant extends IRUser {
 //        super(_constName, _basicType);
 //    }
 
-    public abstract String getIdentifier();
+//    public abstract String getIdentifier(){};
+
+    public abstract String toString();
 
     public abstract boolean equals(IRConstant _IR_constant);
 }

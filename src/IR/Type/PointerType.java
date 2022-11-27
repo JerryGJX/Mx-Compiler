@@ -4,24 +4,28 @@ public class PointerType extends BasicType {
     public boolean isNullptr;
     public BasicType baseType;
 
-    public int length;
+    public int dimSize;
 
-    public PointerType(BasicType _baseType, int _length) {
+    public PointerType(BasicType _baseType) {
         if (_baseType == null) {
             isNullptr = true;
         } else {
             this.baseType = _baseType;
-            this.length = _length;
+            if(_baseType instanceof PointerType) {
+                this.dimSize = ((PointerType) _baseType).dimSize + 1;
+            } else {
+                this.dimSize = 1;
+            }
         }
     }
 
-    public static PointerType RecursiveBuildPointer(BasicType _baseType, int _dimSize) {
-        PointerType pointerType = new PointerType(_baseType, 0);
-        for (int i = 0; i < _dimSize; i++) {
-            pointerType = new PointerType(pointerType, 0);
-        }
-        return pointerType;
-    }
+//    public static PointerType RecursiveBuildPointer(BasicType _baseType, int _dimSize) {
+//        PointerType pointerType = new PointerType(_baseType, 0);
+//        for (int i = 0; i < _dimSize; i++) {
+//            pointerType = new PointerType(pointerType);
+//        }
+//        return pointerType;
+//    }
 
 
     public BasicType Dereference() {
@@ -32,7 +36,7 @@ public class PointerType extends BasicType {
 
     @Override
     public String toString() {
-        return this.baseType.toString() + "*";
+        return this.baseType + "*";
     }
 
     @Override
@@ -44,6 +48,6 @@ public class PointerType extends BasicType {
 
     @Override
     public int size() {
-        return 4;
+        return POINTER_SIZE;
     }
 }

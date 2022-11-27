@@ -9,8 +9,8 @@ public class IRZeroInitConstant extends IRConstant {
     }
 
 //    @Override
-    public String getIdentifier() {
-        return null;
+    public String toString() {
+        return "zeroinitializer";
     }
 
     @Override

@@ -9,7 +9,7 @@ public class IRAllocaInst extends IRInstruction {
     public BasicType allocaType;
 
     public IRAllocaInst(String _allocaName, BasicType _allocaType, IRBasicBlock _parentBlock) {
-        super(_allocaName,new PointerType(_allocaType,1));
+        super(_allocaName,new PointerType(_allocaType));
         this.allocaName = _allocaName;
         this.allocaType = _allocaType;
         this.parentBlock = _parentBlock;

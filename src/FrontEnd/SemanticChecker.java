@@ -35,7 +35,8 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
 
     @Override
     public void visit(RootNode node) {
-        currentScope = new Scope(false, null, false, null, false, globalScope);
+        currentScope = globalScope;
+//        currentScope = new Scope(false, null, false, null, false, globalScope);
         //double def has been checked when doing AST building
         if (!globalScope.hasFunc("main")) {
             throw new syntaxError("No main function", node.nodePos);
@@ -66,10 +67,17 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         } else {
             //加入默认构造函数
             ConstructorDefNode consFunc = new ConstructorDefNode(node.nodePos);
-            consFunc.returnType = new Type(node.className, 0, false);
+            consFunc.returnType = null;
+
+            consFunc.isMember = true;
+            consFunc.className = node.className;
+
+            consFunc.funcName = node.className;
             consFunc.funcBodyNode = null;
             consFunc.argList = new ArrayList<>();
             globalScope.addFunc(node.className, consFunc);
+            //for LLVM
+            node.constructorDefNode = consFunc;
         }
 
         globalScope.addFunc(node.className, node.constructorDefNode);
@@ -79,6 +87,11 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
     @Override
     public void visit(ConstructorDefNode node) {
         currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, true, voidType, false, currentScope);
+
+        //for LLVM
+        node.isMember = true;
+        node.className = currentScope.classDefNode.className;
+        node.returnType = new Type(node.className, 0, false);
 
         if (!currentScope.inClass) {
             throw new syntaxError("Constructor should be in a class", node.nodePos);
@@ -94,6 +107,15 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         //funcName has been added to globalScope
         log.addLog("[funcDefNode]");
         currentScope = new Scope(currentScope.inClass, currentScope.classDefNode, true, node.returnType, false, currentScope);
+
+        //for LLVM
+        if(currentScope.inClass){
+            node.isMember = true;
+            node.className = currentScope.classDefNode.className;
+
+        }
+
+
 
         //check return type
         if (!globalScope.hasClass(node.returnType.typeName) && !voidType.Match(node.returnType)) {

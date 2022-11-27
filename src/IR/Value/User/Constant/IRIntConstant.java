@@ -22,7 +22,7 @@ public class IRIntConstant extends IRConstant {
     }
 
 //    @Override
-    public String getIdentifier() {
+    public String toString() {
         return Integer.toString(constIntData);
     }
 

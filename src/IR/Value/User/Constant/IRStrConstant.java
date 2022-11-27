@@ -1,26 +1,34 @@
 package IR.Value.User.Constant;
 
 import IR.IRVisitor;
-import IR.Type.StringType;
+import IR.Type.ArrayType;
 import IR.Type.PointerType;
 
 public class IRStrConstant extends IRConstant {
     public String strConstData;
 
-    public IRStrConstant(String _strConstData) {
-        super(new PointerType(new StringType(INT8, _strConstData.length()),1));
+    public String strIdentifier;
+
+    public IRStrConstant(String _strIdentifier, String _strConstData) {
+        super(new PointerType(new ArrayType(INT8, _strConstData.length()+1)));
         this.strConstData = _strConstData;
+        this.strIdentifier = _strIdentifier;
     }
 
 
-//    @Override
-    public String getIdentifier() {
-        return "c\"" + strConstData
+    //    @Override
+    public String toString() {
+       return  "c\"" + strConstData
                 .replace("\n", "\\0A")
                 .replace("\0", "\\00")
                 .replace("\t", "\\09")
                 .replace("\"", "\\22")
                 + "\\00\"";
+
+    }
+
+    public String getIdentifier() {
+        return strIdentifier;
     }
 
     @Override

@@ -1,3 +1,12 @@
+
+int A = 100;
+
+class Test{};
+
+Test C;
+
+string B = "Hello";
+
 int main(){
     return 0;
 }
