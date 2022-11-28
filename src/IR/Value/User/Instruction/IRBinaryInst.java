@@ -7,8 +7,8 @@ import IR.Value.IRValue;
 public class IRBinaryInst extends IRInstruction {
     public String op;
 
-    public IRBinaryInst(String _op, BasicType _retType, IRValue _lhs, IRValue _rhs, IRBasicBlock _parentBlock) {
-        super(_op, _retType, _parentBlock);
+    public IRBinaryInst(String _valueName,String _op, BasicType _retType, IRValue _lhs, IRValue _rhs, IRBasicBlock _parentBlock) {
+        super(_valueName, _retType, _parentBlock);
         this.op = _op;
         this.addOperand(_lhs);
         this.addOperand(_rhs);

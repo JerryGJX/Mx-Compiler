@@ -8,8 +8,8 @@ import IR.Value.IRValue;
 public class IRGEPInst extends IRInstruction {
     public String elementName = null;
 
-    public IRGEPInst(String _elementName, IRValue _headPointer, BasicType _pointedType, IRBasicBlock _parentBlock, IRValue... indexes) {
-        super(_elementName + ".addr", _pointedType, _parentBlock);
+    public IRGEPInst(String _valueName, String _elementName, IRValue _headPointer, BasicType _pointedType, IRBasicBlock _parentBlock, IRValue... indexes) {
+        super(_valueName, _pointedType, _parentBlock);
         assert _headPointer.valueType instanceof PointerType;
         this.addOperand(_headPointer);
         for (IRValue index : indexes) {
@@ -18,8 +18,8 @@ public class IRGEPInst extends IRInstruction {
         this.elementName = _elementName;
     }
 
-    public IRGEPInst(IRValue _headPointer, BasicType _pointedType, IRBasicBlock _parentBlock, IRValue... indexes) {
-        super(LLVM_GEP_INST, _pointedType, _parentBlock);
+    public IRGEPInst(String _valueName,IRValue _headPointer, BasicType _pointedType, IRBasicBlock _parentBlock, IRValue... indexes) {
+        super(_valueName, _pointedType, _parentBlock);
         assert _headPointer.valueType instanceof PointerType;
         this.addOperand(_headPointer);
         for (IRValue index : indexes) {

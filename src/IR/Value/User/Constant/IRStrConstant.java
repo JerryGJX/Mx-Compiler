@@ -7,12 +7,11 @@ import IR.Type.PointerType;
 public class IRStrConstant extends IRConstant {
     public String strConstData;
 
-    public String strIdentifier;
+//    public String strIdentifier;
 
     public IRStrConstant(String _strIdentifier, String _strConstData) {
-        super(new PointerType(new ArrayType(INT8, _strConstData.length()+1)));
+        super(_strIdentifier,new PointerType(new ArrayType(INT8, _strConstData.length()+1)));
         this.strConstData = _strConstData;
-        this.strIdentifier = _strIdentifier;
     }
 
 
@@ -28,7 +27,7 @@ public class IRStrConstant extends IRConstant {
     }
 
     public String getIdentifier() {
-        return strIdentifier;
+        return this.valueName;
     }
 
     @Override

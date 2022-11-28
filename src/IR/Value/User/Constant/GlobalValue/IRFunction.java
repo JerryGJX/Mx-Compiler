@@ -57,7 +57,7 @@ public class IRFunction extends IRConstant {
 
     @Override
     public String getIdentifier() {
-        return null;
+        return GLOBAL_PREFIX + this.funcName;
     }
 
     public String toString() {
@@ -78,7 +78,6 @@ public class IRFunction extends IRConstant {
             ans.append(block.toString());
         }
         ans.append("}\n");
-
         return ans.toString();
     }
 

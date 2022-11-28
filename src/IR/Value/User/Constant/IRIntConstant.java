@@ -11,6 +11,11 @@ public class IRIntConstant extends IRConstant {
     }
 
     @Override
+    public String toString() {
+        return Integer.toString(constIntData);
+    }
+
+    @Override
     public boolean equals(IRConstant _IR_constant) {
         if(_IR_constant ==null){
             return false;
@@ -21,8 +26,8 @@ public class IRIntConstant extends IRConstant {
         }
     }
 
-//    @Override
-    public String toString() {
+    @Override
+    public String getIdentifier() {
         return Integer.toString(constIntData);
     }
 

@@ -25,15 +25,23 @@ public interface IRDefine {
     IRIntConstant MAIN_DEFAULT_RETURN = new IRIntConstant(0);
 
     String LLVM_ALLOCA_INST = "alloca";
-    String LLVM_LOAD_INST = "load";
-    String LLVM_STORE_INST = "store";
-    String LLVM_RET_INST = "ret";
-
-    String LLVM_GEP_INST = "getelementptr";
-
+    String LLVM_BITCAST_INST = "bitcast";
     String LLVM_BR_INST = "br";
+
+    String LLVM_CALL_INST = "call";
+    String LLVM_GEP_INST = "getelementptr";
+    String LLVM_ICMP_INST = "icmp";
+    String LLVM_LOAD_INST = "load";
+    String LLVM_RET_INST = "ret";
+    String LLVM_STORE_INST = "store";
+    String LLVM_TRUNC_INST = "trunc";
+    String LLVM_ZEXT_INST = "zext";
+
+
+    String LLVM_LABEL = "label";
 
     String NULLPTR_IDENTIFIER = "null";
 
     String LLVM_INIT_FUNCTION = "_init_func";
+    String LLVM_STRING_IDENTIFIER = "strConst";
 }

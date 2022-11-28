@@ -127,7 +127,7 @@ public class IRModule implements IRDefine {
         projectStr.append(GenerateComment("BuiltinFunc"));
         projectStr.append(GenerateComment("GlobalStrDef"));
         for (var strConstant : IRStrConstantMap.values()) {
-            var str = strConstant.strIdentifier + " = " + strConstant.valueType.toString() + " " + strConstant.toString() + ", align " + STRING_ALIGN;
+            var str = strConstant.getIdentifier() + " = " + strConstant.valueType.toString() + " " + strConstant.toString() + ", align " + STRING_ALIGN;
             projectStr.append(str).append("\n");
         }
 

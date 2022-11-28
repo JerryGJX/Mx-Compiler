@@ -17,7 +17,6 @@ import IR.Type.BasicType;
 import IR.Type.FunctionType;
 import IR.Type.StructType;
 import IR.Type.VoidType;
-import IR.Utils.Renamer;
 import IR.Value.IRBasicBlock;
 import IR.Value.IRDefine;
 import IR.Value.IRValue;
@@ -28,13 +27,13 @@ import IR.Value.User.Constant.IRIntConstant;
 import IR.Value.User.Constant.IRNullptrConstant;
 import IR.Value.User.Constant.IRStrConstant;
 import IR.Value.User.Instruction.*;
-import Utils.VarInfo;
 import Utils.scope.GlobalScope;
 import Utils.scope.IRGlobalScope;
 import Utils.scope.IRScope;
 
 import IR.Utils.TypeTransLater;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static IR.Utils.TypeTransLater.stringType;
@@ -48,7 +47,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
     public IRBasicBlock currentBlock;
 
 
-    public static HashMap<String,Integer> renameMap = new HashMap<>();
+    public static HashMap<String, Integer> renameMap = new HashMap<>();
 
     public static String rename(String _name) {
         if (renameMap.containsKey(_name)) {
@@ -60,149 +59,82 @@ public class IRBuilder implements ASTVisitor, IRDefine {
     }
 
 
-
-    //scope control
-    public void EnterClass(StructType _classTypeInfo) {
-        currentIRScope = new IRScope(true, _classTypeInfo, currentIRScope.inFunc, currentIRScope.currentIRFunction, false, null, null, currentIRScope);
-    }
-
-    public void ExitClass() {
-        currentIRScope = currentIRScope.parentScope;
-    }
-
-    public void EnterFunc(IRFunction _irFunctionInfo) {
-        currentIRScope = new IRScope(currentIRScope.inClass, currentIRScope.currentClassType, true, _irFunctionInfo, false, null, null, currentIRScope);
-    }
-
-    public void ExitFunc() {
-        currentIRScope = currentIRScope.parentScope;
-    }
-
-    public void EnterLoop(IRBasicBlock _loopExitBlock, IRBasicBlock _loopContinueBlock) {
-        currentIRScope = new IRScope(currentIRScope.inClass, currentIRScope.currentClassType, currentIRScope.inFunc, currentIRScope.currentIRFunction, true, _loopExitBlock, _loopContinueBlock, currentIRScope);
-    }
-
-    public void ExitLoop() {
-        currentIRScope = currentIRScope.parentScope;
-    }
-
-    //current info
-    public StructType CurClass() {
-        if (currentIRScope.inClass) return currentIRScope.currentClassType;
-        else return null;
-    }
-
-    public IRFunction CurFunc() {
-        if (currentIRScope.inFunc) return currentIRScope.currentIRFunction;
-        else return null;
-    }
-
-    public IRBasicBlock CurLoopExitBlock() {
-        if (currentIRScope.inLoop) return currentIRScope.loopExitBlock;
-        else return null;
-    }
-
-    public IRBasicBlock CurLoopContinueBlock() {
-        if (currentIRScope.inLoop) return currentIRScope.loopContinueBlock;
-        else return null;
-    }
-
-//    //renaming strategy
-//    private String GetLoadFromAddr(String _name) {
-//        Integer defTime = currentIRScope.GetIndexInCurrentScope(_name);
-//        if (defTime == null) throw new RuntimeException("[GetLoadFromAddr] Error: " + _name + " is not defined");
-//        var info = irGlobalScope.valNameToInfo.get(_name);
-//        if (info.isGlobal && defTime == 0) return GLOBAL_PREFIX + _name; // @valName
-//        else return LOCAL_PREFIX + _name + ".addr." + defTime.toString();// %valName.addr.defTime
-//    }
-//
-//    private String GetLoadToAddr(String _name, boolean _isRet) {
-//        if (_isRet) return LOCAL_PREFIX + _name + ".load";
-//        var info = irGlobalScope.valNameToInfo.get(_name);
-//        if (info == null) throw new RuntimeException("[GetLoadFromAddr] Error: " + _name + " is not defined");
-//        //warning
-//        info.loadTime++;
-//        return LOCAL_PREFIX + _name + ".load." + info.loadTime.toString();// %valName.load.loadTime
-//    }
-//
-//    private String GetStoreToAddr(String _name) {
-//        return GetLoadFromAddr(_name);
-//    }
-//
-//    private String GetVarAllocaAddr(String _name) {
-//        var info = irGlobalScope.valNameToInfo.get(_name);
-//        if (info == null) return LOCAL_PREFIX + _name + ".addr";// %valName.addr
-//        else return LOCAL_PREFIX + _name + ".addr." + info.defTime.toString();// %valName.addr.defTime
-//    }
-//
-//    private String GetStrIdentifier(String _str) {
-//        if (projectIRModule.IRStrConstantMap.containsKey(_str))
-//            return projectIRModule.IRStrConstantMap.get(_str).strIdentifier;
-//        else {
-//            String strId = GLOBAL_PREFIX + "strConst." + projectIRModule.IRStrConstantMap.size();
-//            var strConst = new IRStrConstant(strId, _str);
-//            projectIRModule.IRStrConstantMap.put(_str, strConst);
-//            return strId;
-//        }
-//    }
-//
-//    private void DefVarInScope(String _name) {
-//        if (currentIRScope.VarMap.containsKey(_name))
-//            throw new RuntimeException("Error: " + _name + " is already defined in current scope");
-//        if (!irGlobalScope.valNameToInfo.containsKey(_name))
-//            irGlobalScope.valNameToInfo.put(_name, new VarInfo(_name, 1, 0, false));
-//
-//        irGlobalScope.valNameToInfo.get(_name).defTime++;
-//        currentIRScope.VarMap.put(_name, irGlobalScope.valNameToInfo.get(_name).defTime);
-//    }//you should call this func each time define a variable in current scope
-
-    //globalVar init
-    private IRFunction GenerateInitFunc() {
-        FunctionType initFuncType = new FunctionType(new VoidType(), IRDefine.LLVM_INIT_FUNCTION);
-        IRFunction initFunc = new IRFunction("init", initFuncType, false);
-        initFunc.entryBlock = new IRBasicBlock(IRDefine.LLVM_INIT_FUNCTION + ".entry");
-        //construct func.exit block
-        initFunc.exitBlock = new IRBasicBlock(IRDefine.LLVM_INIT_FUNCTION + ".exit");
-        //jump to exit block
-        var brInst = new IRBrInst(initFunc.exitBlock, initFunc.entryBlock);
-        initFunc.entryBlock.AddTerminator(brInst);
-        //return void
-        var retInst = new IRRetInst(initFunc.returnType, null, initFunc.exitBlock);
-        initFunc.exitBlock.AddTerminator(retInst);
-        return initFunc;
-    }
-
     //inst generate
-//    private IRInstruction generateAllocInst(String _allocName, BasicType _allocType) {
-//        return new IRAllocaInst(GetVarAllocaAddr(_allocName), _allocType, CurFunc().entryBlock);
-//    }
-//
-//    private IRInstruction generateLoadInst(String _loadToAddr, boolean _isRet, IRValue _pointer, IRBasicBlock _parentBlock) {
-//        return new IRLoadInst(GetLoadToAddr(_loadToAddr, _isRet), _pointer.valueType, _pointer, _parentBlock);
-//    }
-//
-//    private IRInstruction generateStoreInst(IRValue _value, IRValue _destPtr, IRBasicBlock _parentBlock) {
-//        return new IRStoreInst(_value, _destPtr, _parentBlock);
-//    }
-//
-//    private IRInstruction generateRetInst(IRValue _retValue, IRBasicBlock _parentBlock) {
-//        if (_retValue == null) return new IRRetInst(new VoidType(), null, _parentBlock);
-//        return new IRRetInst(_retValue.valueType, _retValue, _parentBlock);
-//    }
-//
-//    private IRInstruction generateBrInst(IRBasicBlock _destBlock, IRBasicBlock _parentBlock) {
-//        return new IRBrInst(_destBlock, _parentBlock);
-//    }
-//
-//
-    private IRValue getNodeValue(ExpNode _node,String _nodeId, IRBasicBlock _currentBlock) {
-        if (((ExpNode) _node).irValue != null) return ((ExpNode) _node).irValue;
+    private IRInstruction generateAllocInst(String _allocName, BasicType _allocType) {
+        return new IRAllocaInst(rename(_allocName), _allocType, CurFunc().entryBlock);
+    }
+
+    private IRInstruction generateBinaryInst(String _op, BasicType _retType, IRValue _lhs, IRValue _rhs) {
+        return new IRBinaryInst(rename(_op), _op, _retType, _lhs, _rhs, currentBlock);
+    }
+
+    private IRInstruction generateBitCastInst(IRValue _fromValue, BasicType _targetType) {
+        return new IRBitCastInst(rename(LLVM_BITCAST_INST), _fromValue, _targetType, currentBlock);
+    }
+
+    private IRInstruction generateUnConBrInst(IRBasicBlock _destBlock, IRBasicBlock _parentBlock) {
+        return new IRBrInst(_destBlock, _parentBlock);
+    }
+
+    private IRInstruction generateConBrInst(IRValue _cond, IRBasicBlock _trueBlock, IRBasicBlock _falseBlock, IRBasicBlock _parentBlock) {
+        return new IRBrInst(_cond, _trueBlock, _falseBlock, _parentBlock);
+    }
+
+    private IRInstruction generateCallInst(IRFunction _calledFunc, BasicType _retType, ArrayList<IRValue> _args) {
+        if (_retType == null) throw new RuntimeException("return type is null");
+        if (_retType instanceof VoidType) return new IRCallInst(null, _calledFunc, _args, currentBlock);
+        else
+            return new IRCallInst(rename(_calledFunc.funcName + "." + LLVM_CALL_INST), _calledFunc, _args, currentBlock);
+    }
+
+    private IRInstruction generateNamedElementPtrInst(String _elementName, IRValue _headPtr, BasicType _pointedType, IRValue... indexes) {
+        return new IRGEPInst(rename(_elementName + ".addr"), _headPtr, _pointedType, currentBlock, indexes);
+    }
+
+    private IRInstruction generateUnnamedElementPtrInst(IRValue _headPtr, BasicType _pointedType, IRValue... indexes) {
+        return new IRGEPInst(rename(LLVM_GEP_INST), _headPtr, _pointedType, currentBlock, indexes);
+    }
+
+    private IRInstruction generateIcmpInst(String _op, IRValue _lhs, IRValue _rhs, IRBasicBlock _parentBlock) {
+        return new IRIcmpInst(rename(LLVM_ICMP_INST), _op, _lhs, _rhs, currentBlock);
+    }
+
+    private IRInstruction generateLoadInst(String _loadToAddr, IRValue _pointer, IRBasicBlock _parentBlock) {
+        return new IRLoadInst(rename(_loadToAddr), _pointer.valueType, _pointer, _parentBlock);
+    }
+
+    private IRInstruction generateRetInst(IRValue _retValue, IRBasicBlock _parentBlock) {
+        if (_retValue == null) return new IRRetInst(new VoidType(), null, _parentBlock);
+        return new IRRetInst(_retValue.valueType, _retValue, _parentBlock);
+    }
+
+    private IRInstruction generateStoreInst(IRValue _storeValue, IRValue _destPtr, IRBasicBlock _parentBlock) {
+        return new IRStoreInst(_storeValue, _destPtr, _parentBlock);
+    }
+
+    private IRInstruction generateTruncInst(IRValue _fromValue, BasicType _targetType) {
+        return new IRTruncInst(rename(LLVM_TRUNC_INST), _fromValue, _targetType, currentBlock);
+    }
+
+    private IRInstruction generateZextInst(IRValue _fromValue, BasicType _targetType) {
+        return new IRZextInst(rename(LLVM_ZEXT_INST), _fromValue, _targetType, currentBlock);
+    }
+
+    private IRStrConstant GetStrInfo(String _str){
+        if(projectIRModule.IRStrConstantMap.containsKey(_str)){
+            return projectIRModule.IRStrConstantMap.get(_str);
+        }
+        else{
+            IRStrConstant newStr = new IRStrConstant(rename(LLVM_STRING_IDENTIFIER),_str);
+            projectIRModule.IRStrConstantMap.put(_str, newStr);
+            return newStr;
+        }
+    }
+    private IRValue getNodeValue(ExpNode _node, String _nodeId, IRBasicBlock _currentBlock) {
+        if (_node.irValue != null) return ((ExpNode) _node).irValue;
         else {
-            if (_node instanceof IdExpNode) {
-                ((IdExpNode) _node).irValue = generateLoadInst(_nodeId, false, getNodePointer(_node), _currentBlock);
-                return ((ExpNode) _node).irValue;
-            } else
-                throw new RuntimeException("[getNodeValue] Error: " + _node.toString() + " is not a VarDefUnitNode or ExpNode");
+            _node.irValue = generateLoadInst(_nodeId, getNodePointer(_node), _currentBlock);
+            return _node.irValue;
         }
     }
 
@@ -273,7 +205,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             CurFunc().retValPtr = allocaInst;
             CurFunc().entryBlock.addInst(allocaInst);
 
-            var loadInst = generateLoadInst(funcName + ".ret", true, allocaInst, CurFunc().exitBlock);
+            var loadInst = generateLoadInst(funcName + ".ret", allocaInst, CurFunc().exitBlock);
             CurFunc().exitBlock.addInst(loadInst);
 
             var retInst = generateRetInst(loadInst, CurFunc().exitBlock);
@@ -282,7 +214,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             if (currentIRScope.currentIRFunction.funcName.equals("main")) {
                 var storeInst = generateStoreInst(MAIN_DEFAULT_RETURN, allocaInst, CurFunc().entryBlock);
                 CurFunc().entryBlock.addInst(storeInst);
-                var brInst = generateBrInst(CurFunc().exitBlock, CurFunc().entryBlock);
+                var brInst = generateUnConBrInst(CurFunc().exitBlock, CurFunc().entryBlock);
                 CurFunc().entryBlock.AddTerminator(brInst);
             }
         } else {
@@ -343,8 +275,8 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             node.irValue = new IRNullptrConstant();
         } else if (node instanceof StringExpNode) {
             String str = ((StringExpNode) node).value;
-            node.irValue = new IRGEPInst(new IRStrConstant(GetStrIdentifier(str), str),
-                    stringType, currentBlock, new IRIntConstant(0), new IRIntConstant(0));
+            var strConst = GetStrInfo(str);
+            node.irAddress = generateUnnamedElementPtrInst(strConst, stringType, new IRIntConstant(0), new IRIntConstant(0));
         } else if (node instanceof ThisExpNode) {
             node.irValue = currentIRScope.GetThis();
         }
@@ -487,4 +419,70 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         }
         ExitFunc();
     }
+
+
+    //scope control
+    public void EnterClass(StructType _classTypeInfo) {
+        currentIRScope = new IRScope(true, _classTypeInfo, currentIRScope.inFunc, currentIRScope.currentIRFunction, false, null, null, currentIRScope);
+    }
+
+    public void ExitClass() {
+        currentIRScope = currentIRScope.parentScope;
+    }
+
+    public void EnterFunc(IRFunction _irFunctionInfo) {
+        currentIRScope = new IRScope(currentIRScope.inClass, currentIRScope.currentClassType, true, _irFunctionInfo, false, null, null, currentIRScope);
+    }
+
+    public void ExitFunc() {
+        currentIRScope = currentIRScope.parentScope;
+    }
+
+    public void EnterLoop(IRBasicBlock _loopExitBlock, IRBasicBlock _loopContinueBlock) {
+        currentIRScope = new IRScope(currentIRScope.inClass, currentIRScope.currentClassType, currentIRScope.inFunc, currentIRScope.currentIRFunction, true, _loopExitBlock, _loopContinueBlock, currentIRScope);
+    }
+
+    public void ExitLoop() {
+        currentIRScope = currentIRScope.parentScope;
+    }
+
+    //current info
+    public StructType CurClass() {
+        if (currentIRScope.inClass) return currentIRScope.currentClassType;
+        else return null;
+    }
+
+    public IRFunction CurFunc() {
+        if (currentIRScope.inFunc) return currentIRScope.currentIRFunction;
+        else return null;
+    }
+
+    public IRBasicBlock CurLoopExitBlock() {
+        if (currentIRScope.inLoop) return currentIRScope.loopExitBlock;
+        else return null;
+    }
+
+    public IRBasicBlock CurLoopContinueBlock() {
+        if (currentIRScope.inLoop) return currentIRScope.loopContinueBlock;
+        else return null;
+    }
+
+
+    //globalVar init
+    private IRFunction GenerateInitFunc() {
+        FunctionType initFuncType = new FunctionType(new VoidType(), IRDefine.LLVM_INIT_FUNCTION);
+        IRFunction initFunc = new IRFunction("init", initFuncType, false);
+        initFunc.entryBlock = new IRBasicBlock(IRDefine.LLVM_INIT_FUNCTION + ".entry");
+        //construct func.exit block
+        initFunc.exitBlock = new IRBasicBlock(IRDefine.LLVM_INIT_FUNCTION + ".exit");
+        //jump to exit block
+        var brInst = new IRBrInst(initFunc.exitBlock, initFunc.entryBlock);
+        initFunc.entryBlock.AddTerminator(brInst);
+        //return void
+        var retInst = new IRRetInst(initFunc.returnType, null, initFunc.exitBlock);
+        initFunc.exitBlock.AddTerminator(retInst);
+        return initFunc;
+    }
+
+
 }

@@ -26,6 +26,10 @@ public abstract class IRUser extends IRValue {
         return operandList.get(_index);
     }
 
+    public int operandSize() {
+        return operandList.size();
+    }
+
     public void addUse(IRValue _val){
         IRUse.addUse(this, _val);
     }
