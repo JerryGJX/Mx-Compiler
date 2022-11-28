@@ -267,6 +267,9 @@ public class IRBuilder implements ASTVisitor, IRDefine {
                 if (currentIRScope.inClass) funcName = currentIRScope.currentClassType.classId + "." + funcName;
                 node.irValue = projectIRModule.IRFunctionMap.get(funcName);
             } else {
+                if(((IdExpNode) node).isMember){
+                    if(currentIRScope.inClass){}
+                }
 
             }
         } else if (node instanceof IntExpNode) {

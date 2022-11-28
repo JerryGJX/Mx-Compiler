@@ -2,18 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBitCastInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/IRDefine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRDefine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/IRUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/IRUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBinaryInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBinaryInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBitcastInst.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBrInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBrInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRCallInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRCallInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRGEPInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRGEPInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRIcmpInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRIcmpInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRTruncInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRTruncInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -117,7 +105,7 @@
       <workItem from="1669291631160" duration="87428000" />
       <workItem from="1669607346973" duration="10330000" />
       <workItem from="1669633219812" duration="7780000" />
-      <workItem from="1669644605143" duration="8147000" />
+      <workItem from="1669644605143" duration="11193000" />
     </task>
     <servers />
   </component>

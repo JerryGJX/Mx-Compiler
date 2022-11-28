@@ -6,6 +6,9 @@ import Utils.Position;
 public class IdExpNode extends AtomExpNode {
     public String id;
 
+    //for LLVM
+    public boolean isMember = false;
+
     public IdExpNode(String _id, Position _nodePos) {
         super(_nodePos);
         this.id = _id;

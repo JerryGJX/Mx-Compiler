@@ -564,6 +564,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
                 node.base.exprType = currentScope.getVarDef(((IdExpNode) node.base).id).varType;
                 //for LLVM
                 node.base.exprType.isFunction = false;
+
             } else {
                 throw new semanticError("Variable " + ((IdExpNode) node.base).id + " is not defined", node.nodePos);
             }
