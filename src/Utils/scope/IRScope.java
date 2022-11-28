@@ -3,8 +3,8 @@ package Utils.scope;
 import IR.Type.StructType;
 import IR.Value.IRBasicBlock;
 import IR.Value.IRDefine;
+import IR.Value.IRValue;
 import IR.Value.User.Constant.GlobalValue.IRFunction;
-import Utils.VarInfo;
 
 import java.util.HashMap;
 
@@ -81,5 +81,13 @@ public class IRScope implements IRDefine {
                 return null;
             }
         }
+    }
+
+
+    public IRValue GetThis(){
+        if (!inFunc || !inClass) {
+            throw new RuntimeException("this expression must be in a class function");
+        }
+        return currentIRFunction.argVarList.get(0);
     }
 }

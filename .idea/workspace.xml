@@ -2,39 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/IR/Utils/Renamer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/IR/Utils/TypeTransLater.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AST/node/abstractNode/ExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/node/abstractNode/ExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AST/node/concretNode/ClassDefNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/node/concretNode/ClassDefNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AST/node/concretNode/ConstructorDefNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/node/concretNode/ConstructorDefNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AST/node/concretNode/FuncDefNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/node/concretNode/FuncDefNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AST/typeNode/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/typeNode/Type.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FrontEnd/SemanticChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/SemanticChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AST/node/concretNode/stmtNode/VarDefUnitNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/node/concretNode/stmtNode/VarDefUnitNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/IRModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/IRModule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Type/BasicType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/BasicType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Type/PointerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/PointerType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Type/StringType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/ArrayType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Type/StructType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/StructType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Type/VoidType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/VoidType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Type/ArrayType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/ArrayType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Value/IRBasicBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRBasicBlock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Value/IRDefine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRDefine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/IRUse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRUse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/IRValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRValue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/GlobalVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/GlobalVariable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRBoolConst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRBoolConst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRIntConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRIntConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRNullptrConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRNullptrConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRStrConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRStrConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRZeroInitConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRZeroInitConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/IRUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/IRUser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRAllocaInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRAllocaInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBinaryInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBinaryInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBrInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBrInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRGEPInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRGEPInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRInstruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRInstruction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRLoadInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRLoadInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRRetInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRRetInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Utils/scope/IRScope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/scope/IRScope.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/IRTest/test.mx" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/IRTest/test.mx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,21 +72,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;19&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Users/JXGuo/OneDrive/studying materials/computer related/compiler_design/myCompiler/reference/Masterball-main&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.ApplicationConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "19",
+    "last_opened_file_path": "D:/Users/JXGuo/OneDrive/studying materials/computer related/compiler_design/myCompiler/Mx-Compiler",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.ApplicationConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="PrintAndDebug" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test.IR.PrintAndDebug" />
@@ -134,7 +125,9 @@
       <workItem from="1669044617028" duration="14895000" />
       <workItem from="1669182216421" duration="2721000" />
       <workItem from="1669199143478" duration="14509000" />
-      <workItem from="1669291631160" duration="81209000" />
+      <workItem from="1669291631160" duration="87428000" />
+      <workItem from="1669607346973" duration="10330000" />
+      <workItem from="1669633219812" duration="5073000" />
     </task>
     <servers />
   </component>

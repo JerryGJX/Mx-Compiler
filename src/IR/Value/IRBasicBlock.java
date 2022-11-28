@@ -35,10 +35,10 @@ public class IRBasicBlock extends IRValue {
     }
 
     public String toString() {
-        StringBuilder ans = new StringBuilder("\n" + this.blockName + ":\n");
-        for (IRInstruction inst : instList) ans.append("    ").append(inst.toString()).append("\n");
+        StringBuilder ans = new StringBuilder(this.blockName + ":\n");
+        for (IRInstruction inst : instList) ans.append("    ").append(inst.printInst()).append("\n");
         if (terminator == null) throw new Error("[IRBasicBlock] " + this.blockName + ": with out terminator instruction");
-        ans.append("    ").append(terminator.toString()).append("\n");
+        ans.append("    ").append(terminator.printInst()).append("\n");
         return ans.toString();
     }
 

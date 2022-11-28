@@ -7,13 +7,13 @@ import IR.Value.IRBasicBlock;
 public class IRBrInst extends IRInstruction {
     public IRBasicBlock targetBlock;
 
-    public IRBrInst(IRBasicBlock _targetBlock) {
-        super(LLVM_BR_INST,new VoidType());
+    public IRBrInst(IRBasicBlock _targetBlock, IRBasicBlock _parentBlock) {
+        super(LLVM_BR_INST,new VoidType(),_parentBlock);
         this.targetBlock = _targetBlock;
     }
 
     @Override
-    public String toString() {
+    public String printInst() {
         return "br label %" + targetBlock.GetBlockName();
     }
 }

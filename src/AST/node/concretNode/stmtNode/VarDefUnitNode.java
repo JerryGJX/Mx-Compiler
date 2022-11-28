@@ -5,6 +5,7 @@ import AST.node.abstractNode.ExpNode;
 import AST.node.abstractNode.StmtNode;
 import AST.typeNode.Type;
 import AST.typeNode.VarTypeNode;
+import IR.Value.IRValue;
 import Utils.Position;
 
 public class VarDefUnitNode extends StmtNode {
@@ -12,6 +13,9 @@ public class VarDefUnitNode extends StmtNode {
     public String varName;
     public Boolean isGlobal;
     public ExpNode initValue;
+
+    public IRValue irValue;    //int or register
+    public IRValue irAddress;  //xxx.addr, InstAlloc, InstGetElementPtr
 
 
     public VarDefUnitNode(Type _varType, String _varName, Boolean _isGlobal, Position _nodePos) {

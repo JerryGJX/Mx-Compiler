@@ -7,7 +7,7 @@ import IR.Value.IRValue;
 import java.util.ArrayList;
 
 public abstract class IRUser extends IRValue {
-    public ArrayList<IRUse> operandList = new ArrayList<>();
+    public ArrayList<IRValue> operandList = new ArrayList<>();
 
     public IRUser(BasicType _basicType) {
         super(_basicType);
@@ -17,10 +17,17 @@ public abstract class IRUser extends IRValue {
         super(_valueName, _basicType);
     }
 
+    public void addOperand(IRValue _IRValue) {
+        operandList.add(_IRValue);
+        IRUse.addUse(this, _IRValue);
+    }
+
+    public IRValue getOperand(int _index) {
+        return operandList.get(_index);
+    }
+
     public void addUse(IRValue _val){
-        IRUse _IR_use = new IRUse(this,_val);
-        this.operandList.add(_IR_use);
-        _val.IRUseList.add(_IR_use);
+        IRUse.addUse(this, _val);
     }
 
 }

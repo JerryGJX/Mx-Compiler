@@ -11,5 +11,11 @@ public class IRUse {
         this.IRValue = IRValue;
     }
 
+    public static void addUse(IRUser _IRUser, IRValue _IRValue) {
+        IRUse IRUse = new IRUse(_IRUser, _IRValue);
+        _IRValue.IRUseList.add(IRUse);
+        _IRUser.IRUseList.add(IRUse);
+    }
+
 
 }

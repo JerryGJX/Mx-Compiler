@@ -12,6 +12,8 @@ public abstract class ExpNode extends ASTNode {
 
     public IRValue irValue;    //int or register
     public IRValue irAddress;  //xxx.addr, InstAlloc, InstGetElementPtr
+    //for LLVM renaming
+//    public String identifier;
 
     public ExpNode(Position _nodePos) {
         super(_nodePos);

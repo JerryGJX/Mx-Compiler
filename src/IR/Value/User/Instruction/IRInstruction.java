@@ -12,10 +12,12 @@ public abstract class IRInstruction extends IRUser {
     public IRBasicBlock parentBlock;
     public ArrayList<IRValue> OperandList = new ArrayList<>();
 
-    public IRInstruction(String _valueName, BasicType _valueType){
+    public IRInstruction(String _valueName, BasicType _valueType, IRBasicBlock _parentBlock) {
         super(_valueName,_valueType);
+        this.parentBlock = _parentBlock;
     }
-    public abstract String toString();
+
+    public abstract String printInst();
     public void accept(IRVisitor _visitor) {
         _visitor.visit(this);
     }

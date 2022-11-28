@@ -9,17 +9,14 @@ public class IRAllocaInst extends IRInstruction {
     public BasicType allocaType;
 
     public IRAllocaInst(String _allocaName, BasicType _allocaType, IRBasicBlock _parentBlock) {
-        super(_allocaName,new PointerType(_allocaType));
+        super(_allocaName,new PointerType(_allocaType),_parentBlock);
         this.allocaName = _allocaName;
         this.allocaType = _allocaType;
-        this.parentBlock = _parentBlock;
     }
 
     @Override
-    public String toString() {
-        return allocaName + " = " + LLVM_ALLOCA_INST + " " +
+    public String printInst() {
+        return this.getIdentifier() + " = " + LLVM_ALLOCA_INST + " " +
                 this.allocaType + ", align " + this.allocaType.size();
     }
-
-
 }

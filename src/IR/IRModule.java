@@ -17,6 +17,8 @@ import java.util.HashMap;
 
 public class IRModule implements IRDefine {
     public String fileName;
+
+    public IRFunction initFunc;
     public HashMap<String, IRFunction> IRFunctionMap = new HashMap<>();
     private final HashMap<String, StructType> structTypeMap = new HashMap<>();
     public HashMap<String, ClassDefNode> classDefNodeMap = new HashMap<>();
@@ -29,7 +31,9 @@ public class IRModule implements IRDefine {
         this.fileName = _fileName;
     }
 
-    public void Init(GlobalScope _globalScope) {
+    public void Init(GlobalScope _globalScope, IRFunction _initFunc) {
+        this.initFunc = _initFunc;
+
         //建立类
         _globalScope.classTable.forEach((name, classDefNode) -> {
             if (!name.equals("int") && !name.equals("bool") && !name.equals("string")) {
@@ -61,7 +65,7 @@ public class IRModule implements IRDefine {
         });
         //add global variable
         _globalScope.varTable.forEach((name, varDefUnitNode) -> {
-            IRGlobalVariableMap.put(name, new GlobalVariable(typeTransLater.TranslateVarType(varDefUnitNode.varType), name, null));
+            IRGlobalVariableMap.put(name, new GlobalVariable(name, typeTransLater.TranslateVarType(varDefUnitNode.varType)));
         });
     }
 
@@ -72,7 +76,7 @@ public class IRModule implements IRDefine {
     public StructType TranslateByString(String _className) {
         if (structTypeMap.containsKey(_className)) {
             return structTypeMap.get(_className);
-        }else throw new RuntimeException("[TranslateByString] " + "className: " + _className + " not found");
+        } else throw new RuntimeException("[TranslateByString] " + "className: " + _className + " not found");
     }
 
     public IRFunction transFuncDef(FuncDefNode _funcDefNode, boolean _isMemberFunc, String _className, boolean _isBuiltIn) {
@@ -98,7 +102,6 @@ public class IRModule implements IRDefine {
     }
     //注：默认构造已经在semantic中加入了
 
-
     public Integer GetMemberVarRank(String _className, String _memberVarName) {
         var classDefNode = classDefNodeMap.get(_className);
         Integer rank = 0;
@@ -110,11 +113,9 @@ public class IRModule implements IRDefine {
         throw new RuntimeException("GetMemberVarRank error");
     }
 
-
     public String toString() {
         return "";
     }
-
 
     String GenerateComment(String _comment) {
         return "\n; " + _comment + "\n";
@@ -143,7 +144,7 @@ public class IRModule implements IRDefine {
         }
 
         projectStr.append(GenerateComment("GlobalFunc"));
-        var mainFunc = IRFunctionMap.get("main");
+        projectStr.append(initFunc.toString()).append("\n");
         for (var func : IRFunctionMap.values()) {
             if (func.isBuiltIn || func.funcName.equals("main")) continue;
             //todo
@@ -151,6 +152,7 @@ public class IRModule implements IRDefine {
         }
 
         projectStr.append(GenerateComment("MainFunc"));
+        var mainFunc = IRFunctionMap.get("main");
         projectStr.append(mainFunc.toString()).append("\n");
 
         System.out.println(projectStr.toString());

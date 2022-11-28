@@ -1,26 +1,26 @@
 package IR.Type;
 
-public class ArrayType extends StructType { //stringType
+public class ArrayType extends BasicType { //stringType
     public BasicType baseType;
     public int length;
 
     public ArrayType(BasicType _baseType, int _length) {
-        super("string");
+//        super("string");
         this.baseType = _baseType;
         this.length = _length;
     }
 
     @Override
     public String toString() {
-        return "[" + length + " x " + baseType.toString() + "]";
+        return "[" + length + " x " + baseType + "]";
     }
 
     public boolean equals(BasicType other) {
        return false;
     }
 
-    @Override
+    @Override //align size
     public int size() {
-        return baseType.size() * length;
+        return baseType.size();
     }
 }

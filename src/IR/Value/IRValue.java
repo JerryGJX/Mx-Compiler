@@ -2,10 +2,13 @@ package IR.Value;
 
 import IR.IRVisitor;
 import IR.Type.BasicType;
+import IR.Value.User.IRUser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class IRValue implements IRDefine {
+
     public String valueName;
     public BasicType valueType;
 
@@ -17,13 +20,15 @@ public class IRValue implements IRDefine {
         valueType = _basicType;
     }
 
-    public IRValue(String _valueName, BasicType _basicType) {
-        valueName = _valueName;
+    public IRValue(String _rawName, BasicType _basicType) {
+        valueName = _rawName;
         valueType = _basicType;
     }
 
+
+
     public String getIdentifier(){
-      return valueName;
+      return LOCAL_PREFIX + valueName;
     };
 
 }

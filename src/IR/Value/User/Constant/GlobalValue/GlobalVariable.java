@@ -8,40 +8,28 @@ import IR.Value.User.Constant.IRConstant;
 
 public class GlobalVariable extends IRConstant {
     public IRValue initIRValue;
-    public String varName;
 
-//    public boolean isGlobal = false;
-
-    public GlobalVariable(BasicType _basicType, String _varName, IRValue _initIRValue) {
-        super(_basicType);
-        this.varName = _varName;
-//        this.isGlobal = _isGlobal;
-        this.initIRValue = _initIRValue;
+    public int dimSize = 0;
+    public GlobalVariable(String _varName, BasicType _basicType) {
+        super(_varName,_basicType);
     }
-
-
     public String toString() {
-        return GLOBAL_PREFIX + this.varName;
+        return GLOBAL_PREFIX + this.valueName;
     }
-
-
     @Override
     public String getIdentifier() {
-        return GLOBAL_PREFIX + this.varName;
+        return GLOBAL_PREFIX + this.valueName;
     }
-
-
     @Override
     public boolean equals(IRConstant _IR_constant) {
         if (_IR_constant == null) {
             return false;
         } else {
             if (_IR_constant instanceof GlobalVariable) {
-                return this.varName.equals(((GlobalVariable) _IR_constant).varName);
+                return this.valueName.equals(((GlobalVariable) _IR_constant).valueName);
             } else return false;
         }
     }
-
 
     public void accept(IRVisitor _visitor) {
         _visitor.visit(this);

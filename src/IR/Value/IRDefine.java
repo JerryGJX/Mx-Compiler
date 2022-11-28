@@ -29,7 +29,11 @@ public interface IRDefine {
     String LLVM_STORE_INST = "store";
     String LLVM_RET_INST = "ret";
 
+    String LLVM_GEP_INST = "getelementptr";
+
     String LLVM_BR_INST = "br";
 
     String NULLPTR_IDENTIFIER = "null";
+
+    String LLVM_INIT_FUNCTION = "_init_func";
 }
