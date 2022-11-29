@@ -2,16 +2,18 @@ package IR.Utils;
 
 import AST.typeNode.Type;
 import IR.Type.*;
+import IR.Value.IRDefine;
 
 import java.util.HashMap;
 
-public class TypeTransLater {
-    public static final BasicType stringType = new PointerType(new IntegerType(8));
-
-    public static final BasicType i32Type = new IntegerType(32);
-    public static final BasicType boolType = new BoolType();
-    public static final BasicType allocBoolType = new IntegerType(8);
-    public static final BasicType voidType = new VoidType();
+public class TypeTransLater implements IRDefine {
+//    public static final BasicType INT8 = new IntegerType(8);
+//    public static final BasicType INT32 = new IntegerType(32);
+//    public static final BasicType INT64 = new IntegerType(64);
+//    public static final BasicType stringType = new PointerType(new IntegerType(8));
+//    public static final BasicType boolType = new BoolType();
+//    public static final BasicType allocBoolType = new IntegerType(8);
+//    public static final BasicType voidType = new VoidType();
 
     private final HashMap<String, StructType> typeMap;
 
@@ -21,7 +23,7 @@ public class TypeTransLater {
     }
     public BasicType TransLateBuiltinType(Type _astType) {
         return switch (_astType.typeName) {
-            case "int" -> i32Type;
+            case "int" -> INT32;
             case "bool" -> boolType;
             case "string" -> stringType;
             case "void" -> voidType;

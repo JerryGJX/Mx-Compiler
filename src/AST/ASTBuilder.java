@@ -416,7 +416,10 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
         } else if (ctx.atomExpression().IntegerConstant() != null) {
             return new IntExpNode(Integer.parseInt(ctx.atomExpression().IntegerConstant().getText()), new Position(ctx.atomExpression()));
         } else if (ctx.atomExpression().StringConstant() != null) {
-            return new StringExpNode(ctx.atomExpression().StringConstant().getText(), new Position(ctx.atomExpression()));
+            //change
+            String str = ctx.atomExpression().StringConstant().getText();
+            str = str.substring(1, str.length() - 1);
+            return new StringExpNode(str, new Position(ctx.atomExpression()));
         } else if (ctx.atomExpression().TrueConstant() != null) {
             return new BoolExpNode(Boolean.parseBoolean(ctx.atomExpression().TrueConstant().getText()), new Position(ctx.atomExpression()));
         } else if (ctx.atomExpression().FalseConstant() != null) {

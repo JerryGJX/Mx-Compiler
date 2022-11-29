@@ -17,7 +17,6 @@ import java.util.HashMap;
 
 public class IRModule implements IRDefine {
     public String fileName;
-
     public IRFunction initFunc;
     public HashMap<String, IRFunction> IRFunctionMap = new HashMap<>();
     private final HashMap<String, StructType> structTypeMap = new HashMap<>();
@@ -113,6 +112,15 @@ public class IRModule implements IRDefine {
         throw new RuntimeException("GetMemberVarRank error");
     }
 
+    public BasicType GetMemberVarType(String _className, String _memberVarName) {
+        var classDefNode = classDefNodeMap.get(_className);
+        for (var memberVarName : classDefNode.memberVarNameList) {
+            if (memberVarName.equals(_memberVarName))
+                return TranslateVarType(classDefNode.memberVarMap.get(memberVarName).varType);
+        }
+        throw new RuntimeException("GetMemberVarType error");
+    }
+
     public String toString() {
         return "";
     }
@@ -133,7 +141,7 @@ public class IRModule implements IRDefine {
 
         projectStr.append(GenerateComment("GlobalVar"));
         for (var globalVar : IRGlobalVariableMap.values()) {
-            var str = globalVar.getIdentifier() + " = global " + globalVar.valueType.toString() + " " + new IRZeroInitConstant(globalVar.valueType).toString() + ", align " + POINTER_SIZE;
+            var str = globalVar.getIdentifier() + " = global " + globalVar.pointedType().toString() + " " + new IRZeroInitConstant(globalVar.pointedType()).toString() + ", align " + POINTER_SIZE;
             projectStr.append(str).append("\n");
         }
 

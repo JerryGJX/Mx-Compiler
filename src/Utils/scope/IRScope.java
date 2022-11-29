@@ -9,7 +9,20 @@ import IR.Value.User.Constant.GlobalValue.IRFunction;
 import java.util.HashMap;
 
 public class IRScope implements IRDefine {
-    public HashMap<String, Integer> VarMap = new HashMap<>();//记录当前scope下定义的var是第几次定义的（为了及编号）
+    public static class VarInfo{
+        String rawName;
+        Integer index;
+        boolean isGlobal;
+        public VarInfo(String _rawName,Integer _index,boolean _isGlobal){
+            rawName = _rawName;
+            index = _index;
+            isGlobal = _isGlobal;
+        }
+        public String VarId(){
+            return rawName + index.toString();
+        }
+    }
+    public HashMap<String, VarInfo> VarInfoMap = new HashMap<>();//记录当前scope下定义的var的id (e.g. A-> A.1)
 
 //    IRGlobalScope irGlobalScope;
 
@@ -61,28 +74,17 @@ public class IRScope implements IRDefine {
         parentScope = _parentScope;
     }
 
-
-    public void Init(IRGlobalScope _irGlobalScope) {
-//        this.irGlobalScope = _irGlobalScope;
-        _irGlobalScope.valNameToInfo.forEach((name, info) -> {
-            VarMap.put(name, info.defTime);
-        });
-    }
-
-
-
-    public Integer GetIndexInCurrentScope(String _name) {
-        if (VarMap.containsKey(_name)) {
-            return VarMap.get(_name);
+    public VarInfo GetVarInfo(String _rawName) {
+        if (VarInfoMap.containsKey(_rawName)) {
+            return VarInfoMap.get(_rawName);
         } else {
             if (parentScope != null) {
-                return parentScope.GetIndexInCurrentScope(_name);
+                return parentScope.GetVarInfo(_rawName);
             } else {
                 return null;
             }
         }
     }
-
 
     public IRValue GetThis(){
         if (!inFunc || !inClass) {

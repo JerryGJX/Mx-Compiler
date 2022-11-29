@@ -2,6 +2,7 @@ package IR.Value.User.Constant;
 
 import IR.IRVisitor;
 import IR.Type.ArrayType;
+import IR.Type.IntegerType;
 import IR.Type.PointerType;
 
 public class IRStrConstant extends IRConstant {
@@ -10,14 +11,14 @@ public class IRStrConstant extends IRConstant {
 //    public String strIdentifier;
 
     public IRStrConstant(String _strIdentifier, String _strConstData) {
-        super(_strIdentifier,new PointerType(new ArrayType(INT8, _strConstData.length()+1)));
+        super(_strIdentifier, new PointerType(new ArrayType(INT8, _strConstData.length() + 1)));
         this.strConstData = _strConstData;
     }
 
 
     //    @Override
     public String toString() {
-       return  "c\"" + strConstData
+        return "c\"" + strConstData
                 .replace("\n", "\\0A")
                 .replace("\0", "\\00")
                 .replace("\t", "\\09")
@@ -27,7 +28,7 @@ public class IRStrConstant extends IRConstant {
     }
 
     public String getIdentifier() {
-        return this.valueName;
+        return GLOBAL_PREFIX + this.valueName;
     }
 
     @Override

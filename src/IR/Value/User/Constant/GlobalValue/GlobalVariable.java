@@ -5,16 +5,22 @@ import IR.Type.BasicType;
 import IR.Type.PointerType;
 import IR.Value.IRValue;
 import IR.Value.User.Constant.IRConstant;
+import IR.Value.User.Constant.IRZeroInitConstant;
 
 public class GlobalVariable extends IRConstant {
-    public IRValue initIRValue;
+    public IRValue initIRValue = null;
 
     public int dimSize = 0;
     public GlobalVariable(String _varName, BasicType _basicType) {
-        super(_varName,_basicType);
+        super(_varName,new PointerType(_basicType));
+        initIRValue = new IRZeroInitConstant(_basicType);
     }
     public String toString() {
         return GLOBAL_PREFIX + this.valueName;
+    }
+
+    public BasicType pointedType(){
+        return ((PointerType) this.valueType).baseType;
     }
     @Override
     public String getIdentifier() {

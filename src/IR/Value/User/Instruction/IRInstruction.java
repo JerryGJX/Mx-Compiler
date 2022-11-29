@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public abstract class IRInstruction extends IRUser {
     public IRBasicBlock parentBlock;
-    public ArrayList<IRValue> OperandList = new ArrayList<>();
 
     public IRInstruction(String _valueName, BasicType _valueType, IRBasicBlock _parentBlock) {
         super(_valueName,_valueType);

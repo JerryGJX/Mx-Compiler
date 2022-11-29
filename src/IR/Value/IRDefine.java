@@ -1,14 +1,19 @@
 package IR.Value;
 
 import FrontEnd.BuiltInElements;
-import IR.Type.IntegerType;
+import IR.Type.*;
 import IR.Value.User.Constant.IRIntConstant;
 
 public interface IRDefine {
-    IntegerType INT8 = new IntegerType(8);
-    IntegerType INT16 = new IntegerType(16);
-    IntegerType INT32 = new IntegerType(32);
-    IntegerType INT64 = new IntegerType(64);
+
+    BasicType INT8 = new IntegerType(8);
+    BasicType INT32 = new IntegerType(32);
+    BasicType INT64 = new IntegerType(64);
+    BasicType stringType = new PointerType(new IntegerType(8));
+    BasicType boolType = new BoolType();
+    BasicType allocBoolType = new IntegerType(8);
+    BasicType voidType = new VoidType();
+
 
     Integer POINTER_SIZE = 4;//risc-v 32
 

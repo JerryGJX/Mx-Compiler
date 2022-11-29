@@ -1,6 +1,7 @@
 package IR.Value.User.Constant;
 
 import IR.IRVisitor;
+import IR.Value.IRDefine;
 
 public class IRIntConstant extends IRConstant {
     public int constIntData;
