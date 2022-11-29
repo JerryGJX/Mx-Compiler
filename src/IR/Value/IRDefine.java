@@ -11,7 +11,7 @@ public interface IRDefine {
     BasicType INT64 = new IntegerType(64);
     BasicType stringType = new PointerType(new IntegerType(8));
     BasicType boolType = new BoolType();
-    BasicType allocBoolType = new IntegerType(8);
+//    BasicType allocBoolType = new IntegerType(8);
     BasicType voidType = new VoidType();
 
 

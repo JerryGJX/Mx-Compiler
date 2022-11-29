@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/IR/Type/memBoolType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AST/ASTBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/ASTBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AST/node/abstractNode/ExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/node/abstractNode/ExpNode.java" afterDir="false" />
@@ -102,7 +103,7 @@
       <workItem from="1669644605143" duration="15233000" />
       <workItem from="1669700944461" duration="532000" />
       <workItem from="1669701558318" duration="95000" />
-      <workItem from="1669709167703" duration="16734000" />
+      <workItem from="1669709167703" duration="25156000" />
     </task>
     <servers />
   </component>

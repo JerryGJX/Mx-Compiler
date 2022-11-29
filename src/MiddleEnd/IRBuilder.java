@@ -32,7 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static IR.Utils.TypeTransLater.allocBoolType;
+import static AST.node.concretNode.expNode.BinaryExpNode.BinaryOp.*;
+//import static IR.Utils.TypeTransLater.allocBoolType;
 import static IR.Utils.TypeTransLater.stringType;
 
 public class IRBuilder implements ASTVisitor, IRDefine {
@@ -104,10 +105,13 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         if (_node.irValue == null) {
             if (_node.irAddress == null) throw new RuntimeException("We know nothing about this node");
             _node.irValue = generateLoadInst(rename(_node.llvmName), Objects.requireNonNull(getNodePointer(_node)), currentBlock);
+            currentBlock.addInst((IRInstruction) _node.irValue);
+            if (_node.irValue.valueType instanceof memBoolType) _node.irValue = i8Toi1(_node.irValue);
+            return _node.irValue;
         }
         if (_node.irValue instanceof IRInstruction) currentBlock.addInst((IRInstruction) _node.irValue);
-        if (_node.irValue.valueType instanceof BoolType) {
-            var zextInst = generateZextInst(_node.irValue, allocBoolType);
+        if (_node.irValue.valueType instanceof memBoolType) {
+            throw new RuntimeException("getExpNodeValue: memBoolType");
         }
         return _node.irValue;
     }
@@ -231,7 +235,12 @@ public class IRBuilder implements ASTVisitor, IRDefine {
 
     @Override
     public void visit(AssignExpNode node) {
-
+        node.lhs.accept(this);
+        node.rhs.accept(this);
+        var lhsPtr = getNodePointer(node.lhs);
+        var rhsValue = getExpNodeValue(node.rhs);
+        var storeInst = generateStoreInst(rhsValue, lhsPtr, currentBlock);
+        currentBlock.addInst(storeInst);
     }
 
     @Override
@@ -261,9 +270,77 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         }
     }
 
+
+    private static class OpInfo {
+        String opInfo;
+        String instName;
+
+        public OpInfo(String _opInfo, String _instName) {
+            opInfo = _opInfo;
+            instName = _instName;
+        }
+    }
+
+    private OpInfo BinaryOpTransfer(BinaryExpNode.BinaryOp _op) {
+        return switch (_op) {
+            case PlusOp -> new OpInfo("add", "add");
+            case MinusOp -> new OpInfo("sub", "sub");
+            case MulOp -> new OpInfo("mul", "mul");
+            case DivOp -> new OpInfo("sdiv", "sdiv");
+            case ModOp -> new OpInfo("srem", "srem");
+
+
+            //icmp + zext
+            case GreaterOp -> new OpInfo("ugt", "icmp");
+            case LessOp -> new OpInfo("ult", "icmp");
+            case GreaterEqualOp -> new OpInfo("uge", "icmp");
+            case LessEqualOp -> new OpInfo("ule", "icmp");
+            case NotEqualOp -> new OpInfo("ne", "icmp");
+            case EqualOp -> new OpInfo("eq", "icmp");
+
+            //generate shortcut
+            case LogicAndOp -> new OpInfo("and", "logic");
+            case LogicOrOp -> new OpInfo("or", "logic");
+
+
+            case BitAndOp -> new OpInfo("and", "and");
+            case BitXorOp -> new OpInfo("xor", "xor");
+            case BitOrOp -> new OpInfo("or", "or");
+            case LeftShiftOp -> new OpInfo("shl", "shl");
+            case RightShiftOp -> new OpInfo("ashr", "ashr");
+
+            default -> throw new RuntimeException("[BinaryOpTransfer] Error: unknown binary op");
+        };
+    }
+
     @Override
     public void visit(BinaryExpNode node) {
+        node.lhs.accept(this);
+        node.rhs.accept(this);
+        var lhsValue = getExpNodeValue(node.lhs);
+        var rhsValue = getExpNodeValue(node.rhs);
+        var opInfo = BinaryOpTransfer(node.operator);
+        if (opInfo.instName.equals("icmp")) {
+            var icmpInst = generateIcmpInst(opInfo.opInfo, lhsValue, rhsValue, currentBlock);
+            currentBlock.addInst(icmpInst);
+            node.irValue = icmpInst;
+        }else if(opInfo.instName.equals("logic")){
+            //todo
+        }else{
+            if(lhsValue.valueType instanceof IntegerType && rhsValue.valueType instanceof IntegerType) {
+                var binaryInst = generateBinaryInst(opInfo.opInfo, INT32, lhsValue, rhsValue);
+                currentBlock.addInst(binaryInst);
+                node.irValue = binaryInst;
+            }else{
+                //for string
+            }
+        }
 
+
+//        var binaryInst = generateBinaryInst(op, lhsValue, rhsValue, currentBlock);
+//        currentBlock.addInst(binaryInst);
+//        node.llvmName = binaryInst.llvmName;
+//        node.irValue = binaryInst;
     }
 
     @Override
@@ -464,8 +541,27 @@ public class IRBuilder implements ASTVisitor, IRDefine {
     }
 
     //inst generate
+
+    private IRInstruction i8Toi1(IRValue _i8Value) {
+        if (_i8Value.valueType instanceof memBoolType) {
+            var truncInst = generateTruncInst(_i8Value, new BoolType());
+            currentBlock.addInst(truncInst);
+            return truncInst;
+        } else throw new RuntimeException("i8valueType should be memBoolType");
+    }
+
+    private IRInstruction i1Toi8(IRValue _i1Value) {
+        if (_i1Value.valueType instanceof BoolType) {
+            var zextInst = generateZextInst(_i1Value, new memBoolType());
+            currentBlock.addInst(zextInst);
+            return zextInst;
+        } else throw new RuntimeException("i1valueType should be BoolType");
+    }
+
     private IRInstruction generateAllocInst(String _allocName, BasicType _allocType) {
-        return new IRAllocaInst(rename(_allocName + ".addr") , _allocType, CurFunc().entryBlock);
+        var allocaType = _allocType;
+        if (_allocType instanceof BoolType) allocaType = new memBoolType();
+        return new IRAllocaInst(rename(_allocName + ".addr"), allocaType, CurFunc().entryBlock);
     }
 
     private IRInstruction generateBinaryInst(String _op, BasicType _retType, IRValue _lhs, IRValue _rhs) {
@@ -505,16 +601,24 @@ public class IRBuilder implements ASTVisitor, IRDefine {
 
     private IRInstruction generateLoadInst(String _loadToAddr, IRValue _pointer, IRBasicBlock _parentBlock) {
         assert _pointer.valueType instanceof PointerType;
-        return new IRLoadInst(rename(_loadToAddr+".load"), ((PointerType) _pointer.valueType).baseType, _pointer, _parentBlock);
+        assert !(((PointerType) _pointer.valueType).baseType instanceof BoolType);
+        return new IRLoadInst(rename(_loadToAddr + ".load"), ((PointerType) _pointer.valueType).baseType, _pointer, _parentBlock);
     }
 
     private IRInstruction generateRetInst(IRValue _retValue, IRBasicBlock _parentBlock) {
         if (_retValue == null) return new IRRetInst(new VoidType(), null, _parentBlock);
-        return new IRRetInst(_retValue.valueType, _retValue, _parentBlock);
+        if (_retValue.valueType instanceof memBoolType) {
+            var alteredRetValue = i8Toi1(_retValue);
+            return new IRRetInst(alteredRetValue.valueType, alteredRetValue, _parentBlock);
+        } else return new IRRetInst(_retValue.valueType, _retValue, _parentBlock);
     }
 
     private IRInstruction generateStoreInst(IRValue _storeValue, IRValue _destPtr, IRBasicBlock _parentBlock) {
-        return new IRStoreInst(_storeValue, _destPtr, _parentBlock);
+        assert _destPtr.valueType instanceof PointerType;
+        assert !(((PointerType) _destPtr.valueType).baseType instanceof BoolType);
+        if (_storeValue.valueType instanceof BoolType)
+            return new IRStoreInst(i1Toi8(_storeValue), _destPtr, _parentBlock);
+        else return new IRStoreInst(_storeValue, _destPtr, _parentBlock);
     }
 
     private IRInstruction generateTruncInst(IRValue _fromValue, BasicType _targetType) {
