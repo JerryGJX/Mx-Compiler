@@ -1,0 +1,18 @@
+class A{
+    int x,y;
+    A(){
+        x = 1;
+        y = 2;
+    }
+    int getSum(){
+        return x + y;
+    }
+};
+
+int main(){
+    A a = new A();
+    printlnInt(a.x);
+    printlnInt(a.y);
+    int c = a.getSum();
+    return 0;
+}

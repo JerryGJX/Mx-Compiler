@@ -1,0 +1,14 @@
+class A{
+    bool x,y;
+    int fn(B b){
+        return b.x + b.y;
+    }
+};
+
+class B{
+    int x,y;
+};
+
+int main(){
+    return 0;
+}

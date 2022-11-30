@@ -1,0 +1,24 @@
+int c;
+
+class B{
+    A a;
+};
+
+class A{
+    B b;
+    int x,y;
+    int sum(int x,int y){
+        return this.x + y + c;
+    }
+    void fuck(){
+        int a = this.sum(1,2);
+        int b = sum(2,3);
+    }
+};
+
+int main(){
+    A g = null;
+    int sum = g.sum(1926,917);
+    int c = fn(g,889);
+    return 100;
+}

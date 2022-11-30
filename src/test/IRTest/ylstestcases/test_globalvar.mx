@@ -1,0 +1,7 @@
+string s = "\n\\\"";
+string t = "\n\\\"hello world\"\n";
+int a = 19260718;
+int b = a + 1 + 2 + a + a * 2;
+
+int main(){
+}

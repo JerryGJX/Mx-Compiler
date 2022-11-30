@@ -1,0 +1,8 @@
+int main(){
+    int [][][]a = new int[10][10][10];
+    a[2][2][2] = 19260000;
+    a[3][3][3] = 817;
+    printlnInt(a[2][2][2] + a[3][3][3]);
+    printlnInt(a.size());
+    return 0;
+}

@@ -1,0 +1,14 @@
+class B{
+    A a;
+};
+
+class A{
+    B b;
+    int x,y;
+};
+
+int main(){
+    A g = null;
+    int y = g.b.a.b.a.x;
+    return 100;
+}

@@ -1,0 +1,19 @@
+int fn(int a,int b){
+    int ret = 0;
+    if(a == b){
+        if (a == b){
+            ret = 11111;
+        }
+        if (a == b){
+            ret = 22222;
+        }
+    }
+    return ret;
+}
+
+int main(){
+    int a = 1, b = 0;
+    bool res = (a == 22) == (b == 33) || a == 1 && b == 1231 && a == 1926;
+    printlnInt(a);
+    return 0;
+}

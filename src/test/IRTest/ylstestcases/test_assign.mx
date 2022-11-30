@@ -1,0 +1,16 @@
+class A{
+};
+
+class B{
+};
+
+int main(){
+    int c = 0;
+    int d = 1;
+    d = c;
+
+    A a = null;
+    A b = null;
+    a = b;
+    return 0;
+}

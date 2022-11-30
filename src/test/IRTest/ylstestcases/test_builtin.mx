@@ -1,0 +1,7 @@
+int main(){
+    string s1 = "hello ";
+    string s2 = "world";
+    println(s1 + s2);
+    string s3 = "hello world";
+    println(s3.substring(6,10));
+}

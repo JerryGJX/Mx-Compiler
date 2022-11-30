@@ -1,0 +1,46 @@
+int fn(int a,int b){
+    int c = a + b;
+    int d = b - c;
+    int e = c * d;
+    int f = d / e;
+    int g = e % f;
+    int h = f & g;
+    int i = g | h;
+    int j = h ^ i;
+    int k = i >> j;
+    int l = j << k;
+    return l;
+}
+
+int gn(int a,int b){
+    bool s1 = a < b;
+    bool s2 = b > a;
+    bool s3 = a <= b;
+    bool s4 = b >= a;
+    bool s5 = a == b;
+    bool s6 = b != a;
+    return 1926;
+}
+
+class A{
+};
+
+bool test_struct_prt(A a,A b){
+    return (a == b) == ( a != b);
+}
+
+int test_arr_ptr(bool x,bool y){
+    int []a = null;
+    int []b = null;
+    bool c = a == b;
+    return 455;
+}
+
+bool test_bool(bool x,bool y){
+    return (x != y) == (x == y);
+}
+
+int main(){
+    int jzm = fn(1926,8017);
+    return 0;
+}
