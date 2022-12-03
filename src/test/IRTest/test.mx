@@ -1,8 +1,9 @@
-void test_logic_not(){
-    bool x = true;
-    bool y;
-    y = !x;
-}
+class A{
+    bool x,y;
+    bool fn(bool b){
+        return x && b;
+    }
+};
 
 
 int main(){
