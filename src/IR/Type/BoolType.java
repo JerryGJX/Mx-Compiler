@@ -8,8 +8,8 @@ public class BoolType extends BasicType {
     }
 
     @Override
-    public boolean equals(BasicType _basicType) {
-        return _basicType instanceof BoolType;
+    public boolean equals(BasicType other) {
+        return other instanceof BoolType;
     }
 
     @Override

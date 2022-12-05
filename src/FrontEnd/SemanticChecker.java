@@ -341,7 +341,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
         }
 
         if (node.lhs.exprType.dimSize > 0) {
-            if (!nullType.Match(node.rhs.exprType)) {
+            if (!nullType.Match(node.rhs.exprType)&&!node.lhs.exprType.Match(node.rhs.exprType)) {
                 throw new semanticError("Rhs should be null", node.nodePos);
             }
             if (!node.operator.equals(BinaryExpNode.BinaryOp.EqualOp) &&

@@ -3,41 +3,58 @@ package IR.Value.User.Constant.GlobalValue;
 import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Type.FunctionType;
+import IR.Type.StructType;
 import IR.Value.IRBasicBlock;
 import IR.Value.IRValue;
 import IR.Value.User.Constant.IRConstant;
 import IR.Value.User.Instruction.IRInstruction;
+import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class IRFunction extends IRConstant {
-    public BasicType returnType;
+    //for func def display only
+    public ArrayList<String> argNameList = new ArrayList<>();
 
     public String funcName;
+    public BasicType returnType;
+    public ArrayList<BasicType> argTypeList;
+
     public LinkedList<IRBasicBlock> blockList = new LinkedList<>();
-    public ArrayList<IRValue> argVarList = new ArrayList<>();
     public IRBasicBlock entryBlock;//alloca指令从头插入
     public IRBasicBlock exitBlock;
     public IRValue retValPtr;
-
+    public BasicType parentClassType = null;
     public boolean isBuiltIn = false;
 
 
-    public IRFunction(String _funcName, FunctionType _funcType,boolean _isBuiltIn) {
+    public IRFunction(FunctionType _funcType, String _funcName, BasicType _classType, boolean _isBuiltIn, ArrayList<BasicType> _argTypeList) {
         super(_funcType);
         this.funcName = _funcName;
         this.retValPtr = null;
         returnType = _funcType.returnType;
+        this.parentClassType = _classType;
         isBuiltIn = _isBuiltIn;
+        argTypeList = _argTypeList;
+        if(argTypeList == null) argTypeList = new ArrayList<>();
     }
 
 
-
-    public void addArg(BasicType _argType, String _argName) {
-        argVarList.add(new IRValue(_argName, _argType));
+    public void addArg(IRValue _arg) {//for func call
+        this.addOperand(_arg);
     }
+
+    public IRValue getArg(int _idx) {
+        return this.getOperand(_idx);
+    }
+
+    public BasicType getArgType(int _idx) {
+        return argTypeList.get(_idx);
+    }
+
 
     public FunctionType getFunctionType() {
         if (this.valueType instanceof FunctionType) {
@@ -48,11 +65,9 @@ public class IRFunction extends IRConstant {
     }
 
 
-//    public void AddAllocaInst(IRInstruction _allocaInst) {
-//        entryBlock.instList.addFirst(_allocaInst);
-//    }
-
-
+    public void addBlock(IRBasicBlock _block) {
+        blockList.add(_block);
+    }
 
 
     @Override
@@ -63,12 +78,13 @@ public class IRFunction extends IRConstant {
     public String toString() {
         StringBuilder ans = new StringBuilder("define " + this.returnType.toString() + " @" + this.funcName + "(");
 
-//        for (int i = 0; i < argVarList.size(); i++) {
-//            ans.append(argVarList.get(i).toString());
-//            if (i != argVarList.size() - 1) {
-//                ans.append(", ");
-//            }
-//        }
+        assert argTypeList.size() == argNameList.size();
+        for (int i = 0; i < argNameList.size(); i++) {
+            ans.append(argTypeList.get(i).toString()).append(" ").append(LOCAL_PREFIX).append(argNameList.get(i));
+            if (i != argNameList.size() - 1) {
+                ans.append(", ");
+            }
+        }
         ans.append(") {\n");
 
         ans.append(entryBlock.toString());

@@ -20,9 +20,13 @@ public class IRStoreInst extends IRInstruction {
     @Override
     public String printInst() {
         if (this.storeValue instanceof IRNullptrConstant) {
-            return LLVM_STORE_INST + " " + ((PointerType) this.storePtr.valueType).baseType + " " + this.storeValue.getIdentifier() + ", " + this.storePtr.valueType + " " + this.storePtr.getIdentifier() + ", align " + this.valueType.size();
+            return LLVM_STORE_INST + " " + ((PointerType) this.storePtr.valueType).baseType + " "
+                    + this.storeValue.getIdentifier() + ", " + this.storePtr.valueType + " "
+                    + this.storePtr.getIdentifier() + ", align " + this.valueType.size();
         } else {
-            return LLVM_STORE_INST + " " + this.storeValue.valueType + " " + this.storeValue.getIdentifier() + ", " + this.storePtr.valueType + " " + this.storePtr.getIdentifier() + ", align " + this.valueType.size();
+            return LLVM_STORE_INST + " " + this.storeValue.valueType + " "
+                    + this.storeValue.getIdentifier() + ", " + this.storePtr.valueType
+                    + " " + this.storePtr.getIdentifier() + ", align " + this.valueType.size();
         }
     }
 }

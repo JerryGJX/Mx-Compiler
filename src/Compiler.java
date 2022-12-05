@@ -14,16 +14,20 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 
 public class Compiler {
     public static void main(String[] args) throws Exception {
-        String fileName = "src/test/IRTest/test.mx";
+        String fileName = "test/debug/test.mx";
         InputStream inputStream = new FileInputStream(fileName);
-//        CharStream inputStream = CharStreams.fromStream(inputStream);
-        PrintStream outputStream = System.out;
+
+        File llvmir = new File("test/debug/test.ll");
+        PrintStream ps = new PrintStream(llvmir);
+        System.setOut(ps);
+
 
         Log log = new Log();
         GlobalScope globalScope = new GlobalScope();
@@ -40,12 +44,9 @@ public class Compiler {
             ASTRoot = (RootNode) astBuilder.visit(parseTreeRoot);
             new SymbolCollector(globalScope,log).visit(ASTRoot);
             new SemanticChecker(globalScope,log).visit(ASTRoot);
-//            log.printLog();
             new IRBuilder(fileName,globalScope).visit(ASTRoot);
         } catch (error er) {
-//            log.printLog();
-//            System.err.println(er.toString());
-            throw new RuntimeException();
+            System.err.println(er.toString());
         }
     }
 }

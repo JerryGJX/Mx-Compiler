@@ -13,6 +13,8 @@ public class TypeTransLater implements IRDefine {
         this.typeMap = _typeMap;
     }
     public BasicType TransLateBuiltinType(Type _astType) {
+//        System.out.println("TransLateBuiltinType: " + _astType.typeName);
+
         return switch (_astType.typeName) {
             case "int" -> INT32;
             case "bool" -> boolType;
@@ -22,6 +24,7 @@ public class TypeTransLater implements IRDefine {
         };
     }
     private BasicType RecursiveBuildPointer(BasicType _basicType, int _dimSize) {
+//        System.out.println("RecursiveBuildPointer: " + _basicType + " " + _dimSize);
         if (_dimSize == 0) return _basicType;
         return new PointerType(RecursiveBuildPointer(_basicType, _dimSize - 1));
     }

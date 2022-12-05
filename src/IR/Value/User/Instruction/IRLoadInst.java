@@ -13,7 +13,7 @@ public class IRLoadInst extends IRInstruction {
 
     //    public String loadToAddr;
     public IRLoadInst(String _loadToAddr, BasicType _loadType, IRValue _loadFromAddr, IRBasicBlock _parentBlock) {
-        super(_loadToAddr, new PointerType(_loadType), _parentBlock);
+        super(_loadToAddr, _loadType, _parentBlock);
 //        this.loadToAddr = _loadToAddr;
         this.loadType = _loadType;
         this.loadFromAddr = _loadFromAddr;

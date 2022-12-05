@@ -18,7 +18,7 @@ out/
 src/buildComment/test/testCase
 src/grammar/*.class
 
-src/test/testCase
+test/testCases/testCase
 
 bin/
 !**/src/main/**/bin/

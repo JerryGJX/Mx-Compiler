@@ -5,7 +5,6 @@ public class ArrayType extends BasicType { //stringType
     public int length;
 
     public ArrayType(BasicType _baseType, int _length) {
-//        super("string");
         this.baseType = _baseType;
         this.length = _length;
     }

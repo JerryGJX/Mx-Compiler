@@ -1,5 +1,7 @@
 package IR.Type;
 
+import javax.lang.model.type.NullType;
+
 public class PointerType extends BasicType {
     public boolean isNullptr;
     public BasicType baseType;
@@ -11,7 +13,7 @@ public class PointerType extends BasicType {
             isNullptr = true;
         } else {
             this.baseType = _baseType;
-            if(_baseType instanceof PointerType) {
+            if (_baseType instanceof PointerType) {
                 this.dimSize = ((PointerType) _baseType).dimSize + 1;
             } else {
                 this.dimSize = 1;
@@ -40,10 +42,14 @@ public class PointerType extends BasicType {
     }
 
     @Override
-    public boolean equals(BasicType _basicType) {
-        if (_basicType instanceof PointerType) {
-            return this.baseType.equals(((PointerType) _basicType).baseType);
-        } else return false;
+    public boolean equals(BasicType other) {
+        if (other == null) return true;
+        if (other instanceof PointerType) {
+            return this.baseType.equals(((PointerType) other).baseType) && this.dimSize == ((PointerType) other).dimSize;
+        } else if (other instanceof ArrayType) {
+            return this.equals(stringType);
+        }
+        return false;
     }
 
     @Override

@@ -20,10 +20,10 @@ const int INT_BUF_SIZE = 10;
 //         INT8Star, "_str_concat", INT8Star, INT8Star
 //         boolType, "_str_eq", INT8Star, INT8Star
 //         boolType, "_str_ne", INT8Star, INT8Star
-//         boolType, "_str_lt", INT8Star, INT8Star
-//         boolType, "_str_gt", INT8Star, INT8Star
-//         boolType, "_str_le", INT8Star, INT8Star
-//         boolType, "_str_ge", INT8Star, INT8Star
+//         boolType, "_str_ult", INT8Star, INT8Star
+//         boolType, "_str_ugt", INT8Star, INT8Star
+//         boolType, "_str_ule", INT8Star, INT8Star
+//         boolType, "_str_uge", INT8Star, INT8Star
 
 
 
@@ -94,19 +94,19 @@ char _str_ne(char *a, char* b){
     return strcmp(a, b) != 0;
 }
 
-char _str_lt(char *a, char* b){
+char _str_ult(char *a, char* b){
     return strcmp(a, b) < 0;
 }
 
-char _str_gt(char *a, char* b){
+char _str_ugt(char *a, char* b){
     return strcmp(a, b) > 0;
 }
 
-char _str_le(char *a, char* b){
+char _str_ule(char *a, char* b){
     return strcmp(a, b) <= 0;
 }
 
-char _str_ge(char *a, char* b){
+char _str_uge(char *a, char* b){
     return strcmp(a, b) >= 0;
 }
 

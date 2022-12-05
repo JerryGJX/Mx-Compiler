@@ -1,10 +1,7 @@
 package IR.Value;
 
 import IR.IRVisitor;
-import IR.Type.BasicType;
 import IR.Type.LabelType;
-import IR.Value.User.Constant.GlobalValue.IRFunction;
-import IR.Value.User.Instruction.IRAllocaInst;
 import IR.Value.User.Instruction.IRInstruction;
 
 import java.util.LinkedList;
@@ -26,12 +23,18 @@ public class IRBasicBlock extends IRValue {
         instList.add(_inst);
     }
 
-    public void AddTerminator(IRInstruction _terminator) {
-        terminator = _terminator;
+    public void addInstFirst(IRInstruction _inst) {
+        instList.addFirst(_inst);
     }
 
-    public String GetBlockName() {
-        return blockName;
+    public void addTerminator(IRInstruction _terminator) {
+        if (terminator == null) {
+            terminator = _terminator;
+        }
+    }
+
+    public String GetBlockId() {
+        return LOCAL_PREFIX + blockName;
     }
 
     public String toString() {

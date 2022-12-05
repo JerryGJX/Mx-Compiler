@@ -7,11 +7,11 @@ import IR.Value.IRValue;
 
 public class IRIcmpInst extends IRInstruction {
     //<result> = icmp <cond> <ty> <op1>, <op2>   ; yields i1 or <N x i1>:result
-    public String op;
+    public String type;
 
-    public IRIcmpInst(String _valueName, String _op, IRValue _lhs, IRValue _rhs, IRBasicBlock _parentBlock) {
+    public IRIcmpInst(String _valueName, String _type, IRValue _lhs, IRValue _rhs, IRBasicBlock _parentBlock) {
         super(_valueName, new BoolType(), _parentBlock);
-        this.op = _op;
+        this.type = _type;
         this.addOperand(_lhs);
         this.addOperand(_rhs);
     }
@@ -26,7 +26,7 @@ public class IRIcmpInst extends IRInstruction {
 
     @Override
     public String printInst() {
-        return this.getIdentifier() + " = " + LLVM_ICMP_INST + " " + this.op + " " + this.lhs().valueType
+        return this.getIdentifier() + " = " + LLVM_ICMP_INST + " " + this.type + " " + this.lhs().valueType
                 + " " + this.lhs().getIdentifier() + ", " + this.rhs().getIdentifier();
     }
 }

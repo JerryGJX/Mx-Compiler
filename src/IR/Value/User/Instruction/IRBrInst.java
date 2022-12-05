@@ -51,10 +51,10 @@ public class IRBrInst extends IRInstruction {
         String Ans = LLVM_BR_INST;
         if(this.ifCondition()){
             Ans += " " + this.condition().valueType + " " + this.condition().getIdentifier()
-                    + ", " +LLVM_LABEL+ " " + this.ifTrueBlock().GetBlockName()
-                    + ", " + LLVM_LABEL+ " " + this.ifFalseBlock().GetBlockName();
+                    + ", " +LLVM_LABEL+ " " + this.ifTrueBlock().GetBlockId()
+                    + ", " + LLVM_LABEL+ " " + this.ifFalseBlock().GetBlockId();
         }else{
-            Ans += " " + LLVM_LABEL + " " + this.targetBlock().GetBlockName();
+            Ans += " " + LLVM_LABEL + " " + this.targetBlock().GetBlockId();
         }
         return Ans;
     }

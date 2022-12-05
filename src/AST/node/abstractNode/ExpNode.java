@@ -13,9 +13,15 @@ public abstract class ExpNode extends ASTNode {
 
     public IRValue irValue;    //int or register
     public IRValue irAddress;  //xxx.addr, InstAlloc, InstGetElementPtr
+    public boolean isFunction = false;
+    public boolean isMember = false;
+    public String className = null;
+
     //for LLVM renaming
     public String llvmName;
     //for A + B, A.llvmName = A, B.llvmName = B, A + B.llvmName = add, and they are to be renamed
+
+
 
     public ExpNode(Position _nodePos) {
         super(_nodePos);

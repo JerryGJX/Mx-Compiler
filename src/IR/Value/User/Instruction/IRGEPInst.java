@@ -9,11 +9,11 @@ public class IRGEPInst extends IRInstruction {
     public String elementName = null;
 
     public IRGEPInst(String _valueName, String _elementName, IRValue _headPointer,IRBasicBlock _parentBlock, BasicType _pointedType,  IRValue... indexes) {
-        super(_valueName, _pointedType, _parentBlock);
+        super(_valueName, new PointerType(_pointedType), _parentBlock);
         assert _headPointer.valueType instanceof PointerType;
         this.addOperand(_headPointer);
 
-        System.out.println("IRGEPInst1: list Size :" + this.operandSize());
+//        System.out.println("IRGEPInst1: list Size :" + this.operandSize());
 
         for (IRValue index : indexes) {
             this.addOperand(index);
@@ -22,13 +22,14 @@ public class IRGEPInst extends IRInstruction {
     }
 
     public IRGEPInst(String _valueName,IRValue _headPointer,IRBasicBlock _parentBlock, BasicType _pointedType,  IRValue... indexes) {
-        super(_valueName, _pointedType, _parentBlock);
+        super(_valueName, new PointerType(_pointedType), _parentBlock);
         assert _headPointer.valueType instanceof PointerType;
         this.addOperand(_headPointer);
 
-        System.out.println("IRGEPInst2: list Size :" + this.operandSize());
+//        System.out.println("IRGEPInst2: list Size :" + this.operandSize());
 
         for (IRValue index : indexes) {
+//            System.out.println("IRGEPInst2: index: " + index);
             this.addOperand(index);
         }
     }
@@ -56,7 +57,7 @@ public class IRGEPInst extends IRInstruction {
 
     @Override
     public String printInst() {
-        System.out.println(this.valueName + " IRGEPInst3: list Size :" + this.operandSize());
+//        System.out.println(this.valueName + " IRGEPInst3: list Size :" + this.operandSize());
 
 //        StringBuilder Ans = new StringBuilder(this.valueName + " = getelementptr ");
 

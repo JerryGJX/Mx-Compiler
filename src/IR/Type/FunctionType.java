@@ -1,6 +1,7 @@
 package IR.Type;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FunctionType extends BasicType {
     public BasicType returnType;
@@ -12,27 +13,32 @@ public class FunctionType extends BasicType {
         this.funcName = _funcName;
     }
 
+    public FunctionType(BasicType _returnType, String _funcName, BasicType... _parameterTypeList) {
+        this.returnType = _returnType;
+        this.funcName = _funcName;
+        this.parameterTypeList.addAll(Arrays.asList(_parameterTypeList));
+    }
+
     public void addParameterType(BasicType parameterType) {
         parameterTypeList.add(parameterType);
     }
 
+
     @Override
     public String toString() {
-//        throw new Error("FunctionType.toString() not implemented");
-        return "";
+        StringBuilder Ans = new StringBuilder(returnType.toString() + " " + GLOBAL_PREFIX + funcName + "(");
+        for (int i = 0; i < parameterTypeList.size(); i++) {
+            Ans.append(parameterTypeList.get(i).toString());
+            if (i != parameterTypeList.size() - 1) {
+                Ans.append(", ");
+            }
+        }
+        Ans.append(")");
+        return Ans.toString();
     }
 
     @Override
     public boolean equals(BasicType _basicType) {
-        if (_basicType instanceof FunctionType) {
-            if (!this.returnType.equals(((FunctionType) _basicType).returnType)) return false;
-            if (this.parameterTypeList.size() != ((FunctionType) _basicType).parameterTypeList.size()) return false;
-            for (int i = 0; i < this.parameterTypeList.size(); i++) {
-                if (!this.parameterTypeList.get(i).equals(((FunctionType) _basicType).parameterTypeList.get(i)))
-                    return false;
-            }
-            return true;
-        }
         return false;
     }
 

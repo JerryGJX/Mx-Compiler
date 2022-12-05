@@ -11,7 +11,17 @@ public class IRCallInst extends IRInstruction {
     //<result> = call  <fnptrval>(<function args>) [fn attrs] [ operand bundles ]
     public String funcName;
 
-    public IRCallInst(String _valueName, IRFunction _calledFunc, ArrayList<IRValue> argsList, IRBasicBlock _parentBlock) {
+    public IRCallInst(String _valueName, IRFunction _calledFunc, IRBasicBlock _parentBlock, ArrayList<IRValue> argsList) {
+        super(_valueName, _calledFunc.returnType, _parentBlock);
+        this.addOperand(_calledFunc);
+        if (argsList != null) {
+            for (IRValue arg : argsList) {
+                this.addOperand(arg);
+            }
+        }
+    }
+
+    public IRCallInst(String _valueName, IRFunction _calledFunc, IRBasicBlock _parentBlock, IRValue... argsList) {
         super(_valueName, _calledFunc.returnType, _parentBlock);
         this.addOperand(_calledFunc);
         if (argsList != null) {
@@ -38,7 +48,7 @@ public class IRCallInst extends IRInstruction {
         if (this.valueType instanceof VoidType) {
             Ans = new StringBuilder(LLVM_CALL_INST + " " + this.valueType + " " + this.calledFunc().getIdentifier() + "(");
         } else {
-            Ans = new StringBuilder(this.getIdentifier() + " = " + this.valueType + " " + this.calledFunc().getIdentifier() + "(");
+            Ans = new StringBuilder(this.getIdentifier() + " = " + LLVM_CALL_INST + " " + this.valueType + " " + this.calledFunc().getIdentifier() + "(");
         }
         for (int i = 0; i < this.operandSize() - 1; ++i) {
             Ans.append(this.args(i).valueType).append(" ").append(this.args(i).getIdentifier());

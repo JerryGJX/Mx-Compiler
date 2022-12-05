@@ -7,7 +7,7 @@ public class LabelType extends BasicType {
 
     @Override
     public String toString() {
-        return null;
+        return "label";
     }
 
     @Override

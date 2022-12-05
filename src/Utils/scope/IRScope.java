@@ -9,20 +9,20 @@ import IR.Value.User.Constant.GlobalValue.IRFunction;
 import java.util.HashMap;
 
 public class IRScope implements IRDefine {
-    public static class VarInfo{
-        String rawName;
-        Integer index;
-        boolean isGlobal;
-        public VarInfo(String _rawName,Integer _index,boolean _isGlobal){
-            rawName = _rawName;
-            index = _index;
-            isGlobal = _isGlobal;
-        }
-        public String VarId(){
-            return rawName + index.toString();
-        }
-    }
-    public HashMap<String, VarInfo> VarInfoMap = new HashMap<>();//记录当前scope下定义的var的id (e.g. A-> A.1)
+//    public static class VarInfo{
+//        String rawName;
+//        Integer index;
+//        boolean isGlobal;
+//        public VarInfo(String _rawName,Integer _index,boolean _isGlobal){
+//            rawName = _rawName;
+//            index = _index;
+//            isGlobal = _isGlobal;
+//        }
+//        public String VarId(){
+//            return rawName + index.toString();
+//        }
+//    }
+    public HashMap<String, String> rawToIdMap = new HashMap<>();//记录当前scope下定义的var的id (e.g. A-> A.1)
 
 //    IRGlobalScope irGlobalScope;
 
@@ -74,12 +74,12 @@ public class IRScope implements IRDefine {
         parentScope = _parentScope;
     }
 
-    public VarInfo GetVarInfo(String _rawName) {
-        if (VarInfoMap.containsKey(_rawName)) {
-            return VarInfoMap.get(_rawName);
+    public String GetVarId(String _rawName) {
+        if (rawToIdMap.containsKey(_rawName)) {
+            return rawToIdMap.get(_rawName);
         } else {
             if (parentScope != null) {
-                return parentScope.GetVarInfo(_rawName);
+                return parentScope.GetVarId(_rawName);
             } else {
                 return null;
             }
@@ -90,6 +90,6 @@ public class IRScope implements IRDefine {
         if (!inFunc || !inClass) {
             throw new RuntimeException("this expression must be in a class function");
         }
-        return currentIRFunction.argVarList.get(0);
+        return currentIRFunction.getArg(0);
     }
 }
