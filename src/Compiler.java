@@ -20,12 +20,12 @@ import java.io.PrintStream;
 
 public class Compiler {
     public static void main(String[] args) throws Exception {
-//        String fileName = "../test/debug/test.mx";
-        String fileName = "test/debug/test.mx";
+        String fileName = "../test/debug/test.mx";
+//        String fileName = "test/debug/test.mx";
         InputStream inputStream = new FileInputStream(fileName);
 
-//        File llvmir = new File("../test/debug/test.ll");
-        File llvmir = new File("test/debug/test.ll");
+        File llvmir = new File("../test/debug/test.ll");
+//        File llvmir = new File("test/debug/test.ll");
         PrintStream ps = new PrintStream(llvmir);
         System.setOut(ps);
 

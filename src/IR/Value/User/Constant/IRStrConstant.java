@@ -18,7 +18,7 @@ public class IRStrConstant extends IRConstant {
 
     //    @Override
     public String toString() {
-        return "c\"" + strConstData
+        return "c\"" + strConstData.replace("\\", "\\5C")
                 .replace("\n", "\\0A")
                 .replace("\0", "\\00")
                 .replace("\t", "\\09")
