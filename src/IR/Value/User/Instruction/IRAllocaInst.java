@@ -17,6 +17,7 @@ public class IRAllocaInst extends IRInstruction {
     @Override
     public String printInst() {
         return this.getIdentifier() + " = " + LLVM_ALLOCA_INST + " " +
-                this.allocaType + ", align " + this.allocaType.size();
+                this.allocaType ;
+        //+ ", align " + this.allocaType.size();
     }
 }

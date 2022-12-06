@@ -1,23 +1,23 @@
 import os
 import time
 
-command = "cp {code_file} test/debug/test.mx && sh ir-auto-test.sh < {input_file} > {output_file}"
+command = "cp {code_file} ../debug/test.mx && sh ir-auto-test.sh < {input_file} > {output_file}"
 
-judge_list = open("testcases/codegen/judgelist.txt").readlines()
+judge_list = open("../testCases/testCase/codegen/judgelist.txt").readlines()
 
 cnt = 0
 
 fail_collect = list()
 
-os.system("cd src/ && javac Compiler.java && cd ..")
+os.system("cd ../../src/ && javac Compiler.java && cd ../test/test_command")
 
 for judge in judge_list:
     cnt += 1
 
-    code_file = judge.replace("\n", "").replace("./", "testcases/codegen/")
-    input_file = "./src/irtestspace/input.txt"
-    output_file = "./src/irtestspace/output.txt"
-    std_file = "./src/irtestspace/std.txt"
+    code_file = judge.replace("\n", "").replace("./", "../testCases/testCase/codegen/")
+    input_file = "../irtestspace/input.txt"
+    output_file = "../irtestspace/output.txt"
+    std_file = "../irtestspace/std.txt"
 
     input_fp = open(input_file, "w")
     output_fp = open(output_file, "w")
@@ -68,4 +68,4 @@ for judge in judge_list:
 
 print(fail_collect)
 
-os.system("rm ./**/*.class")
+# os.system("rm ./**/*.class")

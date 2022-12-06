@@ -2,6 +2,7 @@ package IR;
 
 import AST.node.concretNode.BuiltInFuncDefNode.BuiltInFuncDefNode;
 import AST.node.concretNode.ClassDefNode;
+import AST.node.concretNode.ConstructorDefNode;
 import AST.node.concretNode.FuncDefNode;
 import AST.typeNode.Type;
 import IR.Type.*;
@@ -81,7 +82,9 @@ public class IRModule implements IRDefine {
 
         //add global variable
         _globalScope.varTable.forEach((name, varDefUnitNode) -> {
-            IRGlobalVariableMap.put(name, new GlobalVariable(name, typeTransLater.TranslateVarType(varDefUnitNode.varType)));
+            var varType=typeTransLater.TranslateAllocaType(varDefUnitNode.varType);
+//            if(varType instanceof BoolType) varType=new memBoolType();
+            IRGlobalVariableMap.put(name, new GlobalVariable(name, varType));
         });
 
 
@@ -120,6 +123,10 @@ public class IRModule implements IRDefine {
         return typeTransLater.TranslateVarType(_type);
     }
 
+    public BasicType translateAllocaType(Type _type) {
+        return typeTransLater.TranslateAllocaType(_type);
+    }
+
     public StructType translateByString(String _className) {
         if (_className == null) return null;
         if (structTypeMap.containsKey(_className)) {
@@ -129,7 +136,7 @@ public class IRModule implements IRDefine {
 
     public IRFunction transFuncDef(FuncDefNode _funcDefNode, StructType _classType) {
         BasicType returnType;
-        if (_funcDefNode.returnType == null) returnType = new VoidType();//默认构造函数
+        if (_funcDefNode.returnType == null || _funcDefNode instanceof ConstructorDefNode) returnType = new VoidType();//默认构造函数
         else returnType = typeTransLater.TranslateVarType(_funcDefNode.returnType);
         FunctionType functionType = new FunctionType(returnType, _funcDefNode.funcName);
         IRFunction irFunction = new IRFunction(functionType, _funcDefNode.funcName, _classType, false, null);
@@ -150,7 +157,13 @@ public class IRModule implements IRDefine {
     }
     //注：默认构造已经在semantic中加入了
 
-    public Integer GetMemberVarRank(String _className, String _memberVarName) {
+    public IRFunction getIRFunction(String _funcName) {
+        if (IRFunctionMap.containsKey(_funcName)) {
+            return IRFunctionMap.get(_funcName);
+        } else throw new RuntimeException("[getIRFunction] " + "funcName: " + _funcName + " not found");
+    }
+
+    public Integer getMemberVarRank(String _className, String _memberVarName) {
         var classDefNode = classDefNodeMap.get(_className);
         Integer rank = 0;
         for (var memberVarName : classDefNode.memberVarNameList) {
@@ -161,7 +174,7 @@ public class IRModule implements IRDefine {
         throw new RuntimeException("GetMemberVarRank error");
     }
 
-    public BasicType GetMemberVarType(String _className, String _memberVarName) {
+    public BasicType getMemberVarType(String _className, String _memberVarName) {
         var classDefNode = classDefNodeMap.get(_className);
         for (var memberVarName : classDefNode.memberVarNameList) {
             if (memberVarName.equals(_memberVarName))
@@ -174,37 +187,39 @@ public class IRModule implements IRDefine {
         return "";
     }
 
-    String GenerateComment(String _comment) {
+    String generateComment(String _comment) {
         return "\n; " + _comment + "\n";
     }
 
-    public void TestPrint() {
-        StringBuilder projectStr = new StringBuilder(GenerateComment("IRModule = " + fileName));
+    public void testPrint() {
+        StringBuilder projectStr = new StringBuilder(generateComment("IRModule = " + fileName));
 
-        projectStr.append(GenerateComment("BuiltinFunc"));
+        projectStr.append(generateComment("BuiltinFunc"));
         BuiltInFuncList.forEach(funcType -> {
             projectStr.append("declare ").append(funcType.toString()).append("\n");
         });
 
-        projectStr.append(GenerateComment("GlobalStrDef"));
+        projectStr.append(generateComment("GlobalStrDef"));
         for (var strConstant : IRStrConstantMap.values()) {
-            var str = strConstant.getIdentifier() + " = " + "private unnamed_addr constant" + " " + ((PointerType)(strConstant.valueType)).Dereference().toString() + " " + strConstant.toString() + ", align " + STRING_ALIGN;
+            var str = strConstant.getIdentifier() + " = " + "private unnamed_addr constant" + " " + ((PointerType)(strConstant.valueType)).Dereference().toString() + " " + strConstant.toString() ;
+            //+ ", align " + STRING_ALIGN;
             projectStr.append(str).append("\n");
         }
 
-        projectStr.append(GenerateComment("GlobalVar"));
+        projectStr.append(generateComment("GlobalVar"));
         for (var globalVar : IRGlobalVariableMap.values()) {
-            var str = globalVar.getIdentifier() + " = global " + globalVar.pointedType().toString() + " " + new IRZeroInitConstant(globalVar.pointedType()).toString() + ", align " + POINTER_SIZE;
+            var str = globalVar.getIdentifier() + " = global " + globalVar.pointedType().toString() + " " + new IRZeroInitConstant(globalVar.pointedType()).toString() ;
+            //+ ", align " + POINTER_SIZE;
             projectStr.append(str).append("\n");
         }
 
-        projectStr.append(GenerateComment("StructDef"));
+        projectStr.append(generateComment("StructDef"));
         for (var structType : structTypeMap.values()) {
             if (structType.classId.equals("string")) continue;
             projectStr.append(structType.PrintStructType()).append("\n");
         }
 
-        projectStr.append(GenerateComment("GlobalFunc"));
+        projectStr.append(generateComment("GlobalFunc"));
         projectStr.append(initFunc.toString()).append("\n");
         for (var func : IRFunctionMap.values()) {
             if (func.isBuiltIn || func.funcName.equals("main")) continue;
@@ -212,7 +227,7 @@ public class IRModule implements IRDefine {
             projectStr.append(func.toString()).append("\n");
         }
 
-        projectStr.append(GenerateComment("MainFunc"));
+        projectStr.append(generateComment("MainFunc"));
         var mainFunc = IRFunctionMap.get("main");
         projectStr.append(mainFunc.toString()).append("\n");
 

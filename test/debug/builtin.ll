@@ -4,7 +4,7 @@ target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16
 target triple = "x86_64-pc-linux-gnu"
 
 @STR_BUF_SIZE = dso_local constant i32 256, align 4
-@INT_BUF_SIZE = dso_local constant i32 10, align 4
+@INT_BUF_SIZE = dso_local constant i32 20, align 4
 @.str = private unnamed_addr constant [3 x i8] c"%s\00", align 1
 @.str.1 = private unnamed_addr constant [4 x i8] c"%s\0A\00", align 1
 @.str.2 = private unnamed_addr constant [3 x i8] c"%d\00", align 1
@@ -76,7 +76,7 @@ define dso_local i8* @toString(i32 noundef %0) #0 {
   %2 = alloca i32, align 4
   %3 = alloca i8*, align 8
   store i32 %0, i32* %2, align 4
-  %4 = call i8* @malloc(i64 noundef 10)
+  %4 = call i8* @malloc(i64 noundef 256)
   store i8* %4, i8** %3, align 8
   %5 = load i8*, i8** %3, align 8
   %6 = load i32, i32* %2, align 4
@@ -209,7 +209,7 @@ define dso_local i8* @_str_concat(i8* noundef %0, i8* noundef %1) #0 {
   %8 = load i8*, i8** %4, align 8
   %9 = call i64 @strlen(i8* noundef %8)
   %10 = add i64 %7, %9
-  %11 = add i64 %10, 5
+  %11 = add i64 %10, 1
   %12 = call i8* @malloc(i64 noundef %11)
   store i8* %12, i8** %5, align 8
   %13 = load i8*, i8** %5, align 8
@@ -259,7 +259,7 @@ define dso_local signext i8 @_str_ne(i8* noundef %0, i8* noundef %1) #0 {
 }
 
 ; Function Attrs: noinline nounwind optnone uwtable
-define dso_local signext i8 @_str_lt(i8* noundef %0, i8* noundef %1) #0 {
+define dso_local signext i8 @_str_ult(i8* noundef %0, i8* noundef %1) #0 {
   %3 = alloca i8*, align 8
   %4 = alloca i8*, align 8
   store i8* %0, i8** %3, align 8
@@ -274,7 +274,7 @@ define dso_local signext i8 @_str_lt(i8* noundef %0, i8* noundef %1) #0 {
 }
 
 ; Function Attrs: noinline nounwind optnone uwtable
-define dso_local signext i8 @_str_gt(i8* noundef %0, i8* noundef %1) #0 {
+define dso_local signext i8 @_str_ugt(i8* noundef %0, i8* noundef %1) #0 {
   %3 = alloca i8*, align 8
   %4 = alloca i8*, align 8
   store i8* %0, i8** %3, align 8
@@ -289,7 +289,7 @@ define dso_local signext i8 @_str_gt(i8* noundef %0, i8* noundef %1) #0 {
 }
 
 ; Function Attrs: noinline nounwind optnone uwtable
-define dso_local signext i8 @_str_le(i8* noundef %0, i8* noundef %1) #0 {
+define dso_local signext i8 @_str_ule(i8* noundef %0, i8* noundef %1) #0 {
   %3 = alloca i8*, align 8
   %4 = alloca i8*, align 8
   store i8* %0, i8** %3, align 8
@@ -304,7 +304,7 @@ define dso_local signext i8 @_str_le(i8* noundef %0, i8* noundef %1) #0 {
 }
 
 ; Function Attrs: noinline nounwind optnone uwtable
-define dso_local signext i8 @_str_ge(i8* noundef %0, i8* noundef %1) #0 {
+define dso_local signext i8 @_str_uge(i8* noundef %0, i8* noundef %1) #0 {
   %3 = alloca i8*, align 8
   %4 = alloca i8*, align 8
   store i8* %0, i8** %3, align 8

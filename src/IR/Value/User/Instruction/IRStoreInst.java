@@ -22,11 +22,13 @@ public class IRStoreInst extends IRInstruction {
         if (this.storeValue instanceof IRNullptrConstant) {
             return LLVM_STORE_INST + " " + ((PointerType) this.storePtr.valueType).baseType + " "
                     + this.storeValue.getIdentifier() + ", " + this.storePtr.valueType + " "
-                    + this.storePtr.getIdentifier() + ", align " + this.valueType.size();
+                    + this.storePtr.getIdentifier();
+            //+ ", align " + this.valueType.size();
         } else {
             return LLVM_STORE_INST + " " + this.storeValue.valueType + " "
                     + this.storeValue.getIdentifier() + ", " + this.storePtr.valueType
-                    + " " + this.storePtr.getIdentifier() + ", align " + this.valueType.size();
+                    + " " + this.storePtr.getIdentifier() ;
+            //+ ", align " + this.valueType.size();
         }
     }
 }

@@ -2,41 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/test/test_command/ir-auto-test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/test_command/ir-auto-test.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/builtin.c" beforeDir="false" afterPath="$PROJECT_DIR$/lib/builtin.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AST/node/abstractNode/ExpNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/node/abstractNode/ExpNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AST/typeNode/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/typeNode/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/builtin.ll" beforeDir="false" afterPath="$PROJECT_DIR$/lib/builtin.ll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FrontEnd/SemanticChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/SemanticChecker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/IRModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/IRModule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Type/ArrayType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/ArrayType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Type/BoolType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/BoolType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Type/FunctionType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/FunctionType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Type/LabelType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/LabelType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Type/PointerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/PointerType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Type/StructType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/StructType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Utils/Renamer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Utils/Renamer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Utils/TypeTransLater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Utils/TypeTransLater.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/IRBasicBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRBasicBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/IRDefine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRDefine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRBoolConst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRBoolConst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRNullptrConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRNullptrConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBrInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRBrInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRCallInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRCallInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRGEPInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRGEPInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRIcmpInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRIcmpInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/IRUse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRUse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRAllocaInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRAllocaInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRLoadInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRLoadInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/scope/IRGlobalScope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/scope/IRGlobalScope.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/scope/IRScope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/scope/IRScope.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/debug/builtin.ll" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/builtin.ll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/debug/linked.bc" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/linked.bc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/debug/test" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.ll" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.ll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.mx" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.mx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_command/ir-auto-test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_command/ir-auto-test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_command/ir-auto-test.sh" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_command/ir-auto-test.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,9 +75,9 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "19",
-    "last_opened_file_path": "D:/Users/JXGuo/OneDrive/studying materials/computer related/compiler_design/myCompiler/Mx-Compiler",
+    "last_opened_file_path": "D:/Users/JXGuo/OneDrive/studying materials/computer related/compiler_design/myCompiler/Mx-Compiler/test/debug",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "PyConsoleConfigurable.Python Console"
@@ -109,8 +94,10 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Users\JXGuo\OneDrive\studying materials\computer related\compiler_design\myCompiler\Mx-Compiler\test\debug" />
+      <recent name="D:\Users\JXGuo\OneDrive\studying materials\computer related\compiler_design\myCompiler\Mx-Compiler\out\production\Mx-Compiler" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Users\JXGuo\OneDrive\studying materials\computer related\compiler_design\myCompiler\Mx-Compiler\test\debug" />
       <recent name="D:\Users\JXGuo\OneDrive\studying materials\computer related\compiler_design\myCompiler\Mx-Compiler\test\test_command" />
       <recent name="D:\Users\JXGuo\OneDrive\studying materials\computer related\compiler_design\myCompiler\Mx-Compiler\test\testCases" />
       <recent name="D:\Users\JXGuo\OneDrive\studying materials\computer related\compiler_design\myCompiler\Mx-Compiler" />
@@ -148,6 +135,8 @@
       <workItem from="1670212780627" duration="5613000" />
       <workItem from="1670226739684" duration="8169000" />
       <workItem from="1670242654027" duration="244000" />
+      <workItem from="1670248877967" duration="12343000" />
+      <workItem from="1670262602261" duration="5069000" />
     </task>
     <servers />
   </component>
@@ -164,6 +153,17 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java</url>
+          <line>131</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

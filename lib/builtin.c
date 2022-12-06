@@ -1,5 +1,5 @@
 const int STR_BUF_SIZE = 256;
-const int INT_BUF_SIZE = 10;
+const int INT_BUF_SIZE = 20;
 
 
 
@@ -46,7 +46,7 @@ int getInt() {
 }
 
 char* toString(int i) {
-    char* str = (char*)malloc(INT_BUF_SIZE);
+    char* str = (char*)malloc(1<<8);
     sprintf(str, "%d", i);
     return str;
 }
@@ -80,7 +80,7 @@ char* _malloc(int size) {
 }
 
 char* _str_concat(char *a, char* b){
-    char *res = malloc(strlen(a) + strlen(b) + 5);
+    char *res = malloc(strlen(a) + strlen(b) + 1);
 	strcpy(res, a);
 	strcat(res, b);
 	return res;

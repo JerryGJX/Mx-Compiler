@@ -1,4 +1,11 @@
-int main(){
-    int[][][] A = new int[3][2][];
+int[] a = new int[4];
+int main()
+{
+    int[][] b = new int[4][];
+	b[3] = a;
+	toString(b.size());
+
     return 0;
 }
+
+

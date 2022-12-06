@@ -14,6 +14,7 @@ out/
 .settings
 .springBeans
 .sts4-cache
+*.class
 
 src/buildComment/test/testCase
 src/grammar/*.class

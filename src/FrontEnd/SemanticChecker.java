@@ -606,6 +606,7 @@ public class SemanticChecker implements ASTVisitor, BuiltInElements {
     public void visit(NewExpNode node) {
         log.addLog("[NewExpNode]");
 
+        if(node.SizeList.size() == 0 && !node.resultType.isClass) throw new semanticError("NewExpNode is invalid",node.nodePos);
         for (var dim : node.SizeList) {
             dim.accept(this);
             if (idType.Match(dim.exprType)) {

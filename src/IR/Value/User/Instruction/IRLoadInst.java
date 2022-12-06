@@ -22,7 +22,8 @@ public class IRLoadInst extends IRInstruction {
 
     @Override
     public String printInst() {
-        return this.getIdentifier() + " = " + LLVM_LOAD_INST + " " + loadType + ", " + loadFromAddr.valueType + " " + loadFromAddr.getIdentifier() + ", align " + loadType.size();
+        return this.getIdentifier() + " = " + LLVM_LOAD_INST + " " + loadType + ", " + loadFromAddr.valueType + " " + loadFromAddr.getIdentifier();
+        //+ ", align " + loadType.size();
     }
 
 }
