@@ -1,5 +1,6 @@
 package IR.Value.User.Instruction;
 
+import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Value.IRBasicBlock;
 import IR.Value.IRValue;
@@ -26,5 +27,10 @@ public class IRTruncInst extends IRInstruction{
     public String printInst() {
         return this.getIdentifier() + " = " + LLVM_TRUNC_INST + " " + this.fromValue().valueType
                 + " " + this.fromValue().getIdentifier() + " to " + this.targetType();
+    }
+
+    @Override
+    public void accept(IRVisitor _visitor) {
+        _visitor.visit(this);
     }
 }

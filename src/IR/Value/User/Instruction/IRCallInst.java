@@ -1,5 +1,6 @@
 package IR.Value.User.Instruction;
 
+import IR.IRVisitor;
 import IR.Type.VoidType;
 import IR.Value.IRBasicBlock;
 import IR.Value.IRValue;
@@ -56,5 +57,11 @@ public class IRCallInst extends IRInstruction {
         }
         Ans.append(")");
         return Ans.toString();
+    }
+
+
+    @Override
+    public void accept(IRVisitor _visitor) {
+        _visitor.visit(this);
     }
 }

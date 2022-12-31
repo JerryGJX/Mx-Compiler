@@ -1,6 +1,7 @@
 package IR.Value.User.Instruction;
 
 
+import IR.IRVisitor;
 import IR.Type.VoidType;
 import IR.Value.IRBasicBlock;
 import IR.Value.IRValue;
@@ -57,5 +58,10 @@ public class IRBrInst extends IRInstruction {
             Ans += " " + LLVM_LABEL + " " + this.targetBlock().GetBlockId();
         }
         return Ans;
+    }
+
+    @Override
+    public void accept(IRVisitor _visitor) {
+        _visitor.visit(this);
     }
 }

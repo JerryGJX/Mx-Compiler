@@ -17,7 +17,5 @@ public abstract class IRInstruction extends IRUser {
     }
 
     public abstract String printInst();
-    public void accept(IRVisitor _visitor) {
-        _visitor.visit(this);
-    }
+    public abstract void accept(IRVisitor _visitor);
 }

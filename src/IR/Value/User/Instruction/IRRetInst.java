@@ -1,5 +1,6 @@
 package IR.Value.User.Instruction;
 
+import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Type.VoidType;
 import IR.Value.IRBasicBlock;
@@ -18,5 +19,10 @@ public class IRRetInst extends IRInstruction {
     @Override
     public String printInst() {
         return LLVM_RET_INST + " " + retType + ((retAddr == null) ? "" : " " + retAddr.getIdentifier());
+    }
+
+    @Override
+    public void accept(IRVisitor _visitor) {
+        _visitor.visit(this);
     }
 }

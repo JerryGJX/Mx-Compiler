@@ -1,5 +1,6 @@
 package IR.Value.User.Instruction;
 
+import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Value.IRBasicBlock;
 import IR.Value.IRValue;
@@ -26,6 +27,11 @@ public class IRBinaryInst extends IRInstruction {
     public String printInst() {
         return this.getIdentifier() + " = " + this.op + " " + this.valueType
                 + " " + this.lhs().getIdentifier() + ", " + this.rhs().getIdentifier();
+    }
+
+    @Override
+    public void accept(IRVisitor _visitor) {
+        _visitor.visit(this);
     }
 
 }

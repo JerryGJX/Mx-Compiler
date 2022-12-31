@@ -1,5 +1,6 @@
 package IR.Value.User.Instruction;
 
+import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Type.PointerType;
 import IR.Value.IRBasicBlock;
@@ -68,5 +69,10 @@ public class IRGEPInst extends IRInstruction {
             Ans.append(", ").append(this.getIndex(i).valueType).append(" ").append(this.getIndex(i).getIdentifier());
         }
         return Ans.toString();
+    }
+
+    @Override
+    public void accept(IRVisitor _visitor) {
+        _visitor.visit(this);
     }
 }

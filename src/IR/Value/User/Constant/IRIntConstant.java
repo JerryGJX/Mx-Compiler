@@ -33,8 +33,8 @@ public class IRIntConstant extends IRConstant {
     }
 
 
-    public void accept(IRVisitor _visitor) {
-        _visitor.visit(this);
-    }
+//    public void accept(IRVisitor _visitor) {
+//        _visitor.visit(this);
+//    }
 }
 

@@ -1,5 +1,6 @@
 package IR.Value.User.Instruction;
 
+import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Type.PointerType;
 import IR.Type.VoidType;
@@ -30,5 +31,10 @@ public class IRStoreInst extends IRInstruction {
                     + " " + this.storePtr.getIdentifier() ;
             //+ ", align " + this.valueType.size();
         }
+    }
+
+    @Override
+    public void accept(IRVisitor _visitor) {
+        _visitor.visit(this);
     }
 }

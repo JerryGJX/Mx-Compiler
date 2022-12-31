@@ -119,9 +119,9 @@ public class IRBuilder implements ASTVisitor, IRDefine {
     }
 
     //real content
-    public IRBuilder(String _fileName, GlobalScope _globalScope) {
+    public IRBuilder(IRModule _projectIRModule, GlobalScope _globalScope) {
         renamer = new Renamer();
-        projectIRModule = new IRModule(_fileName);
+        projectIRModule = _projectIRModule;
         var initFunc = GenerateInitFunc();
         this.currentBlock = null;
         projectIRModule.Init(_globalScope, initFunc);

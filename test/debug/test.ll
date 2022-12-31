@@ -1,5 +1,5 @@
 
-; IRModule = ../test/debug/test.mx
+; IRModule = test/debug/test.mx
 
 ; BuiltinFunc
 declare i8* @_malloc(i32)

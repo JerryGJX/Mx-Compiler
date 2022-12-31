@@ -1,5 +1,6 @@
 package IR.Value.User.Instruction;
 
+import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Type.PointerType;
 import IR.Value.IRBasicBlock;
@@ -19,5 +20,10 @@ public class IRAllocaInst extends IRInstruction {
         return this.getIdentifier() + " = " + LLVM_ALLOCA_INST + " " +
                 this.allocaType ;
         //+ ", align " + this.allocaType.size();
+    }
+
+    @Override
+    public void accept(IRVisitor _visitor) {
+        _visitor.visit(this);
     }
 }

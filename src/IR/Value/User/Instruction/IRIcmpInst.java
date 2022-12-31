@@ -1,5 +1,6 @@
 package IR.Value.User.Instruction;
 
+import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Type.BoolType;
 import IR.Value.IRBasicBlock;
@@ -28,5 +29,10 @@ public class IRIcmpInst extends IRInstruction {
     public String printInst() {
         return this.getIdentifier() + " = " + LLVM_ICMP_INST + " " + this.type + " " + this.lhs().valueType
                 + " " + this.lhs().getIdentifier() + ", " + this.rhs().getIdentifier();
+    }
+
+    @Override
+    public void accept(IRVisitor _visitor) {
+        _visitor.visit(this);
     }
 }

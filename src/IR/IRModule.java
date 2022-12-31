@@ -233,4 +233,9 @@ public class IRModule implements IRDefine {
 
         System.out.println(projectStr.toString());
     }
+
+
+    public void accept(IRVisitor _visitor) {
+        _visitor.visit(this);
+    }
 }

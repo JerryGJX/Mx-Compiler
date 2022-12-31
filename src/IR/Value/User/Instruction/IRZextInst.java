@@ -1,5 +1,6 @@
 package IR.Value.User.Instruction;
 
+import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Value.IRBasicBlock;
 import IR.Value.IRValue;
@@ -29,5 +30,10 @@ public class IRZextInst extends IRInstruction{//类型转换 e.g. i32 -> i64
     public String printInst() {
         return this.getIdentifier() + " = " + LLVM_ZEXT_INST + " " + this.fromValue().valueType
                 + " " + this.fromValue().getIdentifier() + " to " + this.targetType();
+    }
+
+    @Override
+    public void accept(IRVisitor _visitor) {
+        _visitor.visit(this);
     }
 }

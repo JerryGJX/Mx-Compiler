@@ -1,5 +1,6 @@
 package IR.Value.User.Instruction;
 
+import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Type.PointerType;
 import IR.Value.IRBasicBlock;
@@ -26,4 +27,8 @@ public class IRLoadInst extends IRInstruction {
         //+ ", align " + loadType.size();
     }
 
+    @Override
+    public void accept(IRVisitor _visitor) {
+        _visitor.visit(this);
+    }
 }
