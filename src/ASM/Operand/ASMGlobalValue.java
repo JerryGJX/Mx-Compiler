@@ -2,10 +2,10 @@ package ASM.Operand;
 
 
 //.data
-public class GlobalValue extends Global {
+public class ASMGlobalValue extends ASMGlobal {
     public int value, byteWidth;
 
-    public GlobalValue(String globalName, int value, int byteWidth) {
+    public ASMGlobalValue(String globalName, int value, int byteWidth) {
         super(globalName);
         this.value = value;
         this.byteWidth = byteWidth;

@@ -1,17 +1,17 @@
 package ASM.Inst;
 
-import ASM.Operand.Imm;
+import ASM.Operand.ASMImm;
 import ASM.Operand.Reg;
 
 public abstract class ASMInst {
     public Reg rd, rs1, rs2;
-    public Imm imm;
+    public ASMImm ASMImm;
 
-    public ASMInst (Reg rd, Reg rs1, Reg rs2, Imm imm) {
+    public ASMInst (Reg rd, Reg rs1, Reg rs2, ASMImm ASMImm) {
         this.rd = rd;
         this.rs1 = rs1;
         this.rs2 = rs2;
-        this.imm = imm;
+        this.ASMImm = ASMImm;
     }
 
     public abstract String toString();

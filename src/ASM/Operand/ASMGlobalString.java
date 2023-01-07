@@ -2,10 +2,10 @@ package ASM.Operand;
 
 
 //.rodata
-public class GlobalString extends Global {
+public class ASMGlobalString extends ASMGlobal {
     public String strConst;
 
-    public GlobalString(String name, String str) {
+    public ASMGlobalString(String name, String str) {
         super(name);
         this.strConst = str;
     }

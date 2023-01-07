@@ -112,7 +112,7 @@ getString:                              # @getString
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register %rbp
 	subq	$16, %rsp
-	movl	$256, %edi                      # imm = 0x100
+	movl	$256, %edi                      # ASMImm = 0x100
 	callq	malloc@PLT
 	movq	%rax, -8(%rbp)
 	movq	-8(%rbp), %rsi

@@ -1,15 +1,16 @@
 package ASM;
 
 import ASM.Inst.ASMInst;
+import ASM.Operand.ASMOperand;
 
 import java.util.LinkedList;
 
-public class ASMBlock {
-    String blockId;
+public class ASMBlock extends ASMOperand {
+    //    String blockId;
     public LinkedList<ASMInst> instList = new LinkedList<>();
 
     public ASMBlock(String blockId) {
-        this.blockId = blockId;
+        super(blockId);
     }
 
     public void addInst(ASMInst inst) {
@@ -17,12 +18,12 @@ public class ASMBlock {
     }
 
     public String blockId() {
-        return blockId;
+        return this.identifier;
     }
 
     public String toString() {
         StringBuilder ret = new StringBuilder();
-        if (blockId != null) ret.append(blockId).append(":\n");
+        if (this.identifier != null) ret.append(this.identifier).append(":\n");
         for (ASMInst inst : instList)
             ret.append("  ").append(inst).append("\n");
         return ret.toString();

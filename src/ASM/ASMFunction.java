@@ -1,11 +1,12 @@
 package ASM;
 
+import ASM.Operand.ASMOperand;
 import ASM.Operand.Reg;
 
 import java.util.ArrayList;
 
-public class ASMFunction {
-    public String funcName;
+public class ASMFunction extends ASMOperand {
+    //public String funcName;
     public ArrayList<ASMBlock> blockList = new ArrayList<ASMBlock>();
     public ArrayList<Reg> paraList = new ArrayList<Reg>();
 
@@ -15,7 +16,8 @@ public class ASMFunction {
     public int totalStackUsed = 0;
 
     public ASMFunction(String funcName) {
-        this.funcName = funcName;
+        super(funcName);
+        //this.funcName = funcName;
     }
 
     public void addBlock(ASMBlock block) {
@@ -23,8 +25,8 @@ public class ASMFunction {
     }
 
     public String toString() {
-        StringBuilder ret = new StringBuilder("  .text\n" + "  .globl " + funcName + "\n");
-        ret.append(funcName).append(":\n");
+        StringBuilder ret = new StringBuilder("  .text\n" + "  .globl " + this.identifier + "\n");
+        ret.append(this.identifier).append(":\n");
         for (ASMBlock block : blockList)
             ret.append(block);
         return ret.toString();

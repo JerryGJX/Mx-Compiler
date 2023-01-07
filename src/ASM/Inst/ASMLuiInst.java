@@ -1,16 +1,16 @@
 package ASM.Inst;
 
-import ASM.Operand.Imm;
+import ASM.Operand.ASMImm;
 import ASM.Operand.Reg;
 
 public class ASMLuiInst extends ASMInst {
-    public ASMLuiInst(Reg rd, Imm imm) {
-        super(rd, null, null, imm);
+    public ASMLuiInst(Reg rd, ASMImm ASMImm) {
+        super(rd, null, null, ASMImm);
     }
 
     @Override
     public String toString() {
-        return "lui " + rd + ", " + imm;
+        return "lui " + rd + ", " + ASMImm;
     }
 }
 

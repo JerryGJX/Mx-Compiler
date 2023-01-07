@@ -1,8 +1,8 @@
 package ASM.Operand;
 
-public class PhysicalReg extends Reg {
+public class ASMPhysicalReg extends Reg {
     public String name;
-    public PhysicalReg(String name){
+    public ASMPhysicalReg(String name){
         this.name = name;
     }
 

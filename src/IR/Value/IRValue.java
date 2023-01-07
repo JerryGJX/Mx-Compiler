@@ -1,5 +1,6 @@
 package IR.Value;
 
+import ASM.Operand.ASMOperand;
 import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Value.User.IRUser;
@@ -11,6 +12,8 @@ public class IRValue implements IRDefine {
 
     public String valueName;
     public BasicType valueType;
+
+    public ASMOperand asmOperand = null;
 
 //    public String id = "";
 //    public String printId = "";

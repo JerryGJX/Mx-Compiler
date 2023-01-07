@@ -1,5 +1,6 @@
 import AST.ASTBuilder;
 import AST.node.concretNode.RootNode;
+import BackEnd.ASMBuilder;
 import FrontEnd.SemanticChecker;
 import FrontEnd.SymbolCollector;
 import IR.IRModule;
@@ -49,6 +50,8 @@ public class Compiler {
 
             IRModule projectIRModule = new IRModule(fileName);
             new IRBuilder(projectIRModule,globalScope).visit(ASTRoot);
+            new ASMBuilder().visit(projectIRModule);
+
         } catch (error er) {
             System.err.println(er.toString());
         }
