@@ -1,7 +1,7 @@
 package ASM.Inst;
 
 import ASM.Operand.ASMImm;
-import ASM.Operand.Reg;
+import ASM.Operand.ASMReg;
 
 
 // op,rd,rs1,rs2: add,sub,...
@@ -12,16 +12,10 @@ import ASM.Operand.Reg;
 public class ASMBinaryInst extends ASMInst{
     public String op;
 
-    public ASMBinaryInst(String op, Reg rd, Reg rs1, Reg rs2) {
-        super(rd, rs1, rs2, null);
+    public ASMBinaryInst(String op, ASMReg rd, ASMReg rs1, ASMReg rs2, ASMImm ASMImm) {
+        super(rd, rs1, rs2, ASMImm);
         this.op = op;
     }
-
-    public ASMBinaryInst(String op, Reg rd, Reg rs1, ASMImm ASMImm) {
-        super(rd, rs1, null, ASMImm);
-        this.op = op + "i";//todo
-    }
-
 
     @Override
     public String toString() {

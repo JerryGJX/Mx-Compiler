@@ -1,11 +1,11 @@
 package ASM.Inst;
 
-import ASM.Operand.Reg;
+import ASM.Operand.ASMReg;
 
 public class ASMUnaryInst extends ASMInst{
     public String op;
 
-    ASMUnaryInst(String op, Reg rd, Reg rs1) {
+    ASMUnaryInst(String op, ASMReg rd, ASMReg rs1) {
         super(rd, rs1, null, null);
         this.op = op;
     }

@@ -507,7 +507,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             currentBlock.addInst(icmpInst);
             node.irValue = icmpInst;
         } else if (opInfo.instName.equals("logic")) {
-            //todo
+
             assert lhsValue.valueType instanceof BoolType;
             IRBasicBlock noShortCutBlock = new IRBasicBlock(renamer.rename("noShortCutBlock"));
             IRBasicBlock logicExitBlock = new IRBasicBlock(renamer.rename("logicExitBlock"));

@@ -1,23 +1,25 @@
 package ASM;
 
+import ASM.Inst.ASMInst;
 import ASM.Operand.ASMOperand;
-import ASM.Operand.Reg;
+import ASM.Operand.ASMReg;
 
 import java.util.ArrayList;
 
 public class ASMFunction extends ASMOperand {
-    //public String funcName;
-    public ArrayList<ASMBlock> blockList = new ArrayList<ASMBlock>();
-    public ArrayList<Reg> paraList = new ArrayList<Reg>();
+    public ArrayList<ASMBlock> blockList = new ArrayList<>();
+    public ArrayList<ASMReg> paraList = new ArrayList<>();
+
+    public ASMInst decreaseStackPtrInst = null;
+    public ASMInst increaseStackPtrInst = null;
 
     public int virtualRegCnt = 0;
-    public int allocaUsed = 4;
-    public int paramUsed = 0;
-    public int totalStackUsed = 0;
+    public int allocaCnt = 0;
+    public int paramNum = 0;
+    public int totalStack = 0;
 
     public ASMFunction(String funcName) {
         super(funcName);
-        //this.funcName = funcName;
     }
 
     public void addBlock(ASMBlock block) {

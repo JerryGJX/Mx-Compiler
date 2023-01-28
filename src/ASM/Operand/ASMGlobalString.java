@@ -12,13 +12,15 @@ public class ASMGlobalString extends ASMGlobal {
 
     @Override
     public String toString() {
-        String ret = globalName + ":\n";
-        ret += "  .string \"" + strConst.replace("\\", "\\\\")
+        return " .type " + globalName + ", @object\n" +
+                globalName + ":\n" +
+                "  .string \"" + strConst.replace("\\", "\\\\")
                 .replace("\n", "\\n")
                 .replace("\0", "")
                 .replace("\t", "\\t")
-                .replace("\"", "\\\"") + "\"\n";
-        return ret;
+                .replace("\"", "\\\"") +
+                "\"\n" +
+                " .size " + globalName + ", " + (strConst.length() + 1) + "\n\n";
     }
 }
 

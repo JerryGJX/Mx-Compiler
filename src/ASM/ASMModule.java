@@ -2,14 +2,30 @@ package ASM;
 
 import ASM.Operand.ASMGlobalString;
 import ASM.Operand.ASMGlobalValue;
-import ASM.Operand.ASMPhysicalReg;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ASMModule {
-    public HashMap<String, ASMPhysicalReg> regMap = new HashMap<>();
     public ArrayList<ASMGlobalValue> globalValueList = new ArrayList<>();
     public ArrayList<ASMGlobalString> globalStringList = new ArrayList<>();
-    public ArrayList<ASMFunction> functionList = new ArrayList<>();
+    public ArrayList<ASMFunction> funcList = new ArrayList<>();
+
+    public String toString() {
+        StringBuilder ret = new StringBuilder();
+        ret.append(".section .text\n");
+        for (ASMFunction func : funcList) {
+            ret.append(func.toString()).append("\n");
+        }
+        ret.append(".section .bss\n");
+        for (ASMGlobalValue globalValue : globalValueList) {
+            ret.append(globalValue.toString()).append("\n");
+        }
+        ret.append(".section .rodata\n");
+        for (ASMGlobalString globalString : globalStringList) {
+            ret.append(globalString.toString()).append("\n");
+        }
+        return ret.toString();
+    }
+
+
 }

@@ -1,13 +1,17 @@
 package ASM.Inst;
 
 import ASM.ASMBlock;
-import ASM.Operand.Reg;
+import ASM.Operand.ASMReg;
 
 public class ASMBrInst extends ASMInst{
-    public String op;
+    public enum ASMBrOp {
+        beq, bne, blt, bge, bltu, bgeu
+    }
+
+    public ASMBrOp op;
     public ASMBlock targetBlock;
 
-    public ASMBrInst(String op, Reg rs1,Reg rs2, ASMBlock targetBlock) {
+    public ASMBrInst(ASMBrOp op, ASMReg rs1, ASMReg rs2, ASMBlock targetBlock) {
         super(null, rs1, rs2, null);
         this.op = op;
         this.targetBlock = targetBlock;

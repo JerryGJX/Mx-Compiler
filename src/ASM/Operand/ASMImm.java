@@ -4,6 +4,7 @@ public class ASMImm extends ASMOperand {
     public int val;
 
     public ASMImm(int val) {
+        super("_imm");
         this.val = val;
     }
 

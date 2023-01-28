@@ -50,7 +50,7 @@ public class Compiler {
 
             IRModule projectIRModule = new IRModule(fileName);
             new IRBuilder(projectIRModule,globalScope).visit(ASTRoot);
-            new ASMBuilder().visit(projectIRModule);
+//            new ASMBuilder().visit(projectIRModule);
 
         } catch (error er) {
             System.err.println(er.toString());

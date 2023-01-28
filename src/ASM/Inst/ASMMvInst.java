@@ -1,9 +1,9 @@
 package ASM.Inst;
 
-import ASM.Operand.Reg;
+import ASM.Operand.ASMReg;
 
 public class ASMMvInst extends ASMInst {
-    public ASMMvInst(Reg rd, Reg rs1) {
+    public ASMMvInst(ASMReg rd, ASMReg rs1) {
         super(rd, rs1, null, null);
     }
 

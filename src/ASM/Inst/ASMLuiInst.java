@@ -1,10 +1,10 @@
 package ASM.Inst;
 
 import ASM.Operand.ASMImm;
-import ASM.Operand.Reg;
+import ASM.Operand.ASMReg;
 
 public class ASMLuiInst extends ASMInst {
-    public ASMLuiInst(Reg rd, ASMImm ASMImm) {
+    public ASMLuiInst(ASMReg rd, ASMImm ASMImm) {
         super(rd, null, null, ASMImm);
     }
 
