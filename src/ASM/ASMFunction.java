@@ -13,9 +13,10 @@ public class ASMFunction extends ASMOperand {
     public ASMInst decreaseStackPtrInst = null;
     public ASMInst increaseStackPtrInst = null;
 
-    public int virtualRegCnt = 0;
+
     public int allocaCnt = 0;
-    public int paramNum = 0;
+    public int spilledArgCnt = 0;
+    public int spilledRegCnt = 0;
     public int totalStack = 0;
 
     public ASMFunction(String funcName) {

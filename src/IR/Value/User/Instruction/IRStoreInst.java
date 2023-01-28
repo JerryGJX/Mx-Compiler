@@ -18,6 +18,14 @@ public class IRStoreInst extends IRInstruction {
         this.storePtr = _pointer;
     }
 
+    public IRValue getStoreValue() {
+        return storeValue;
+    }
+
+    public IRValue getStorePtr() {
+        return storePtr;
+    }
+
     @Override
     public String printInst() {
         if (this.storeValue instanceof IRNullptrConstant) {

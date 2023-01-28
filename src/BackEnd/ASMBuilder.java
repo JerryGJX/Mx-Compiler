@@ -7,6 +7,7 @@ import ASM.Inst.*;
 import ASM.Operand.*;
 import IR.IRModule;
 import IR.IRVisitor;
+import IR.Type.VoidType;
 import IR.Value.IRBasicBlock;
 import IR.Value.IRValue;
 import IR.Value.User.Constant.GlobalValue.IRFunction;
@@ -34,6 +35,7 @@ public class ASMBuilder implements IRVisitor {
         else if (value instanceof IRNullptrConstant || value instanceof IRZeroInitConstant) return 0;
         else return null;
     }
+
 
     private ASMReg getReg(IRValue value) {
         if (value.asmOperand != null) {
@@ -131,7 +133,7 @@ public class ASMBuilder implements IRVisitor {
                 ASMVirtualReg virtualReg = new ASMVirtualReg(4);
                 arg.asmOperand = virtualReg;
                 asmFunction.paraList.add(virtualReg);
-                ASMLoadInst loadInst = new ASMLoadInst(4, virtualReg, getPhysicalReg("sp"), new ASMStackOffset(4 * (i - 8), ASMStackOffset.StackOffsetType.getArg));
+                ASMLoadInst loadInst = new ASMLoadInst(4, virtualReg, getPhysicalReg("sp"), new ASMStackOffset(i - 8, ASMStackOffset.StackOffsetType.getArg));
             }
         }
 
@@ -171,7 +173,7 @@ public class ASMBuilder implements IRVisitor {
 
     @Override
     public void visit(IRAllocaInst irInst) {
-        irInst.asmOperand = new ASMStackOffset(4 * curFunc.allocaCnt, ASMStackOffset.StackOffsetType.alloca);
+        irInst.asmOperand = new ASMStackOffset(curFunc.allocaCnt, ASMStackOffset.StackOffsetType.alloca);
         curFunc.allocaCnt++;
     }
 
@@ -263,7 +265,23 @@ public class ASMBuilder implements IRVisitor {
 
     @Override
     public void visit(IRCallInst irCallInst) {
-
+        for (int i = 0; i < irCallInst.operandSize() - 1; ++i) {
+            IRValue arg = irCallInst.args(i);
+            if (i < 8) {
+                ASMMvInst mvInst = new ASMMvInst(getPhysicalReg("a" + i), getReg(arg));
+                curBlock.addInst(mvInst);
+            } else {
+                curFunc.spilledArgCnt = Math.max(curFunc.spilledArgCnt, i - 8);
+                ASMStoreInst storeInst = new ASMStoreInst(4, getReg(arg), getPhysicalReg("sp"), new ASMStackOffset(i - 8, ASMStackOffset.StackOffsetType.putArg));
+                curBlock.addInst(storeInst);
+            }
+        }
+        ASMCallInst callInst = new ASMCallInst((ASMFunction) irCallInst.calledFunc().asmOperand);
+        curBlock.addInst(callInst);
+        if (!(irCallInst.calledFunc().returnType instanceof VoidType)) {
+            ASMMvInst mvInst = new ASMMvInst(getReg(irCallInst), getPhysicalReg("a0"));
+            curBlock.addInst(mvInst);
+        }
     }
 
     @Override
@@ -273,7 +291,45 @@ public class ASMBuilder implements IRVisitor {
 
     @Override
     public void visit(IRIcmpInst irIcmpInst) {
+        switch(irIcmpInst.type){
+            case "sgt" -> {
+                ASMBinaryInst binaryInst = new ASMBinaryInst("slt", getReg(irIcmpInst), getReg(irIcmpInst.rhs()), getReg(irIcmpInst.lhs()), null);
+                curBlock.addInst(binaryInst);
+            }
+            case "slt" -> {
+                ASMBinaryInst binaryInst = new ASMBinaryInst("slt", getReg(irIcmpInst), getReg(irIcmpInst.lhs()), getReg(irIcmpInst.rhs()), null);
+                curBlock.addInst(binaryInst);
+            }
+            case "sge" -> { //a >= b <--> !(a < b)
+                ASMVirtualReg tmpReg = new ASMVirtualReg();
+                ASMBinaryInst binaryInst1 = new ASMBinaryInst("slt", tmpReg, getReg(irIcmpInst.lhs()), getReg(irIcmpInst.rhs()), null);
+                curBlock.addInst(binaryInst1);
+                ASMBinaryInst binaryInst2 = new ASMBinaryInst("xori", getReg(irIcmpInst), tmpReg, null, new ASMImm(1));
+                curBlock.addInst(binaryInst2);
+            }
+            case "sle" -> { //a <= b <--> !(a > b)
+                ASMVirtualReg tmpReg = new ASMVirtualReg();
+                ASMBinaryInst binaryInst1 = new ASMBinaryInst("slt", tmpReg, getReg(irIcmpInst.rhs()), getReg(irIcmpInst.lhs()), null);
+                curBlock.addInst(binaryInst1);
+                ASMBinaryInst binaryInst2 = new ASMBinaryInst("xori", getReg(irIcmpInst), tmpReg, null, new ASMImm(1));
+                curBlock.addInst(binaryInst2);
+            }
+            case "eq" -> {
+                ASMVirtualReg tmpReg = new ASMVirtualReg();
+                ASMBinaryInst binaryInst = new ASMBinaryInst("sub", tmpReg, getReg(irIcmpInst.lhs()), getReg(irIcmpInst.rhs()), null);
+                curBlock.addInst(binaryInst);
+                ASMUnaryInst unaryInst = new ASMUnaryInst("seqz", getReg(irIcmpInst), tmpReg);
+                curBlock.addInst(unaryInst);
+            }
+            case "ne" -> {
+                ASMVirtualReg tmpReg = new ASMVirtualReg();
+                ASMBinaryInst binaryInst = new ASMBinaryInst("sub", tmpReg, getReg(irIcmpInst.lhs()), getReg(irIcmpInst.rhs()), null);
+                curBlock.addInst(binaryInst);
+                ASMUnaryInst unaryInst = new ASMUnaryInst("snez", getReg(irIcmpInst), tmpReg);
+                curBlock.addInst(unaryInst);
+            }
 
+        }
     }
 
     @Override
@@ -283,7 +339,10 @@ public class ASMBuilder implements IRVisitor {
 
     @Override
     public void visit(IRRetInst irRetInst) {
-
+        if(irRetInst.hasRetAddr()) {
+            ASMMvInst mvInst = new ASMMvInst(getPhysicalReg("a0"), getReg(irRetInst.getRetAddr()));
+            curBlock.addInst(mvInst);
+        }
     }
 
     @Override
@@ -292,13 +351,20 @@ public class ASMBuilder implements IRVisitor {
     }
 
     @Override
-    public void visit(IRTruncInst irTruncInst) {
-        ASMVirtualReg virtualReg = new ASMVirtualReg(4);
-        ASMBinaryInst binaryInst = new ASMBinaryInst();
+    public void visit(IRTruncInst irTruncInst) {//only for bool
+        ASMVirtualReg virtualReg = new ASMVirtualReg(irTruncInst.targetType().size());
+        ASMBinaryInst binaryInst = new ASMBinaryInst("andi", virtualReg, getReg(irTruncInst.fromValue()), null, new ASMImm(1));
+        curBlock.addInst(binaryInst);
+        ASMMvInst mvInst = new ASMMvInst(getReg(irTruncInst), virtualReg);
+        curBlock.addInst(mvInst);
     }
 
     @Override
-    public void visit(IRZextInst irZextInst) {
-
+    public void visit(IRZextInst irZextInst) {//only for bool
+        ASMVirtualReg virtualReg = new ASMVirtualReg(irZextInst.targetType().size());
+        ASMBinaryInst binaryInst = new ASMBinaryInst("andi", virtualReg, getReg(irZextInst.fromValue()), null, new ASMImm(1));
+        curBlock.addInst(binaryInst);
+        ASMMvInst mvInst = new ASMMvInst(getReg(irZextInst), virtualReg);
+        curBlock.addInst(mvInst);
     }
 }

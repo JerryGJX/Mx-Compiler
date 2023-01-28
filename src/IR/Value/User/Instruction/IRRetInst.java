@@ -16,6 +16,14 @@ public class IRRetInst extends IRInstruction {
         this.retAddr = _retAddr;
     }
 
+    public boolean hasRetAddr() {
+        return retAddr != null;
+    }
+
+    public IRValue getRetAddr() {
+        return retAddr;
+    }
+
     @Override
     public String printInst() {
         return LLVM_RET_INST + " " + retType + ((retAddr == null) ? "" : " " + retAddr.getIdentifier());

@@ -1,6 +1,13 @@
 bool A;
 
+bool func(bool C){
+return C;
+}
+
 int main(){
-    A = true;
+    A = func(true);
+    if(A!=true){
     bool B = A && false;
+    }
+
 }

@@ -2,31 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMPhysicalASMReg.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMStackOffset.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMCallInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/ASMBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/ASMBlock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ASM/ASMFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/ASMFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/ASMModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/ASMModule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMBinaryInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMBinaryInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMBrInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMBrInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMLiInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMLiInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMLoadInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMLoadInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMLuiInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMLuiInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMMvInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMMvInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMStoreInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMStoreInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMUnaryInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMUnaryInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Operand/ASMGlobal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMGlobal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Operand/ASMGlobalString.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMGlobalString.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Operand/ASMGlobalValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMGlobalValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Operand/ASMImm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMImm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Operand/ASMPhysicalReg.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Operand/ASMVirtualReg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMVirtualReg.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Operand/Reg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMReg.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRCallInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRCallInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRIcmpInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRIcmpInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRRetInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRRetInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.ll" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.ll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.mx" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.mx" afterDir="false" />
     </list>
@@ -153,7 +137,7 @@
       <workItem from="1672504374115" duration="6107000" />
       <workItem from="1673021661997" duration="11220000" />
       <workItem from="1673102484063" duration="85000" />
-      <workItem from="1673708274077" duration="36068000" />
+      <workItem from="1673708274077" duration="51021000" />
     </task>
     <servers />
   </component>
@@ -170,17 +154,6 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java</url>
-          <line>640</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

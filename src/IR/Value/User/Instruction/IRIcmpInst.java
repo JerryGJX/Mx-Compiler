@@ -7,7 +7,7 @@ import IR.Value.IRBasicBlock;
 import IR.Value.IRValue;
 
 public class IRIcmpInst extends IRInstruction {
-    //<result> = icmp <cond> <ty> <op1>, <op2>   ; yields i1 or <N x i1>:result
+    //<result> = icmp <cond> <ty> <op1>, <op2>
     public String type;
 
     public IRIcmpInst(String _valueName, String _type, IRValue _lhs, IRValue _rhs, IRBasicBlock _parentBlock) {
