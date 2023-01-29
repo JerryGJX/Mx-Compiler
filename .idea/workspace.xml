@@ -2,17 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMCallInst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/ASMFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/ASMFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMUnaryInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMUnaryInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRCallInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRCallInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRIcmpInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRIcmpInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRRetInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRRetInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/builtin.ll" beforeDir="false" afterPath="$PROJECT_DIR$/lib/builtin.ll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/debug/linked.bc" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/linked.bc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/debug/test" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.ll" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.ll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.mx" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.mx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/irtestspace/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/irtestspace/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/irtestspace/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/irtestspace/output.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/irtestspace/std.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/irtestspace/std.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_command/ir-auto-test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_command/ir-auto-test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_command/ir_test.sh" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_command/ir_test.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +67,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "19",
-    "last_opened_file_path": "D:/Users/JerryGuo/OneDrive/studying_materials/computer_related/compiler_design/myCompiler/reference/Masterball-main",
+    "last_opened_file_path": "D:/Users/JerryGuo/OneDrive/studying_materials/computer_related/compiler_design/myCompiler/Mx-Compiler",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
@@ -137,7 +138,8 @@
       <workItem from="1672504374115" duration="6107000" />
       <workItem from="1673021661997" duration="11220000" />
       <workItem from="1673102484063" duration="85000" />
-      <workItem from="1673708274077" duration="51021000" />
+      <workItem from="1673708274077" duration="57150000" />
+      <workItem from="1674975095361" duration="3717000" />
     </task>
     <servers />
   </component>

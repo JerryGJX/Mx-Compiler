@@ -1,3 +1,4 @@
+# coding:utf-8
 import os
 import time
 
@@ -23,7 +24,10 @@ for judge in judge_list:
     output_fp = open(output_file, "w")
     std_fp = open(std_file, "w")
 
-    fp = open(code_file)
+    fp = open(code_file, encoding='UTF-8')
+
+    print(code_file)
+
     lines = fp.readlines()
 
     input_start = False

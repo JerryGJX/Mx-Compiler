@@ -31,7 +31,6 @@ public class Compiler {
         PrintStream ps = new PrintStream(llvmir);
         System.setOut(ps);
 
-
         Log log = new Log();
         GlobalScope globalScope = new GlobalScope();
         try {
