@@ -9,30 +9,30 @@ import IR.Value.IRValue;
 public class IRGEPInst extends IRInstruction {
     public String elementName = null;
 
-    public IRGEPInst(String _valueName, String _elementName, IRValue _headPointer,IRBasicBlock _parentBlock, BasicType _pointedType,  IRValue... indexes) {
+    public IRGEPInst(String _valueName, String _elementName, IRValue _headPointer, IRBasicBlock _parentBlock, BasicType _pointedType, IRValue index) {
         super(_valueName, new PointerType(_pointedType), _parentBlock);
         assert _headPointer.valueType instanceof PointerType;
         this.addOperand(_headPointer);
 
 //        System.out.println("IRGEPInst1: list Size :" + this.operandSize());
 
-        for (IRValue index : indexes) {
-            this.addOperand(index);
-        }
+//        for (IRValue index : indexes) {
+        this.addOperand(index);
+//        }
         this.elementName = _elementName;
     }
 
-    public IRGEPInst(String _valueName,IRValue _headPointer,IRBasicBlock _parentBlock, BasicType _pointedType,  IRValue... indexes) {
+    public IRGEPInst(String _valueName, IRValue _headPointer, IRBasicBlock _parentBlock, BasicType _pointedType, IRValue index) {
         super(_valueName, new PointerType(_pointedType), _parentBlock);
         assert _headPointer.valueType instanceof PointerType;
         this.addOperand(_headPointer);
 
 //        System.out.println("IRGEPInst2: list Size :" + this.operandSize());
 
-        for (IRValue index : indexes) {
+//        for (IRValue index : indexes) {
 //            System.out.println("IRGEPInst2: index: " + index);
-            this.addOperand(index);
-        }
+        this.addOperand(index);
+//        }
     }
 
     public int numOfIndexes() {

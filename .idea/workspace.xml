@@ -2,18 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMGlobalAddr.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/builtin.ll" beforeDir="false" afterPath="$PROJECT_DIR$/lib/builtin.ll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/debug/linked.bc" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/linked.bc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/debug/test" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/debug/test.ll" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.ll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/debug/test.mx" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.mx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/irtestspace/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/irtestspace/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/irtestspace/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/irtestspace/output.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/irtestspace/std.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/irtestspace/std.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_command/ir-auto-test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_command/ir-auto-test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_command/ir_test.sh" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_command/ir_test.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMStoreInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMStoreInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Type/BoolType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/BoolType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Type/memBoolType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Type/memBoolType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRGEPInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRGEPInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +64,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "19",
-    "last_opened_file_path": "D:/Users/JerryGuo/OneDrive/studying_materials/computer_related/compiler_design/myCompiler/Mx-Compiler",
+    "last_opened_file_path": "D:/Users/JerryGuo/OneDrive/studying_materials/computer_related/compiler_design/myCompiler/reference/Masterball-main",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
@@ -139,7 +136,7 @@
       <workItem from="1673021661997" duration="11220000" />
       <workItem from="1673102484063" duration="85000" />
       <workItem from="1673708274077" duration="57150000" />
-      <workItem from="1674975095361" duration="3717000" />
+      <workItem from="1674975095361" duration="17225000" />
     </task>
     <servers />
   </component>
@@ -156,6 +153,32 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java</url>
+          <line>1006</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java</url>
+          <line>630</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java</url>
+          <line>394</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java</url>
+          <line>242</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

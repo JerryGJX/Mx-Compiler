@@ -9,8 +9,8 @@ import IR.Value.IRValue;
 import IR.Value.User.Constant.IRNullptrConstant;
 
 public class IRStoreInst extends IRInstruction {
-    IRValue storeValue;
-    IRValue storePtr;
+    public IRValue storeValue;
+    public IRValue storePtr;
 
     public IRStoreInst(IRValue _value, IRValue _pointer, IRBasicBlock _parentBlock) {
         super(LLVM_STORE_INST, _value.valueType, _parentBlock);

@@ -14,7 +14,7 @@ public class BoolType extends BasicType {
 
     @Override
     public int size() {
-        return 1;
+        return 4;
     }
 }
 

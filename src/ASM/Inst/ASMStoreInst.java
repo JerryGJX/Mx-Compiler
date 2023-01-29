@@ -6,8 +6,8 @@ import ASM.Operand.ASMReg;
 public class ASMStoreInst extends ASMInst {
     int byteWidth;
 
-    public ASMStoreInst(int byteWidth, ASMReg rs1, ASMReg rs2, ASMImm ASMImm) {
-        super(null, rs1, rs2, ASMImm);
+    public ASMStoreInst(int byteWidth, ASMReg addr, ASMReg val, ASMImm ASMImm) {
+        super(null, addr, val, ASMImm);
 
     }
 

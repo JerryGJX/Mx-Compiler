@@ -240,7 +240,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             parentType.memberOffset.forEach((memberName, offset) -> {
                 var memberType = parentType.memberTypeList.get(offset);
                 var varId = renamer.rename(memberName + ".addr");
-                var memberPtrInst = generateNamedElementPtrInst(varId, thisPtr, memberType, currentBlock, new IRIntConstant(0), new IRIntConstant(offset));
+                var memberPtrInst = generateNamedElementPtrInst(varId, thisPtr, memberType, currentBlock, new IRIntConstant(offset));
                 if (!irCurrentScope.rawToIdMap.containsKey(memberName)) {
                     irCurrentScope.rawToIdMap.put(memberName, varId);
                     memberVarAddrMap.put(varId, memberPtrInst);
@@ -370,13 +370,13 @@ public class IRBuilder implements ASTVisitor, IRDefine {
 //                        if()
 //                        node.irValue = new IRValue(new VoidType());//this doesn't matter
 //                    } else {
-                        if (irCurrentScope.inClass) {
-                            String className = CurClass().classId;
-                            String memFuncName = className + "." + node.llvmName;
-                            if (projectIRModule.IRFunctionMap.containsKey(memFuncName)) {
-                                node.irValue = getIRFunction(memFuncName);
-                            } else node.irValue = getIRFunction(node.llvmName);
+                    if (irCurrentScope.inClass) {
+                        String className = CurClass().classId;
+                        String memFuncName = className + "." + node.llvmName;
+                        if (projectIRModule.IRFunctionMap.containsKey(memFuncName)) {
+                            node.irValue = getIRFunction(memFuncName);
                         } else node.irValue = getIRFunction(node.llvmName);
+                    } else node.irValue = getIRFunction(node.llvmName);
 //                    }
                 } else node.irAddress = GetVarAddrInCurrentScope(node.llvmName);
                 //for memberFunc and memberVar, we process it in the member Exp
@@ -392,7 +392,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             AddConstStrToModule(str);
             var strConst = GetStrInfo(str);
             node.llvmName = strConst.valueName;
-            var gepInst = generateUnnamedElementPtrInst(strConst, new IntegerType(8), currentBlock, new IRIntConstant(0), new IRIntConstant(0));
+            var gepInst = generateUnnamedElementPtrInst(strConst, new IntegerType(8), currentBlock, new IRIntConstant(0));
             node.irValue = gepInst;
             currentBlock.addInst(gepInst);
         } else if (node instanceof ThisExpNode) {
@@ -628,7 +628,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             StructType structType = (StructType) ((PointerType) baseType).Dereference();
             Integer varRank = projectIRModule.getMemberVarRank(structType.classId, node.memberName);
             BasicType varType = projectIRModule.getMemberVarType(structType.classId, node.memberName);
-            var namedGEPInst = generateNamedElementPtrInst(renamer.rename(node.memberName), baseVar, varType, currentBlock, new IRIntConstant(0), new IRIntConstant(varRank));
+            var namedGEPInst = generateNamedElementPtrInst(renamer.rename(node.memberName), baseVar, varType, currentBlock, new IRIntConstant(varRank));
             currentBlock.addInst(namedGEPInst);
             node.irAddress = namedGEPInst;
         }
@@ -850,7 +850,6 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         IRBasicBlock forExitBlock = new IRBasicBlock(renamer.rename(FOR_EXIT_LABEL));
 
 
-
         CurFunc().addBlock(forCondBlock);
         CurFunc().addBlock(forBodyBlock);
         CurFunc().addBlock(forStepBlock);
@@ -885,7 +884,6 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         node.bodyStmtNode.accept(this);
         var brInst3 = generateUnConBrInst(forStepBlock, currentBlock);
         currentBlock.addTerminator(brInst3);
-
 
 
         currentBlock = forExitBlock;
@@ -1006,7 +1004,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         parentType.memberOffset.forEach((memberName, offset) -> {
             var memberType = parentType.memberTypeList.get(offset);
             var varId = renamer.rename(memberName + ".addr");
-            var memberPtrInst = generateNamedElementPtrInst(varId, thisPtr, memberType, currentBlock, new IRIntConstant(0), new IRIntConstant(offset));
+            var memberPtrInst = generateNamedElementPtrInst(varId, thisPtr, memberType, currentBlock, new IRIntConstant(offset));
 
             if (!irCurrentScope.rawToIdMap.containsKey(memberName)) {
                 irCurrentScope.rawToIdMap.put(memberName, varId);
@@ -1162,16 +1160,16 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             return new IRCallInst(renamer.rename(_calledFunc.funcName + "." + LLVM_CALL_INST), _calledFunc, _parentBlock, _args);
     }
 
-    private IRInstruction generateNamedElementPtrInst(String _elementName, IRValue _headPtr, BasicType _pointedType, IRBasicBlock _parentBlock, IRValue... indexes) {
+    private IRInstruction generateNamedElementPtrInst(String _elementName, IRValue _headPtr, BasicType _pointedType, IRBasicBlock _parentBlock, IRValue index) {
         if (_pointedType instanceof BoolType)
-            return new IRGEPInst(_elementName, _headPtr, _parentBlock, new memBoolType(), indexes);
-        else return new IRGEPInst(_elementName, _headPtr, _parentBlock, _pointedType, indexes);
+            return new IRGEPInst(_elementName, _headPtr, _parentBlock, new memBoolType(), index);
+        else return new IRGEPInst(_elementName, _headPtr, _parentBlock, _pointedType, index);
     }
 
-    private IRInstruction generateUnnamedElementPtrInst(IRValue _headPtr, BasicType _pointedType, IRBasicBlock _parentBlock, IRValue... indexes) {
+    private IRInstruction generateUnnamedElementPtrInst(IRValue _headPtr, BasicType _pointedType, IRBasicBlock _parentBlock, IRValue index) {
         if (_pointedType instanceof BoolType)
-            return new IRGEPInst(renamer.rename(LLVM_GEP_INST), _headPtr, _parentBlock, new memBoolType(), indexes);
-        else return new IRGEPInst(renamer.rename(LLVM_GEP_INST), _headPtr, _parentBlock, _pointedType, indexes);
+            return new IRGEPInst(renamer.rename(LLVM_GEP_INST), _headPtr, _parentBlock, new memBoolType(), index);
+        else return new IRGEPInst(renamer.rename(LLVM_GEP_INST), _headPtr, _parentBlock, _pointedType, index);
     }
 
     private IRInstruction generateIcmpInst(String _type, IRValue _lhs, IRValue _rhs, IRBasicBlock _parentBlock) {

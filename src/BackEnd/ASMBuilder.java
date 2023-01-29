@@ -10,11 +10,8 @@ import IR.IRVisitor;
 import IR.Type.VoidType;
 import IR.Value.IRBasicBlock;
 import IR.Value.IRValue;
+import IR.Value.User.Constant.*;
 import IR.Value.User.Constant.GlobalValue.IRFunction;
-import IR.Value.User.Constant.IRBoolConst;
-import IR.Value.User.Constant.IRIntConstant;
-import IR.Value.User.Constant.IRNullptrConstant;
-import IR.Value.User.Constant.IRZeroInitConstant;
 import IR.Value.User.Instruction.*;
 
 import java.util.ArrayList;
@@ -291,7 +288,7 @@ public class ASMBuilder implements IRVisitor {
 
     @Override
     public void visit(IRIcmpInst irIcmpInst) {
-        switch(irIcmpInst.type){
+        switch (irIcmpInst.type) {
             case "sgt" -> {
                 ASMBinaryInst binaryInst = new ASMBinaryInst("slt", getReg(irIcmpInst), getReg(irIcmpInst.rhs()), getReg(irIcmpInst.lhs()), null);
                 curBlock.addInst(binaryInst);
@@ -332,14 +329,53 @@ public class ASMBuilder implements IRVisitor {
         }
     }
 
+//    static class RegOffsetPair {
+//        public ASMReg reg;
+//        public ASMImm offset;
+//        public RegOffsetPair(ASMReg _reg, ASMImm _offset) {
+//            this.reg = _reg;
+//            this.offset = _offset;
+//        }
+//    }
+//
+//    private RegOffsetPair getLdStDest(IRValue destVal){
+//        if(destVal instanceof IRConstant){
+//            ASML
+//        }
+//    }
+
     @Override
     public void visit(IRLoadInst irLoadInst) {
+        int loadSize = irLoadInst.loadType.size();
+        ASMReg destReg = getReg(irLoadInst);
+        IRValue fromAddr = irLoadInst.loadFromAddr;
+        if (fromAddr instanceof IRConstant) {
+            //deal with globalVar and String
+            ASMVirtualReg tmpReg = new ASMVirtualReg();
+            ASMLuiInst asmLuiInst = new ASMLuiInst(tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.hi, (ASMGlobal) fromAddr.asmOperand));
+            curBlock.addInst(asmLuiInst);
+            ASMLoadInst asmLoadInst = new ASMLoadInst(loadSize, destReg, tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.lo, (ASMGlobal) fromAddr.asmOperand));
+            //load 的 imm 只有 12 位
+            curBlock.addInst(asmLoadInst);
+        } else {
+            if (fromAddr.asmOperand instanceof ASMStackOffset offset) {
+                ASMLoadInst asmLoadInst = new ASMLoadInst(loadSize, destReg, getPhysicalReg("sp"), offset);
+                curBlock.addInst(asmLoadInst);
+            } else {
+                if(fromAddr.asmOperand instanceof ASMReg) {
+                    ASMLoadInst asmLoadInst = new ASMLoadInst(loadSize, destReg, getPhysicalReg("sp"), new ASMImm(0));
+                    curBlock.addInst(asmLoadInst);
+                }else {
+                    throw new RuntimeException("LoadInst: wrong fromAddr.ASMOperand type");
+                }
 
+            }
+        }
     }
 
     @Override
     public void visit(IRRetInst irRetInst) {
-        if(irRetInst.hasRetAddr()) {
+        if (irRetInst.hasRetAddr()) {
             ASMMvInst mvInst = new ASMMvInst(getPhysicalReg("a0"), getReg(irRetInst.getRetAddr()));
             curBlock.addInst(mvInst);
         }
@@ -347,7 +383,30 @@ public class ASMBuilder implements IRVisitor {
 
     @Override
     public void visit(IRStoreInst irStoreInst) {
-
+        int storeSize = irStoreInst.valueType.size();
+        ASMReg fromReg = getReg(irStoreInst.storeValue);
+        IRValue destAddr = irStoreInst.storePtr;
+        if (destAddr instanceof IRConstant) {
+            //deal with globalVar and String
+            ASMVirtualReg tmpReg = new ASMVirtualReg();
+            ASMLuiInst asmLuiInst = new ASMLuiInst(tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.hi, (ASMGlobal) destAddr.asmOperand));
+            curBlock.addInst(asmLuiInst);
+            ASMStoreInst asmStoreInst = new ASMStoreInst(storeSize, tmpReg, fromReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.lo, (ASMGlobal) destAddr.asmOperand));
+            //load 的 imm 只有 12 位
+            curBlock.addInst(asmStoreInst);
+        } else {
+            if (destAddr.asmOperand instanceof ASMStackOffset offset) {
+                ASMStoreInst asmStoreInst = new ASMStoreInst(storeSize, getPhysicalReg("sp"), fromReg, offset);
+                curBlock.addInst(asmStoreInst);
+            } else {
+                if(destAddr.asmOperand instanceof ASMReg){
+                    ASMStoreInst asmStoreInst = new ASMStoreInst(storeSize, (ASMReg) destAddr.asmOperand, fromReg, new ASMImm(0));
+                    curBlock.addInst(asmStoreInst);
+                }else {
+                    throw new RuntimeException("StoreInst: wrong destAddr.ASMOperand type");
+                }
+            }
+        }
     }
 
     @Override
