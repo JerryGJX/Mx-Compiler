@@ -2,6 +2,7 @@ package ASM;
 
 import ASM.Inst.ASMInst;
 import ASM.Operand.ASMOperand;
+import BackEnd.ASMVisitor;
 
 import java.util.LinkedList;
 
@@ -23,9 +24,13 @@ public class ASMBlock extends ASMOperand {
 
     public String toString() {
         StringBuilder ret = new StringBuilder();
-        if (this.identifier != null) ret.append(".").append(this.identifier).append(":\n");
+        if (this.identifier != null) ret.append(this.identifier).append(":\n");
         for (ASMInst inst : instList)
             ret.append("  ").append(inst).append("\n");
         return ret.toString();
+    }
+
+    public void accept(ASMVisitor asmVisitor){
+        asmVisitor.visit(this);
     }
 }

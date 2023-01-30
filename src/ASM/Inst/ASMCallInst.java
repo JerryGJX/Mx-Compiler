@@ -1,8 +1,9 @@
 package ASM.Inst;
 
 import ASM.ASMFunction;
+import BackEnd.ASMVisitor;
 
-public class ASMCallInst extends ASMInst{
+public class ASMCallInst extends ASMInst {
     public ASMFunction calledFunc;
 
     public ASMCallInst(ASMFunction calledFunc) {
@@ -15,4 +16,8 @@ public class ASMCallInst extends ASMInst{
         return "call " + calledFunc.identifier;
     }
 
+    @Override
+    public void accept(ASMVisitor asmVisitor) {
+        asmVisitor.visit(this);
+    }
 }

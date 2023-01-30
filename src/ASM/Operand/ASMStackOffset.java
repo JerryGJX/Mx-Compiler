@@ -2,7 +2,7 @@ package ASM.Operand;
 
 public class ASMStackOffset extends ASMImm {
     public enum StackOffsetType {
-        getArg, alloca, spill, putArg, lowerSp, raiseSp
+        getArg, alloca, spillReg, putArg, lowerSp, raiseSp
     }
 
     public StackOffsetType type;

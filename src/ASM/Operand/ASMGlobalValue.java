@@ -8,7 +8,8 @@ public class ASMGlobalValue extends ASMGlobal {
     }
 
     public String toString() {
-        return " .globl " + globalName + "\n" +
+        return
+                " .globl " + globalName + "\n" +
                 " .type " + globalName + ", @object\n" +
                 globalName + ":\n" +
                 "  .word 0\n" +

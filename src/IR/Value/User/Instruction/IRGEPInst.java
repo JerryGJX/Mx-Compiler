@@ -43,17 +43,17 @@ public class IRGEPInst extends IRInstruction {
         return this.operandList.get(0);
     }
 
-    public IRValue getIndex(int index) {
-        return this.operandList.get(index + 1);
+    public IRValue getIndex() {
+        return this.operandList.get(1);
     }
 
-    public IRValue ptrMoveIndex() {
-        return getIndex(0);
-    }
-
-    public IRValue memberIndex() {
-        return getIndex(1);
-    }
+//    public IRValue ptrMoveIndex() {
+//        return getIndex(0);
+//    }
+//
+//    public IRValue memberIndex() {
+//        return getIndex(1);
+//    }
 
 
     @Override
@@ -65,9 +65,9 @@ public class IRGEPInst extends IRInstruction {
         StringBuilder Ans = new StringBuilder(this.getIdentifier() + " = " + LLVM_GEP_INST + " " +
                 ((PointerType) (this.headPointer().valueType)).baseType +
                 ", " + this.headPointer().valueType + " " + this.headPointer().getIdentifier());
-        for (int i = 0; i < this.numOfIndexes(); i++) {
-            Ans.append(", ").append(this.getIndex(i).valueType).append(" ").append(this.getIndex(i).getIdentifier());
-        }
+//        for (int i = 0; i < this.numOfIndexes(); i++) {
+        Ans.append(", ").append(this.getIndex().valueType).append(" ").append(this.getIndex().getIdentifier());
+//        }
         return Ans.toString();
     }
 

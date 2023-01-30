@@ -3,6 +3,7 @@ package ASM;
 import ASM.Inst.ASMInst;
 import ASM.Operand.ASMOperand;
 import ASM.Operand.ASMReg;
+import BackEnd.ASMVisitor;
 
 import java.util.ArrayList;
 
@@ -29,9 +30,14 @@ public class ASMFunction extends ASMOperand {
 
     public String toString() {
         StringBuilder ret = new StringBuilder("  .text\n" + "  .globl " + this.identifier + "\n");
+        ret.append("  .type ").append(this.identifier).append(", @function\n");
         ret.append(this.identifier).append(":\n");
         for (ASMBlock block : blockList)
             ret.append(block);
         return ret.toString();
+    }
+
+    public void accept(ASMVisitor asmVisitor){
+        asmVisitor.visit(this);
     }
 }

@@ -1,6 +1,10 @@
+import ASM.ASMModule;
 import AST.ASTBuilder;
 import AST.node.concretNode.RootNode;
 import BackEnd.ASMBuilder;
+import BackEnd.ASMPrinter;
+import BackEnd.ASMTranslator;
+import BackEnd.RegAllocator;
 import FrontEnd.SemanticChecker;
 import FrontEnd.SymbolCollector;
 import IR.IRModule;
@@ -28,8 +32,10 @@ public class Compiler {
 
 //        File llvmir = new File("../test/debug/test.ll");
         File llvmir = new File("test/debug/test.ll");
-        PrintStream ps = new PrintStream(llvmir);
-        System.setOut(ps);
+        PrintStream irPs = new PrintStream(llvmir);
+        File asm = new File("test/debug/test.s");
+        PrintStream asmPs = new PrintStream(asm);
+
 
         Log log = new Log();
         GlobalScope globalScope = new GlobalScope();
@@ -49,7 +55,14 @@ public class Compiler {
 
             IRModule projectIRModule = new IRModule(fileName);
             new IRBuilder(projectIRModule,globalScope).visit(ASTRoot);
-//            new ASMBuilder().visit(projectIRModule);
+            System.setOut(irPs);
+
+            ASMModule projectASMModule = new ASMModule();
+            new ASMBuilder(projectASMModule).visit(projectIRModule);
+            new RegAllocator().visit(projectASMModule);
+            new ASMTranslator().visit(projectASMModule);
+            System.setOut(asmPs);
+            new ASMPrinter().printAsm(projectASMModule);
 
         } catch (error er) {
             System.err.println(er.toString());

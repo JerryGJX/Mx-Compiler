@@ -1,6 +1,7 @@
 package ASM.Inst;
 
 import ASM.Operand.ASMReg;
+import BackEnd.ASMVisitor;
 
 public class ASMUnaryInst extends ASMInst{
     public String op;
@@ -13,5 +14,10 @@ public class ASMUnaryInst extends ASMInst{
     @Override
     public String toString() {
         return op + " " + rd + ", " + rs1;
+    }
+
+    @Override
+    public void accept(ASMVisitor asmVisitor){
+        asmVisitor.visit(this);
     }
 }

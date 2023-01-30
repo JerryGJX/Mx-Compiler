@@ -2,6 +2,7 @@ package ASM.Inst;
 
 import ASM.ASMBlock;
 import ASM.Operand.ASMReg;
+import BackEnd.ASMVisitor;
 
 public class ASMBrInst extends ASMInst{
     public enum ASMBrOp {
@@ -21,5 +22,11 @@ public class ASMBrInst extends ASMInst{
     public String toString() {
         return op + " " + rs1 + ", " + rs2 + ", " + targetBlock.blockId();
     }
+
+    @Override
+    public void accept(ASMVisitor asmVisitor){
+        asmVisitor.visit(this);
+    }
+
 
 }

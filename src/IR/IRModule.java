@@ -78,7 +78,7 @@ public class IRModule implements IRDefine {
                 IRFunctionMap.put(IRFunc.funcName, IRFunc);
             }
         });
-        //todo: add .size()
+        //add .size()
 
         //add global variable
         _globalScope.varTable.forEach((name, varDefUnitNode) -> {

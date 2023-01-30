@@ -2,6 +2,7 @@ package ASM;
 
 import ASM.Operand.ASMGlobalString;
 import ASM.Operand.ASMGlobalValue;
+import BackEnd.ASMVisitor;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,6 @@ public class ASMModule {
 
     public String toString() {
         StringBuilder ret = new StringBuilder();
-        ret.append(".section .text\n");
         for (ASMFunction func : funcList) {
             ret.append(func.toString()).append("\n");
         }
@@ -27,5 +27,7 @@ public class ASMModule {
         return ret.toString();
     }
 
-
+    public void accept(ASMVisitor asmVisitor){
+        asmVisitor.visit(this);
+    }
 }

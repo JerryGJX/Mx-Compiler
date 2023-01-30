@@ -7,6 +7,9 @@ import ASM.Inst.*;
 import ASM.Operand.*;
 import IR.IRModule;
 import IR.IRVisitor;
+import IR.Type.ArrayType;
+import IR.Type.BasicType;
+import IR.Type.PointerType;
 import IR.Type.VoidType;
 import IR.Value.IRBasicBlock;
 import IR.Value.IRValue;
@@ -17,7 +20,7 @@ import IR.Value.User.Instruction.*;
 import java.util.ArrayList;
 
 public class ASMBuilder implements IRVisitor {
-    public ASMModule asmModule = new ASMModule();
+    public ASMModule asmModule;
     public ASMFunction curFunc = null;
     public ASMBlock curBlock = null;
 
@@ -58,7 +61,8 @@ public class ASMBuilder implements IRVisitor {
     }
 
 
-    public ASMBuilder() {
+    public ASMBuilder(ASMModule asmModule) {
+        this.asmModule = asmModule;
     }
 
 
@@ -72,24 +76,29 @@ public class ASMBuilder implements IRVisitor {
 
         irModule.IRStrConstantMap.forEach((name, strConstant) -> {
             ASMGlobalString globalString = new ASMGlobalString(name, strConstant.strConstData);
-            //strConstant.asmOperand = globalString;
+            strConstant.asmOperand = globalString;
             asmModule.globalStringList.add(globalString);
         });
 
+        ASMFunction asmInitFunc = new ASMFunction(irModule.initFunc.funcName);
+        irModule.initFunc.asmOperand = asmInitFunc;
+        asmModule.funcList.add(asmInitFunc);
+        irModule.initFunc.accept(this);
+
+
         irModule.IRFunctionMap.forEach((name, function) -> {
             ASMFunction asmFunction = new ASMFunction(function.funcName);
-            //function.asmOperand = asmFunction;
-            asmModule.funcList.add(asmFunction);
-            function.accept(this);
+            if (!function.isBuiltIn) {
+                asmModule.funcList.add(asmFunction);
+                function.asmOperand = asmFunction;
+                function.accept(this);
+            }
         });
     }
 
     @Override
     public void visit(IRBasicBlock irBasicBlock) {
-        curBlock = new ASMBlock(irBasicBlock.blockName);
-        irBasicBlock.instList.forEach(inst -> {
-            inst.accept(this);
-        });
+        irBasicBlock.instList.forEach(inst -> inst.accept(this));
         irBasicBlock.terminator.accept(this);
     }
 
@@ -100,14 +109,27 @@ public class ASMBuilder implements IRVisitor {
 
         ASMVirtualReg.virtualRegNum = 0;
 
+        //create all ASMBlock or things will go wrong when meet br
         ASMBlock asmEntryBlock = new ASMBlock(function.entryBlock.blockName);
         function.entryBlock.asmOperand = asmEntryBlock;
         asmFunction.addBlock(asmEntryBlock);
+
+        ASMBlock asmExitBlock = new ASMBlock(function.exitBlock.blockName);
+        function.exitBlock.asmOperand = asmExitBlock;
+        asmFunction.addBlock(asmExitBlock);
+
+        function.blockList.forEach(block -> {
+            ASMBlock asmBlock = new ASMBlock(block.blockName);
+            block.asmOperand = asmBlock;
+            asmFunction.addBlock(asmBlock);
+        });
+
+
         curBlock = asmEntryBlock;
 
         //分配栈空间
         ASMBinaryInst setSpaceInst = new ASMBinaryInst("addi", getPhysicalReg("sp"), getPhysicalReg("sp"), null, new ASMStackOffset(0, ASMStackOffset.StackOffsetType.lowerSp));
-        asmFunction.decreaseStackPtrInst = setSpaceInst;
+//        asmFunction.decreaseStackPtrInst = setSpaceInst;
         curBlock.addInst(setSpaceInst);
         //save ra
         ASMVirtualReg raSaveReg = new ASMVirtualReg();
@@ -131,20 +153,16 @@ public class ASMBuilder implements IRVisitor {
                 arg.asmOperand = virtualReg;
                 asmFunction.paraList.add(virtualReg);
                 ASMLoadInst loadInst = new ASMLoadInst(4, virtualReg, getPhysicalReg("sp"), new ASMStackOffset(i - 8, ASMStackOffset.StackOffsetType.getArg));
+                curBlock.addInst(loadInst);
             }
         }
 
         function.entryBlock.accept(this);
         function.blockList.forEach(block -> {
-            ASMBlock asmBlock = new ASMBlock(block.blockName);
-            block.asmOperand = asmBlock;
-            asmFunction.addBlock(asmBlock);
+            curBlock = (ASMBlock) block.asmOperand;
             block.accept(this);
         });
 
-        ASMBlock asmExitBlock = new ASMBlock(function.exitBlock.blockName);
-        function.exitBlock.asmOperand = asmExitBlock;
-        asmFunction.addBlock(asmEntryBlock);
         curBlock = asmExitBlock;
 
         //restore callee-save registers
@@ -159,13 +177,14 @@ public class ASMBuilder implements IRVisitor {
         //restore stack
         ASMBinaryInst restoreStackInst = new ASMBinaryInst("addi", getPhysicalReg("sp"), getPhysicalReg("sp"), null,
                 new ASMStackOffset(0, ASMStackOffset.StackOffsetType.raiseSp));
-        asmFunction.increaseStackPtrInst = restoreStackInst;
+        //by using StackOffset, this part is not necessary
+        //        asmFunction.increaseStackPtrInst = restoreStackInst;
+
         curBlock.addInst(restoreStackInst);
 
         //return
         ASMRetInst retInst = new ASMRetInst();
         curBlock.addInst(retInst);
-
     }
 
     @Override
@@ -283,7 +302,27 @@ public class ASMBuilder implements IRVisitor {
 
     @Override
     public void visit(IRGEPInst irgepInst) {
-
+        IRValue headPointer = irgepInst.headPointer();
+        BasicType pointedType = ((PointerType) irgepInst.valueType).baseType;
+        if (pointedType instanceof ArrayType) {//string
+            ASMReg tmpReg = new ASMVirtualReg();
+            ASMGlobalString str = (ASMGlobalString) headPointer.asmOperand;
+            ASMLuiInst asmLuiInst = new ASMLuiInst(tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.hi, str));
+            curBlock.addInst(asmLuiInst);
+            ASMBinaryInst asmBinaryInst = new ASMBinaryInst("addi", tmpReg, tmpReg, null, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.lo, str));
+            curBlock.addInst(asmBinaryInst);
+            irgepInst.asmOperand = tmpReg;
+        } else {//assert bool, int, pointer all take 4 bytes
+            int byteSize = pointedType.size();
+            if (byteSize != 4) {
+                throw new RuntimeException("IRGEPInst: wrong byteSize!! Should be 4");
+            }
+            ASMReg tmpReg = new ASMVirtualReg();
+            ASMBinaryInst asmBinaryInst1 = new ASMBinaryInst("slli", tmpReg, getReg(irgepInst.getIndex()), null, new ASMImm(2));
+            curBlock.addInst(asmBinaryInst1);
+            ASMBinaryInst asmBinaryInst2 = new ASMBinaryInst("add", getReg(irgepInst), getReg(headPointer), tmpReg, null);
+            curBlock.addInst(asmBinaryInst2);
+        }
     }
 
     @Override
@@ -315,6 +354,7 @@ public class ASMBuilder implements IRVisitor {
                 ASMVirtualReg tmpReg = new ASMVirtualReg();
                 ASMBinaryInst binaryInst = new ASMBinaryInst("sub", tmpReg, getReg(irIcmpInst.lhs()), getReg(irIcmpInst.rhs()), null);
                 curBlock.addInst(binaryInst);
+                //can be merge into binaryInst
                 ASMUnaryInst unaryInst = new ASMUnaryInst("seqz", getReg(irIcmpInst), tmpReg);
                 curBlock.addInst(unaryInst);
             }
@@ -328,21 +368,6 @@ public class ASMBuilder implements IRVisitor {
 
         }
     }
-
-//    static class RegOffsetPair {
-//        public ASMReg reg;
-//        public ASMImm offset;
-//        public RegOffsetPair(ASMReg _reg, ASMImm _offset) {
-//            this.reg = _reg;
-//            this.offset = _offset;
-//        }
-//    }
-//
-//    private RegOffsetPair getLdStDest(IRValue destVal){
-//        if(destVal instanceof IRConstant){
-//            ASML
-//        }
-//    }
 
     @Override
     public void visit(IRLoadInst irLoadInst) {
@@ -362,10 +387,10 @@ public class ASMBuilder implements IRVisitor {
                 ASMLoadInst asmLoadInst = new ASMLoadInst(loadSize, destReg, getPhysicalReg("sp"), offset);
                 curBlock.addInst(asmLoadInst);
             } else {
-                if(fromAddr.asmOperand instanceof ASMReg) {
+                if (fromAddr.asmOperand instanceof ASMReg) {
                     ASMLoadInst asmLoadInst = new ASMLoadInst(loadSize, destReg, getPhysicalReg("sp"), new ASMImm(0));
                     curBlock.addInst(asmLoadInst);
-                }else {
+                } else {
                     throw new RuntimeException("LoadInst: wrong fromAddr.ASMOperand type");
                 }
 
@@ -391,18 +416,18 @@ public class ASMBuilder implements IRVisitor {
             ASMVirtualReg tmpReg = new ASMVirtualReg();
             ASMLuiInst asmLuiInst = new ASMLuiInst(tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.hi, (ASMGlobal) destAddr.asmOperand));
             curBlock.addInst(asmLuiInst);
-            ASMStoreInst asmStoreInst = new ASMStoreInst(storeSize, tmpReg, fromReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.lo, (ASMGlobal) destAddr.asmOperand));
+            ASMStoreInst asmStoreInst = new ASMStoreInst(storeSize, fromReg, tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.lo, (ASMGlobal) destAddr.asmOperand));
             //load 的 imm 只有 12 位
             curBlock.addInst(asmStoreInst);
         } else {
             if (destAddr.asmOperand instanceof ASMStackOffset offset) {
-                ASMStoreInst asmStoreInst = new ASMStoreInst(storeSize, getPhysicalReg("sp"), fromReg, offset);
+                ASMStoreInst asmStoreInst = new ASMStoreInst(storeSize, fromReg, getPhysicalReg("sp"), offset);
                 curBlock.addInst(asmStoreInst);
             } else {
-                if(destAddr.asmOperand instanceof ASMReg){
-                    ASMStoreInst asmStoreInst = new ASMStoreInst(storeSize, (ASMReg) destAddr.asmOperand, fromReg, new ASMImm(0));
+                if (destAddr.asmOperand instanceof ASMReg) {
+                    ASMStoreInst asmStoreInst = new ASMStoreInst(storeSize, fromReg, (ASMReg) destAddr.asmOperand, new ASMImm(0));
                     curBlock.addInst(asmStoreInst);
-                }else {
+                } else {
                     throw new RuntimeException("StoreInst: wrong destAddr.ASMOperand type");
                 }
             }

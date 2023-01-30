@@ -2,6 +2,7 @@ package ASM.Inst;
 
 import ASM.Operand.ASMImm;
 import ASM.Operand.ASMReg;
+import BackEnd.ASMVisitor;
 
 
 // op,rd,rs1,rs2: add,sub,...
@@ -19,9 +20,14 @@ public class ASMBinaryInst extends ASMInst{
 
     @Override
     public String toString() {
-        if(this.ASMImm == null)
+        if(this.imm == null)
             return op + " " + rd + ", " + rs1 + ", " + rs2;
         else
-            return op + " " + rd + ", " + rs1 + ", " + ASMImm;
+            return op + " " + rd + ", " + rs1 + ", " + imm;
+    }
+
+    @Override
+    public void accept(ASMVisitor asmVisitor){
+        asmVisitor.visit(this);
     }
 }

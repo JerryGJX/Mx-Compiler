@@ -1,5 +1,6 @@
 package IR.Value.User.Constant.GlobalValue;
 
+import ASM.Operand.ASMGlobalValue;
 import IR.IRVisitor;
 import IR.Type.BasicType;
 import IR.Type.PointerType;
