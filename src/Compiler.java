@@ -29,15 +29,15 @@ public class Compiler {
     public static void main(String[] args) throws Exception {
 //        String fileName = "../test/debug/test.mx";
 
-        String fileName = " ";
+        String fileName = "../output.s";
 //        String fileName = "test/debug/test.mx";
 //        InputStream inputStream = new FileInputStream(fileName);
 //
 ////        File llvmir = new File("../test/debug/test.ll");
 //        File llvmir = new File("test/debug/test.ll");
 //        PrintStream irPs = new PrintStream(llvmir);
-//        File asm = new File("test/debug/test.s");
-//        PrintStream asmPs = new PrintStream(asm);
+        File asm = new File("../output.s");
+        PrintStream asmPs = new PrintStream(asm);
 
         CharStream inputStream = CharStreams.fromStream(System.in);
         PrintStream outputStream = System.out;
@@ -67,7 +67,7 @@ public class Compiler {
             new ASMBuilder(projectASMModule).visit(projectIRModule);
             new RegAllocator().visit(projectASMModule);
             new ASMTranslator().visit(projectASMModule);
-//            System.setOut(asmPs);
+            System.setOut(asmPs);
             new ASMPrinter().printAsm(projectASMModule);
 
         } catch (error er) {
