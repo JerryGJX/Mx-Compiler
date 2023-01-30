@@ -14,6 +14,7 @@ public class ASMModule {
     public String toString() {
         StringBuilder ret = new StringBuilder();
         for (ASMFunction func : funcList) {
+            if (func.ifBuiltin) continue;
             ret.append(func.toString()).append("\n");
         }
         ret.append(".section .bss\n");
@@ -27,7 +28,7 @@ public class ASMModule {
         return ret.toString();
     }
 
-    public void accept(ASMVisitor asmVisitor){
+    public void accept(ASMVisitor asmVisitor) {
         asmVisitor.visit(this);
     }
 }

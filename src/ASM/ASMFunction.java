@@ -11,9 +11,10 @@ public class ASMFunction extends ASMOperand {
     public ArrayList<ASMBlock> blockList = new ArrayList<>();
     public ArrayList<ASMReg> paraList = new ArrayList<>();
 
-    public ASMInst decreaseStackPtrInst = null;
-    public ASMInst increaseStackPtrInst = null;
+//    public ASMInst decreaseStackPtrInst = null;
+//    public ASMInst increaseStackPtrInst = null;
 
+    public Boolean ifBuiltin = false;
 
     public int allocaCnt = 0;
     public int spilledArgCnt = 0;
@@ -29,6 +30,7 @@ public class ASMFunction extends ASMOperand {
     }
 
     public String toString() {
+        if (ifBuiltin) return "";
         StringBuilder ret = new StringBuilder("  .text\n" + "  .globl " + this.identifier + "\n");
         ret.append("  .type ").append(this.identifier).append(", @function\n");
         ret.append(this.identifier).append(":\n");
@@ -37,7 +39,7 @@ public class ASMFunction extends ASMOperand {
         return ret.toString();
     }
 
-    public void accept(ASMVisitor asmVisitor){
+    public void accept(ASMVisitor asmVisitor) {
         asmVisitor.visit(this);
     }
 }

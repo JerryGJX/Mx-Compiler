@@ -54,8 +54,9 @@ public class Compiler {
             new SemanticChecker(globalScope,log).visit(ASTRoot);
 
             IRModule projectIRModule = new IRModule(fileName);
-            new IRBuilder(projectIRModule,globalScope).visit(ASTRoot);
             System.setOut(irPs);
+            new IRBuilder(projectIRModule,globalScope).visit(ASTRoot);
+
 
             ASMModule projectASMModule = new ASMModule();
             new ASMBuilder(projectASMModule).visit(projectIRModule);

@@ -74,7 +74,7 @@ public class ASMBuilder implements IRVisitor {
         });
 
         irModule.IRStrConstantMap.forEach((name, strConstant) -> {
-            ASMGlobalString globalString = new ASMGlobalString(name, strConstant.strConstData);
+            ASMGlobalString globalString = new ASMGlobalString(strConstant.valueName, strConstant.strConstData);
             strConstant.asmOperand = globalString;
             asmModule.globalStringList.add(globalString);
         });
@@ -93,6 +93,7 @@ public class ASMBuilder implements IRVisitor {
 
         irModule.IRFunctionMap.forEach((name, function) -> {
             if (!function.isBuiltIn) function.accept(this);
+            else ((ASMFunction) function.asmOperand).ifBuiltin = true;
         });
     }
 

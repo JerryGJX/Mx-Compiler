@@ -26,7 +26,7 @@ public class ASMBlock extends ASMOperand {
         StringBuilder ret = new StringBuilder();
         if (this.identifier != null) ret.append(this.identifier).append(":\n");
         for (ASMInst inst : instList)
-            ret.append("  ").append(inst).append("\n");
+            ret.append("         ").append(inst).append("\n");
         return ret.toString();
     }
 

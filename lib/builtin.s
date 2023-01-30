@@ -1,461 +1,500 @@
-.Ltext0:
-STR_BUF_SIZE:
-        .word   256
-INT_BUF_SIZE:
-        .word   20
-.LC0:
-        .string "%s"
+	.text
+	.attribute	4, 16
+	.attribute	5, "rv32i2p0_m2p0"
+	.file	"builtin.c"
+	.globl	print
+	.p2align	2
+	.type	print,@function
 print:
-.LFB0:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        lw      a1,-20(s0)
-        lui     a5,%hi(.LC0)
-        addi    a0,a5,%lo(.LC0)
-        call    printf
-        nop
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE0:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	lw	a1, -12(s0)
+	lui	a0, %hi(.L.str)
+	addi	a0, a0, %lo(.L.str)
+	call	printf
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end0:
+	.size	print, .Lfunc_end0-print
+
+	.globl	println
+	.p2align	2
+	.type	println,@function
 println:
-.LFB1:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        lw      a0,-20(s0)
-        call    puts
-        nop
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE1:
-.LC1:
-        .string "%d"
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	lw	a1, -12(s0)
+	lui	a0, %hi(.L.str.1)
+	addi	a0, a0, %lo(.L.str.1)
+	call	printf
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end1:
+	.size	println, .Lfunc_end1-println
+
+	.globl	printInt
+	.p2align	2
+	.type	printInt,@function
 printInt:
-.LFB2:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        lw      a1,-20(s0)
-        lui     a5,%hi(.LC1)
-        addi    a0,a5,%lo(.LC1)
-        call    printf
-        nop
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE2:
-.LC2:
-        .string "%d\n"
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	lw	a1, -12(s0)
+	lui	a0, %hi(.L.str.2)
+	addi	a0, a0, %lo(.L.str.2)
+	call	printf
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end2:
+	.size	printInt, .Lfunc_end2-printInt
+
+	.globl	printlnInt
+	.p2align	2
+	.type	printlnInt,@function
 printlnInt:
-.LFB3:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        lw      a1,-20(s0)
-        lui     a5,%hi(.LC2)
-        addi    a0,a5,%lo(.LC2)
-        call    printf
-        nop
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE3:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	lw	a1, -12(s0)
+	lui	a0, %hi(.L.str.3)
+	addi	a0, a0, %lo(.L.str.3)
+	call	printf
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end3:
+	.size	printlnInt, .Lfunc_end3-printlnInt
+
+	.globl	getString
+	.p2align	2
+	.type	getString,@function
 getString:
-.LFB4:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        li      a5,256
-        mv      a0,a5
-        call    malloc
-        mv      a5,a0
-        sw      a5,-20(s0)
-        lw      a1,-20(s0)
-        lui     a5,%hi(.LC0)
-        addi    a0,a5,%lo(.LC0)
-        call    scanf
-        lw      a5,-20(s0)
-        mv      a0,a5
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE4:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	li	a0, 256
+	call	malloc
+	sw	a0, -12(s0)
+	lw	a1, -12(s0)
+	lui	a0, %hi(.L.str)
+	addi	a0, a0, %lo(.L.str)
+	call	scanf
+	lw	a0, -12(s0)
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end4:
+	.size	getString, .Lfunc_end4-getString
+
+	.globl	getInt
+	.p2align	2
+	.type	getInt,@function
 getInt:
-.LFB5:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        addi    a5,s0,-20
-        mv      a1,a5
-        lui     a5,%hi(.LC1)
-        addi    a0,a5,%lo(.LC1)
-        call    scanf
-        lw      a5,-20(s0)
-        mv      a0,a5
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE5:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	lui	a0, %hi(.L.str.2)
+	addi	a0, a0, %lo(.L.str.2)
+	addi	a1, s0, -12
+	call	scanf
+	lw	a0, -12(s0)
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end5:
+	.size	getInt, .Lfunc_end5-getInt
+
+	.globl	toString
+	.p2align	2
+	.type	toString,@function
 toString:
-.LFB6:
-        addi    sp,sp,-48
-        sw      ra,44(sp)
-        sw      s0,40(sp)
-        addi    s0,sp,48
-        sw      a0,-36(s0)
-        li      a0,256
-        call    malloc
-        mv      a5,a0
-        sw      a5,-20(s0)
-        lw      a2,-36(s0)
-        lui     a5,%hi(.LC1)
-        addi    a1,a5,%lo(.LC1)
-        lw      a0,-20(s0)
-        call    sprintf
-        lw      a5,-20(s0)
-        mv      a0,a5
-        lw      ra,44(sp)
-        lw      s0,40(sp)
-        addi    sp,sp,48
-        jr      ra
-.LFE6:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	li	a0, 256
+	call	malloc
+	sw	a0, -16(s0)
+	lw	a0, -16(s0)
+	lw	a2, -12(s0)
+	lui	a1, %hi(.L.str.2)
+	addi	a1, a1, %lo(.L.str.2)
+	call	sprintf
+	lw	a0, -16(s0)
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end6:
+	.size	toString, .Lfunc_end6-toString
+
+	.globl	_str_substring
+	.p2align	2
+	.type	_str_substring,@function
 _str_substring:
-.LFB7:
-        addi    sp,sp,-48
-        sw      ra,44(sp)
-        sw      s0,40(sp)
-        addi    s0,sp,48
-        sw      a0,-36(s0)
-        sw      a1,-40(s0)
-        sw      a2,-44(s0)
-        lw      a4,-44(s0)
-        lw      a5,-40(s0)
-        sub     a5,a4,a5
-        addi    a5,a5,1
-        mv      a0,a5
-        call    malloc
-        mv      a5,a0
-        sw      a5,-24(s0)
-        lw      a5,-40(s0)
-        sw      a5,-20(s0)
-        j       .L12
-.L13:
-        lw      a5,-20(s0)
-        lw      a4,-36(s0)
-        add     a4,a4,a5
-        lw      a3,-20(s0)
-        lw      a5,-40(s0)
-        sub     a5,a3,a5
-        mv      a3,a5
-        lw      a5,-24(s0)
-        add     a5,a5,a3
-        lbu     a4,0(a4)
-        sb      a4,0(a5)
-        lw      a5,-20(s0)
-        addi    a5,a5,1
-        sw      a5,-20(s0)
-.L12:
-        lw      a4,-20(s0)
-        lw      a5,-44(s0)
-        blt     a4,a5,.L13
-        lw      a4,-44(s0)
-        lw      a5,-40(s0)
-        sub     a5,a4,a5
-        mv      a4,a5
-        lw      a5,-24(s0)
-        add     a5,a5,a4
-        sb      zero,0(a5)
-        lw      a5,-24(s0)
-        mv      a0,a5
-        lw      ra,44(sp)
-        lw      s0,40(sp)
-        addi    sp,sp,48
-        jr      ra
-.LFE7:
+	addi	sp, sp, -32
+	sw	ra, 28(sp)
+	sw	s0, 24(sp)
+	addi	s0, sp, 32
+	sw	a0, -12(s0)
+	sw	a1, -16(s0)
+	sw	a2, -20(s0)
+	lw	a0, -20(s0)
+	lw	a1, -16(s0)
+	sub	a0, a0, a1
+	addi	a0, a0, 1
+	call	malloc
+	sw	a0, -24(s0)
+	lw	a0, -16(s0)
+	sw	a0, -28(s0)
+	j	.LBB7_1
+.LBB7_1:
+	lw	a0, -28(s0)
+	lw	a1, -20(s0)
+	bge	a0, a1, .LBB7_4
+	j	.LBB7_2
+.LBB7_2:
+	lw	a0, -12(s0)
+	lw	a2, -28(s0)
+	add	a0, a0, a2
+	lb	a0, 0(a0)
+	lw	a1, -24(s0)
+	lw	a3, -16(s0)
+	sub	a2, a2, a3
+	add	a1, a1, a2
+	sb	a0, 0(a1)
+	j	.LBB7_3
+.LBB7_3:
+	lw	a0, -28(s0)
+	addi	a0, a0, 1
+	sw	a0, -28(s0)
+	j	.LBB7_1
+.LBB7_4:
+	lw	a0, -24(s0)
+	lw	a1, -20(s0)
+	lw	a2, -16(s0)
+	sub	a1, a1, a2
+	add	a1, a0, a1
+	li	a0, 0
+	sb	a0, 0(a1)
+	lw	a0, -24(s0)
+	lw	ra, 28(sp)
+	lw	s0, 24(sp)
+	addi	sp, sp, 32
+	ret
+.Lfunc_end7:
+	.size	_str_substring, .Lfunc_end7-_str_substring
+
+	.globl	_str_length
+	.p2align	2
+	.type	_str_length,@function
 _str_length:
-.LFB8:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        lw      a0,-20(s0)
-        call    strlen
-        mv      a5,a0
-        mv      a0,a5
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE8:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	lw	a0, -12(s0)
+	call	strlen
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end8:
+	.size	_str_length, .Lfunc_end8-_str_length
+
+	.globl	_str_ord
+	.p2align	2
+	.type	_str_ord,@function
 _str_ord:
-.LFB9:
-        addi    sp,sp,-32
-        sw      s0,28(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        sw      a1,-24(s0)
-        lw      a5,-24(s0)
-        lw      a4,-20(s0)
-        add     a5,a4,a5
-        lbu     a5,0(a5)
-        mv      a0,a5
-        lw      s0,28(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE9:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	sw	a1, -16(s0)
+	lw	a0, -12(s0)
+	lw	a1, -16(s0)
+	add	a0, a0, a1
+	lbu	a0, 0(a0)
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end9:
+	.size	_str_ord, .Lfunc_end9-_str_ord
+
+	.globl	_str_parseInt
+	.p2align	2
+	.type	_str_parseInt,@function
 _str_parseInt:
-.LFB10:
-        addi    sp,sp,-48
-        sw      ra,44(sp)
-        sw      s0,40(sp)
-        addi    s0,sp,48
-        sw      a0,-36(s0)
-        addi    a5,s0,-20
-        mv      a2,a5
-        lui     a5,%hi(.LC1)
-        addi    a1,a5,%lo(.LC1)
-        lw      a0,-36(s0)
-        call    sscanf
-        lw      a5,-20(s0)
-        mv      a0,a5
-        lw      ra,44(sp)
-        lw      s0,40(sp)
-        addi    sp,sp,48
-        jr      ra
-.LFE10:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	lw	a0, -12(s0)
+	lui	a1, %hi(.L.str.2)
+	addi	a1, a1, %lo(.L.str.2)
+	addi	a2, s0, -16
+	call	sscanf
+	lw	a0, -16(s0)
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end10:
+	.size	_str_parseInt, .Lfunc_end10-_str_parseInt
+
+	.globl	_malloc
+	.p2align	2
+	.type	_malloc,@function
 _malloc:
-.LFB11:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        lw      a5,-20(s0)
-        mv      a0,a5
-        call    malloc
-        mv      a5,a0
-        mv      a0,a5
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE11:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	lw	a0, -12(s0)
+	call	malloc
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end11:
+	.size	_malloc, .Lfunc_end11-_malloc
+
+	.globl	_str_concat
+	.p2align	2
+	.type	_str_concat,@function
 _str_concat:
-.LFB12:
-        addi    sp,sp,-48
-        sw      ra,44(sp)
-        sw      s0,40(sp)
-        sw      s1,36(sp)
-        addi    s0,sp,48
-        sw      a0,-36(s0)
-        sw      a1,-40(s0)
-        lw      a0,-36(s0)
-        call    strlen
-        mv      s1,a0
-        lw      a0,-40(s0)
-        call    strlen
-        mv      a5,a0
-        add     a5,s1,a5
-        addi    a5,a5,1
-        mv      a0,a5
-        call    malloc
-        mv      a5,a0
-        sw      a5,-20(s0)
-        lw      a1,-36(s0)
-        lw      a0,-20(s0)
-        call    strcpy
-        lw      a1,-40(s0)
-        lw      a0,-20(s0)
-        call    strcat
-        lw      a5,-20(s0)
-        mv      a0,a5
-        lw      ra,44(sp)
-        lw      s0,40(sp)
-        lw      s1,36(sp)
-        addi    sp,sp,48
-        jr      ra
-.LFE12:
+	addi	sp, sp, -32
+	sw	ra, 28(sp)
+	sw	s0, 24(sp)
+	addi	s0, sp, 32
+	sw	a0, -12(s0)
+	sw	a1, -16(s0)
+	lw	a0, -12(s0)
+	call	strlen
+	sw	a0, -24(s0)
+	lw	a0, -16(s0)
+	call	strlen
+	mv	a1, a0
+	lw	a0, -24(s0)
+	add	a0, a0, a1
+	addi	a0, a0, 1
+	call	malloc
+	sw	a0, -20(s0)
+	lw	a0, -20(s0)
+	lw	a1, -12(s0)
+	call	strcpy
+	lw	a0, -20(s0)
+	lw	a1, -16(s0)
+	call	strcat
+	lw	a0, -20(s0)
+	lw	ra, 28(sp)
+	lw	s0, 24(sp)
+	addi	sp, sp, 32
+	ret
+.Lfunc_end12:
+	.size	_str_concat, .Lfunc_end12-_str_concat
+
+	.globl	_str_eq
+	.p2align	2
+	.type	_str_eq,@function
 _str_eq:
-.LFB13:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        sw      a1,-24(s0)
-        lw      a1,-24(s0)
-        lw      a0,-20(s0)
-        call    strcmp
-        mv      a5,a0
-        seqz    a5,a5
-        andi    a5,a5,0xff
-        mv      a0,a5
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE13:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	sw	a1, -16(s0)
+	lw	a0, -12(s0)
+	lw	a1, -16(s0)
+	call	strcmp
+	seqz	a0, a0
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end13:
+	.size	_str_eq, .Lfunc_end13-_str_eq
+
+	.globl	_str_ne
+	.p2align	2
+	.type	_str_ne,@function
 _str_ne:
-.LFB14:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        sw      a1,-24(s0)
-        lw      a1,-24(s0)
-        lw      a0,-20(s0)
-        call    strcmp
-        mv      a5,a0
-        snez    a5,a5
-        andi    a5,a5,0xff
-        mv      a0,a5
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE14:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	sw	a1, -16(s0)
+	lw	a0, -12(s0)
+	lw	a1, -16(s0)
+	call	strcmp
+	snez	a0, a0
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end14:
+	.size	_str_ne, .Lfunc_end14-_str_ne
+
+	.globl	_str_ult
+	.p2align	2
+	.type	_str_ult,@function
 _str_ult:
-.LFB15:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        sw      a1,-24(s0)
-        lw      a1,-24(s0)
-        lw      a0,-20(s0)
-        call    strcmp
-        mv      a5,a0
-        srli    a5,a5,31
-        andi    a5,a5,0xff
-        mv      a0,a5
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE15:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	sw	a1, -16(s0)
+	lw	a0, -12(s0)
+	lw	a1, -16(s0)
+	call	strcmp
+	srli	a0, a0, 31
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end15:
+	.size	_str_ult, .Lfunc_end15-_str_ult
+
+	.globl	_str_ugt
+	.p2align	2
+	.type	_str_ugt,@function
 _str_ugt:
-.LFB16:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        sw      a1,-24(s0)
-        lw      a1,-24(s0)
-        lw      a0,-20(s0)
-        call    strcmp
-        mv      a5,a0
-        sgt     a5,a5,zero
-        andi    a5,a5,0xff
-        mv      a0,a5
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE16:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	sw	a1, -16(s0)
+	lw	a0, -12(s0)
+	lw	a1, -16(s0)
+	call	strcmp
+	mv	a1, a0
+	li	a0, 0
+	slt	a0, a0, a1
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end16:
+	.size	_str_ugt, .Lfunc_end16-_str_ugt
+
+	.globl	_str_ule
+	.p2align	2
+	.type	_str_ule,@function
 _str_ule:
-.LFB17:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        sw      a1,-24(s0)
-        lw      a1,-24(s0)
-        lw      a0,-20(s0)
-        call    strcmp
-        mv      a5,a0
-        slti    a5,a5,1
-        andi    a5,a5,0xff
-        mv      a0,a5
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE17:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	sw	a1, -16(s0)
+	lw	a0, -12(s0)
+	lw	a1, -16(s0)
+	call	strcmp
+	slti	a0, a0, 1
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end17:
+	.size	_str_ule, .Lfunc_end17-_str_ule
+
+	.globl	_str_uge
+	.p2align	2
+	.type	_str_uge,@function
 _str_uge:
-.LFB18:
-        addi    sp,sp,-32
-        sw      ra,28(sp)
-        sw      s0,24(sp)
-        addi    s0,sp,32
-        sw      a0,-20(s0)
-        sw      a1,-24(s0)
-        lw      a1,-24(s0)
-        lw      a0,-20(s0)
-        call    strcmp
-        mv      a5,a0
-        not     a5,a5
-        srli    a5,a5,31
-        andi    a5,a5,0xff
-        mv      a0,a5
-        lw      ra,28(sp)
-        lw      s0,24(sp)
-        addi    sp,sp,32
-        jr      ra
-.LFE18:
-.Letext0:
-.Ldebug_info0:
-.Ldebug_abbrev0:
-.Ldebug_line0:
-.LASF37:
-.LASF34:
-.LASF3:
-.LASF23:
-.LASF8:
-.LASF6:
-.LASF33:
-.LASF32:
-.LASF25:
-.LASF29:
-.LASF36:
-.LASF28:
-.LASF16:
-.LASF18:
-.LASF30:
-.LASF13:
-.LASF24:
-.LASF17:
-.LASF15:
-.LASF22:
-.LASF26:
-.LASF35:
-.LASF9:
-.LASF31:
-.LASF12:
-.LASF2:
-.LASF27:
-.LASF21:
-.LASF5:
-.LASF4:
-.LASF38:
-.LASF20:
-.LASF14:
-.LASF7:
-.LASF0:
-.LASF19:
-.LASF10:
-.LASF11:
-.LASF1:
+	addi	sp, sp, -16
+	sw	ra, 12(sp)
+	sw	s0, 8(sp)
+	addi	s0, sp, 16
+	sw	a0, -12(s0)
+	sw	a1, -16(s0)
+	lw	a0, -12(s0)
+	lw	a1, -16(s0)
+	call	strcmp
+	not	a0, a0
+	srli	a0, a0, 31
+	lw	ra, 12(sp)
+	lw	s0, 8(sp)
+	addi	sp, sp, 16
+	ret
+.Lfunc_end18:
+	.size	_str_uge, .Lfunc_end18-_str_uge
+
+	.type	STR_BUF_SIZE,@object
+	.section	.rodata,"a",@progbits
+	.globl	STR_BUF_SIZE
+	.p2align	2
+STR_BUF_SIZE:
+	.word	256
+	.size	STR_BUF_SIZE, 4
+
+	.type	INT_BUF_SIZE,@object
+	.globl	INT_BUF_SIZE
+	.p2align	2
+INT_BUF_SIZE:
+	.word	20
+	.size	INT_BUF_SIZE, 4
+
+	.type	.L.str,@object
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.L.str:
+	.asciz	"%s"
+	.size	.L.str, 3
+
+	.type	.L.str.1,@object
+.L.str.1:
+	.asciz	"%s\n"
+	.size	.L.str.1, 4
+
+	.type	.L.str.2,@object
+.L.str.2:
+	.asciz	"%d"
+	.size	.L.str.2, 3
+
+	.type	.L.str.3,@object
+.L.str.3:
+	.asciz	"%d\n"
+	.size	.L.str.3, 4
+
+	.ident	"Ubuntu clang version 14.0.0-1ubuntu1"
+	.section	".note.GNU-stack","",@progbits
+	.addrsig
+	.addrsig_sym printf
+	.addrsig_sym malloc
+	.addrsig_sym scanf
+	.addrsig_sym sprintf
+	.addrsig_sym strlen
+	.addrsig_sym sscanf
+	.addrsig_sym strcpy
+	.addrsig_sym strcat
+	.addrsig_sym strcmp

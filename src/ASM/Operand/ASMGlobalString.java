@@ -14,13 +14,13 @@ public class ASMGlobalString extends ASMGlobal {
     public String toString() {
         return " .type " + globalName + ", @object\n" +
                 globalName + ":\n" +
-                "  .string \"" + strConst.replace("\\", "\\\\")
+                "         .string \"" + strConst.replace("\\", "\\\\")
                 .replace("\n", "\\n")
                 .replace("\0", "")
                 .replace("\t", "\\t")
                 .replace("\"", "\\\"") +
                 "\"\n" +
-                " .size " + globalName + ", " + (strConst.length() + 1) + "\n\n";
+                "         .size " + globalName + ", " + (strConst.length() + 1) + "\n\n";
     }
 }
 
