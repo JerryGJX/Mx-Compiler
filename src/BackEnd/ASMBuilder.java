@@ -7,10 +7,7 @@ import ASM.Inst.*;
 import ASM.Operand.*;
 import IR.IRModule;
 import IR.IRVisitor;
-import IR.Type.ArrayType;
-import IR.Type.BasicType;
-import IR.Type.PointerType;
-import IR.Type.VoidType;
+import IR.Type.*;
 import IR.Value.IRBasicBlock;
 import IR.Value.IRValue;
 import IR.Value.User.Constant.*;
@@ -88,9 +85,9 @@ public class ASMBuilder implements IRVisitor {
 
         irModule.IRFunctionMap.forEach((name, function) -> {
             ASMFunction asmFunction = new ASMFunction(function.funcName);
+            asmModule.funcList.add(asmFunction);
+            function.asmOperand = asmFunction;
             if (!function.isBuiltIn) {
-                asmModule.funcList.add(asmFunction);
-                function.asmOperand = asmFunction;
                 function.accept(this);
             }
         });
@@ -136,13 +133,13 @@ public class ASMBuilder implements IRVisitor {
         ASMMvInst saveRaInst = new ASMMvInst(raSaveReg, getPhysicalReg("ra"));
         curBlock.addInst(saveRaInst);
         //save callee-save registers
-        var calleeSaveRegList = new ArrayList<ASMReg>();
-        ASMPhysicalASMReg.calleeSavedRegList.forEach(calleeSaveReg -> {
-            ASMVirtualReg vCalleeSaveReg = new ASMVirtualReg();
-            calleeSaveRegList.add(vCalleeSaveReg);
-            ASMMvInst saveCalleeSaveInst = new ASMMvInst(vCalleeSaveReg, calleeSaveReg);
-            curBlock.addInst(saveCalleeSaveInst);
-        });
+//        var calleeSaveRegList = new ArrayList<ASMReg>();
+//        ASMPhysicalASMReg.calleeSavedRegList.forEach(calleeSaveReg -> {
+//            ASMVirtualReg vCalleeSaveReg = new ASMVirtualReg();
+//            calleeSaveRegList.add(vCalleeSaveReg);
+//            ASMMvInst saveCalleeSaveInst = new ASMMvInst(vCalleeSaveReg, calleeSaveReg);
+//            curBlock.addInst(saveCalleeSaveInst);
+//        });
         //set arguments
         for (int i = 0; i < function.operandSize(); i++) {
             IRValue arg = function.getOperand(i);
@@ -166,10 +163,10 @@ public class ASMBuilder implements IRVisitor {
         curBlock = asmExitBlock;
 
         //restore callee-save registers
-        for (int i = 0; i < ASMPhysicalASMReg.calleeSavedRegList.size(); i++) {
-            ASMMvInst restoreCalleeSaveInst = new ASMMvInst(ASMPhysicalASMReg.calleeSavedRegList.get(i), calleeSaveRegList.get(i));
-            curBlock.addInst(restoreCalleeSaveInst);
-        }
+//        for (int i = 0; i < ASMPhysicalASMReg.calleeSavedRegList.size(); i++) {
+//            ASMMvInst restoreCalleeSaveInst = new ASMMvInst(ASMPhysicalASMReg.calleeSavedRegList.get(i), calleeSaveRegList.get(i));
+//            curBlock.addInst(restoreCalleeSaveInst);
+//        }
         //restore ra
         ASMMvInst restoreRaInst = new ASMMvInst(getPhysicalReg("ra"), raSaveReg);
         curBlock.addInst(restoreRaInst);
@@ -292,7 +289,8 @@ public class ASMBuilder implements IRVisitor {
                 curBlock.addInst(storeInst);
             }
         }
-        ASMCallInst callInst = new ASMCallInst((ASMFunction) irCallInst.calledFunc().asmOperand);
+
+        ASMCallInst callInst = new ASMCallInst((ASMFunction) (irCallInst.calledFunc().asmOperand));
         curBlock.addInst(callInst);
         if (!(irCallInst.calledFunc().returnType instanceof VoidType)) {
             ASMMvInst mvInst = new ASMMvInst(getReg(irCallInst), getPhysicalReg("a0"));
@@ -304,7 +302,7 @@ public class ASMBuilder implements IRVisitor {
     public void visit(IRGEPInst irgepInst) {
         IRValue headPointer = irgepInst.headPointer();
         BasicType pointedType = ((PointerType) irgepInst.valueType).baseType;
-        if (pointedType instanceof ArrayType) {//string
+        if (pointedType instanceof IntegerType && ((IntegerType) pointedType).bitWidth == 8) {//string
             ASMReg tmpReg = new ASMVirtualReg();
             ASMGlobalString str = (ASMGlobalString) headPointer.asmOperand;
             ASMLuiInst asmLuiInst = new ASMLuiInst(tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.hi, str));

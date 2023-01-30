@@ -20,7 +20,8 @@ public class ASMVirtualReg extends ASMReg {
     }
 
     public String toString() {
-        throw new RuntimeException("ASMVirtualReg.toString() should not be called.");
+        return "vReg" + rank;
+//        throw new RuntimeException("ASMVirtualReg.toString() should not be called.");
     }
 }
 

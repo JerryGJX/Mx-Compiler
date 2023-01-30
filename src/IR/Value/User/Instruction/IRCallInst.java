@@ -14,6 +14,7 @@ public class IRCallInst extends IRInstruction {
 
     public IRCallInst(String _valueName, IRFunction _calledFunc, IRBasicBlock _parentBlock, ArrayList<IRValue> argsList) {
         super(_valueName, _calledFunc.returnType, _parentBlock);
+        funcName = _calledFunc.funcName;
         this.addOperand(_calledFunc);//为了知道后续传参位置
         if (argsList != null) {
             for (IRValue arg : argsList) {

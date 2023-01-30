@@ -72,13 +72,13 @@ public class RegAllocator implements ASMVisitor {
     public void visit(ASMBinaryInst asmBinaryInst) {
         asmBinaryInst.rs1 = AllocRegForLoad(asmBinaryInst.rs1, Reg_T0);
         asmBinaryInst.rs2 = AllocRegForLoad(asmBinaryInst.rs2, Reg_T1);
-        asmBinaryInst.rd = AllocRegForStore(asmBinaryInst.rd, Reg_T0);
 
-        checkIfVReg(asmBinaryInst.rs1);
-        checkIfVReg(asmBinaryInst.rs2);
-        checkIfVReg(asmBinaryInst.rd);
+//        checkIfVReg(asmBinaryInst.rs1);
+//        checkIfVReg(asmBinaryInst.rs2);
+//        checkIfVReg(asmBinaryInst.rd);
 
         curBlock.addInst(asmBinaryInst);
+        asmBinaryInst.rd = AllocRegForStore(asmBinaryInst.rd, Reg_T0);
     }
 
     @Override
@@ -104,42 +104,41 @@ public class RegAllocator implements ASMVisitor {
 
     @Override
     public void visit(ASMLiInst asmLiInst) {
-        asmLiInst.rd = AllocRegForStore(asmLiInst.rd, Reg_T0);
-
-        checkIfVReg(asmLiInst.rd);
+//        checkIfVReg(asmLiInst.rd);
 
         curBlock.addInst(asmLiInst);
+        asmLiInst.rd = AllocRegForStore(asmLiInst.rd, Reg_T0);
     }
 
     @Override
     public void visit(ASMLoadInst asmLoadInst) {
         asmLoadInst.rs1 = AllocRegForLoad(asmLoadInst.rs1, Reg_T0);
-        asmLoadInst.rd = AllocRegForStore(asmLoadInst.rd, Reg_T0);
 
-        checkIfVReg(asmLoadInst.rs1);
-        checkIfVReg(asmLoadInst.rd);
+//        checkIfVReg(asmLoadInst.rs1);
+//        checkIfVReg(asmLoadInst.rd);
 
         curBlock.addInst(asmLoadInst);
+        asmLoadInst.rd = AllocRegForStore(asmLoadInst.rd, Reg_T0);
     }
 
     @Override
     public void visit(ASMLuiInst asmLuiInst) {
-        asmLuiInst.rd = AllocRegForStore(asmLuiInst.rd, Reg_T0);
 
-        checkIfVReg(asmLuiInst.rd);
+//        checkIfVReg(asmLuiInst.rd);
 
         curBlock.addInst(asmLuiInst);
+        asmLuiInst.rd = AllocRegForStore(asmLuiInst.rd, Reg_T0);
     }
 
     @Override
     public void visit(ASMMvInst asmMvInst) {
         asmMvInst.rs1 = AllocRegForLoad(asmMvInst.rs1, Reg_T0);
-        asmMvInst.rd = AllocRegForStore(asmMvInst.rd, Reg_T0);
 
-        checkIfVReg(asmMvInst.rs1);
-        checkIfVReg(asmMvInst.rd);
+//        checkIfVReg(asmMvInst.rs1);
+//        checkIfVReg(asmMvInst.rd);
 
         curBlock.addInst(asmMvInst);
+        asmMvInst.rd = AllocRegForStore(asmMvInst.rd, Reg_T0);
     }
 
     @Override
@@ -161,11 +160,12 @@ public class RegAllocator implements ASMVisitor {
     @Override
     public void visit(ASMUnaryInst asmUnaryInst) {
         asmUnaryInst.rs1 = AllocRegForLoad(asmUnaryInst.rs1, Reg_T0);
-        asmUnaryInst.rd = AllocRegForStore(asmUnaryInst.rd, Reg_T0);
 
         checkIfVReg(asmUnaryInst.rs1);
         checkIfVReg(asmUnaryInst.rd);
 
         curBlock.addInst(asmUnaryInst);
+        asmUnaryInst.rd = AllocRegForStore(asmUnaryInst.rd, Reg_T0);
+
     }
 }
