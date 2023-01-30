@@ -40,7 +40,8 @@ public class Compiler {
         PrintStream asmPs = new PrintStream(asm);
 
         CharStream inputStream = CharStreams.fromStream(System.in);
-        PrintStream outputStream = System.out;
+//        PrintStream outputStream = System.out;
+        System.setOut(asmPs);
 
         Log log = new Log();
         GlobalScope globalScope = new GlobalScope();
@@ -67,7 +68,7 @@ public class Compiler {
             new ASMBuilder(projectASMModule).visit(projectIRModule);
             new RegAllocator().visit(projectASMModule);
             new ASMTranslator().visit(projectASMModule);
-            System.setOut(asmPs);
+
             new ASMPrinter().printAsm(projectASMModule);
 
         } catch (error er) {
