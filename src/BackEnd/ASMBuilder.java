@@ -89,10 +89,11 @@ public class ASMBuilder implements IRVisitor {
             ASMFunction asmFunction = new ASMFunction(function.funcName);
             asmModule.funcList.add(asmFunction);
             function.asmOperand = asmFunction;
-            if (!function.isBuiltIn) function.accept(this);
         });
 
-
+        irModule.IRFunctionMap.forEach((name, function) -> {
+            if (!function.isBuiltIn) function.accept(this);
+        });
     }
 
     @Override

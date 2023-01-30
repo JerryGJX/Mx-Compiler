@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/IRModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/IRModule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/debug/test.s" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.s" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +131,7 @@
       <workItem from="1673102484063" duration="85000" />
       <workItem from="1673708274077" duration="57150000" />
       <workItem from="1674975095361" duration="21136000" />
-      <workItem from="1675009928915" duration="22331000" />
+      <workItem from="1675009928915" duration="22631000" />
     </task>
     <servers />
   </component>
@@ -176,13 +172,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/BackEnd/ASMBuilder.java</url>
-          <line>282</line>
+          <line>283</line>
           <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/BackEnd/ASMBuilder.java</url>
-          <line>88</line>
-          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
