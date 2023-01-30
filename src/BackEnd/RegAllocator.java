@@ -162,7 +162,7 @@ public class RegAllocator implements ASMVisitor {
         asmUnaryInst.rs1 = AllocRegForLoad(asmUnaryInst.rs1, Reg_T0);
 
         checkIfVReg(asmUnaryInst.rs1);
-        checkIfVReg(asmUnaryInst.rd);
+//        checkIfVReg(asmUnaryInst.rd);
 
         curBlock.addInst(asmUnaryInst);
         asmUnaryInst.rd = AllocRegForStore(asmUnaryInst.rd, Reg_T0);

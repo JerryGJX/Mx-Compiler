@@ -160,7 +160,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             }
         });
 
-        projectIRModule.testPrint();
+//        projectIRModule.testPrint();
     }
 
     @Override
