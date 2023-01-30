@@ -29,14 +29,14 @@ public class Compiler {
     public static void main(String[] args) throws Exception {
 //        String fileName = "../test/debug/test.mx";
 
-        String fileName = "../output.s";
+        String fileName = "output.s";
 //        String fileName = "test/debug/test.mx";
 //        InputStream inputStream = new FileInputStream(fileName);
 //
 ////        File llvmir = new File("../test/debug/test.ll");
 //        File llvmir = new File("test/debug/test.ll");
 //        PrintStream irPs = new PrintStream(llvmir);
-        File asm = new File("../output.s");
+        File asm = new File("output.s");
         PrintStream asmPs = new PrintStream(asm);
 
         CharStream inputStream = CharStreams.fromStream(System.in);
