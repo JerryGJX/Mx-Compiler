@@ -120,7 +120,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
 
     //real content
     public IRBuilder(IRModule _projectIRModule, GlobalScope _globalScope) {
-        renamer = new Renamer();
+        renamer = _projectIRModule.renamer;
         projectIRModule = _projectIRModule;
         var initFunc = GenerateInitFunc();
         this.currentBlock = null;
@@ -569,29 +569,31 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             //for .size()
             node.irValue = getExpNodeValue(node.function);
             return;
-        }
-        assert node.function.irValue instanceof IRFunction;
-        ArrayList<IRValue> argsList = new ArrayList<>();
+        } else {
+            assert node.function.irValue instanceof IRFunction;
+            ArrayList<IRValue> argsList = new ArrayList<>();
 
 //        System.out.println(func.parentClassType);
 //        System.out.println(func.funcName);
 
-        if (func.parentClassType != null) {
-            if (node.function instanceof MemberExpNode) {
-                var thisPtr = getExpNodeValue(((MemberExpNode) node.function).base);//change from getPointer
-                if (((MemberExpNode) node.function).base.irValue.valueType.equals(stringType)) {
-                    thisPtr = getExpNodeValue(((MemberExpNode) node.function).base);
-                }
-                argsList.add(thisPtr);//c++ will allocate the class var
-            } else argsList.add(irCurrentScope.GetThis());
+            if (func.parentClassType != null) {
+                if (node.function instanceof MemberExpNode) {
+                    var thisPtr = getExpNodeValue(((MemberExpNode) node.function).base);//change from getPointer
+                    if (((MemberExpNode) node.function).base.irValue.valueType.equals(stringType)) {
+                        thisPtr = getExpNodeValue(((MemberExpNode) node.function).base);
+                    }
+                    argsList.add(thisPtr);//c++ will allocate the class var
+                } else argsList.add(irCurrentScope.GetThis());
+            }
+            for (var arg : node.paraList) {
+                arg.accept(this);
+                argsList.add(getExpNodeValue(arg));
+            }
+            var callInst = generateCallInst(func, currentBlock, argsList);
+            currentBlock.addInst(callInst);
+            node.irValue = callInst;
         }
-        for (var arg : node.paraList) {
-            arg.accept(this);
-            argsList.add(getExpNodeValue(arg));
-        }
-        var callInst = generateCallInst(func, currentBlock, argsList);
-        currentBlock.addInst(callInst);
-        node.irValue = callInst;
+
     }
 
     @Override

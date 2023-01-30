@@ -6,6 +6,7 @@ import AST.node.concretNode.ConstructorDefNode;
 import AST.node.concretNode.FuncDefNode;
 import AST.typeNode.Type;
 import IR.Type.*;
+import IR.Utils.Renamer;
 import IR.Value.IRDefine;
 import IR.Value.User.Constant.GlobalValue.GlobalVariable;
 import IR.Value.User.Constant.GlobalValue.IRFunction;
@@ -21,6 +22,8 @@ public class IRModule implements IRDefine {
     public String fileName;
     public IRFunction initFunc;
 
+    public Renamer renamer;
+
     public ArrayList<FunctionType> BuiltInFuncList = new ArrayList<>();
     public HashMap<String, IRFunction> IRFunctionMap = new HashMap<>();
     private final HashMap<String, StructType> structTypeMap = new HashMap<>();
@@ -32,6 +35,7 @@ public class IRModule implements IRDefine {
 
     public IRModule(String _fileName) {
         this.fileName = _fileName;
+        this.renamer = new Renamer();
     }
 
     public void Init(GlobalScope _globalScope, IRFunction _initFunc) {
@@ -82,7 +86,7 @@ public class IRModule implements IRDefine {
 
         //add global variable
         _globalScope.varTable.forEach((name, varDefUnitNode) -> {
-            var varType=typeTransLater.TranslateAllocaType(varDefUnitNode.varType);
+            var varType = typeTransLater.TranslateAllocaType(varDefUnitNode.varType);
 //            if(varType instanceof BoolType) varType=new memBoolType();
             IRGlobalVariableMap.put(name, new GlobalVariable(name, varType));
         });
@@ -106,15 +110,24 @@ public class IRModule implements IRDefine {
         BuiltInFuncList.add(new FunctionType(INT32, "getInt"));
         BuiltInFuncList.add(new FunctionType(INT8Star, "toString", INT32));
         BuiltInFuncList.forEach(funcType -> {
-            var irFunc = new IRFunction(funcType, funcType.funcName, null, true, funcType.parameterTypeList);
+            IRFunction irFunc = new IRFunction(funcType, funcType.funcName, null, true, funcType.parameterTypeList);
+            for (int i = 0; i < funcType.parameterTypeList.size(); i++) {
+                irFunc.argNameList.add(renamer.rename("arg"));
+            }
             IRFunctionMap.put(funcType.funcName, irFunc);
+//            throw new RuntimeException(irFunc.toString());
+
         });
         BuiltInFuncList.add(new FunctionType(INT8Star, "_str_substring", INT8Star, INT32, INT32));
         BuiltInFuncList.add(new FunctionType(INT32, "_str_length", INT8Star));
         BuiltInFuncList.add(new FunctionType(INT32, "_str_ord", INT8Star, INT32));
         BuiltInFuncList.add(new FunctionType(INT32, "_str_parseInt", INT8Star));
         BuiltInFuncList.forEach(funcType -> {
-            IRFunctionMap.putIfAbsent(funcType.funcName, new IRFunction(funcType, funcType.funcName, stringType, true, funcType.parameterTypeList));
+            IRFunction irFunc = new IRFunction(funcType, funcType.funcName, stringType, true, funcType.parameterTypeList);
+            for (int i = 0; i < funcType.parameterTypeList.size(); i++) {
+                irFunc.argNameList.add(renamer.rename("arg"));
+            }
+            IRFunctionMap.putIfAbsent(funcType.funcName, irFunc);
         });
 
     }
@@ -136,7 +149,8 @@ public class IRModule implements IRDefine {
 
     public IRFunction transFuncDef(FuncDefNode _funcDefNode, StructType _classType) {
         BasicType returnType;
-        if (_funcDefNode.returnType == null || _funcDefNode instanceof ConstructorDefNode) returnType = new VoidType();//默认构造函数
+        if (_funcDefNode.returnType == null || _funcDefNode instanceof ConstructorDefNode)
+            returnType = new VoidType();//默认构造函数
         else returnType = typeTransLater.TranslateVarType(_funcDefNode.returnType);
         FunctionType functionType = new FunctionType(returnType, _funcDefNode.funcName);
         IRFunction irFunction = new IRFunction(functionType, _funcDefNode.funcName, _classType, false, null);
@@ -201,14 +215,14 @@ public class IRModule implements IRDefine {
 
         projectStr.append(generateComment("GlobalStrDef"));
         for (var strConstant : IRStrConstantMap.values()) {
-            var str = strConstant.getIdentifier() + " = " + "private unnamed_addr constant" + " " + ((PointerType)(strConstant.valueType)).Dereference().toString() + " " + strConstant.toString() ;
+            var str = strConstant.getIdentifier() + " = " + "private unnamed_addr constant" + " " + ((PointerType) (strConstant.valueType)).Dereference().toString() + " " + strConstant.toString();
             //+ ", align " + STRING_ALIGN;
             projectStr.append(str).append("\n");
         }
 
         projectStr.append(generateComment("GlobalVar"));
         for (var globalVar : IRGlobalVariableMap.values()) {
-            var str = globalVar.getIdentifier() + " = global " + globalVar.pointedType().toString() + " " + new IRZeroInitConstant(globalVar.pointedType()).toString() ;
+            var str = globalVar.getIdentifier() + " = global " + globalVar.pointedType().toString() + " " + new IRZeroInitConstant(globalVar.pointedType()).toString();
             //+ ", align " + POINTER_SIZE;
             projectStr.append(str).append("\n");
         }

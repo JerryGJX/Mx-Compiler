@@ -39,7 +39,7 @@ public class IRFunction extends IRConstant {
         this.parentClassType = _classType;
         isBuiltIn = _isBuiltIn;
         argTypeList = _argTypeList;
-        if(argTypeList == null) argTypeList = new ArrayList<>();
+        if (argTypeList == null) argTypeList = new ArrayList<>();
     }
 
 
@@ -87,8 +87,8 @@ public class IRFunction extends IRConstant {
         }
         ans.append(") {\n");
 
-        ans.append(entryBlock.toString());
-        ans.append(exitBlock.toString());
+        if (entryBlock != null) ans.append(entryBlock.toString());
+        if (entryBlock != null) ans.append(exitBlock.toString());
 
         for (IRBasicBlock block : blockList) {
             ans.append(block.toString());

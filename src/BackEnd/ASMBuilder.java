@@ -17,6 +17,7 @@ import IR.Value.User.Instruction.*;
 import java.util.ArrayList;
 
 public class ASMBuilder implements IRVisitor {
+    public IRModule irModule;
     public ASMModule asmModule;
     public ASMFunction curFunc = null;
     public ASMBlock curBlock = null;
@@ -64,7 +65,8 @@ public class ASMBuilder implements IRVisitor {
 
 
     @Override
-    public void visit(IRModule irModule) {
+    public void visit(IRModule _irModule) {
+        irModule = _irModule;
         irModule.IRGlobalVariableMap.forEach((name, globalVariable) -> {
             ASMGlobalValue globalValue = new ASMGlobalValue(name);
             globalVariable.asmOperand = globalValue;
@@ -87,10 +89,10 @@ public class ASMBuilder implements IRVisitor {
             ASMFunction asmFunction = new ASMFunction(function.funcName);
             asmModule.funcList.add(asmFunction);
             function.asmOperand = asmFunction;
-            if (!function.isBuiltIn) {
-                function.accept(this);
-            }
+            if (!function.isBuiltIn) function.accept(this);
         });
+
+
     }
 
     @Override
