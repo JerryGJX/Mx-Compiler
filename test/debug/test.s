@@ -3,14 +3,18 @@
   .type _init_func, @function
 _init_func:
 _init_func.entry:
-         addi sp, sp, -4
+         addi sp, sp, -8
          mv t0, ra
          sw t0, 0(sp)
+         lui t0, %hi(A)
+         sw t0, 4(sp)
+         lw t0, 4(sp)
+         sw zero, %lo(A)(t0)
          j _init_func.exit
 _init_func.exit:
          lw t0, 0(sp)
          mv ra, t0
-         addi sp, sp, 4
+         addi sp, sp, 8
          ret
 
   .text
@@ -18,395 +22,74 @@ _init_func.exit:
   .type main, @function
 main:
 main.entry:
-         addi sp, sp, -316
+         addi sp, sp, -60
          mv t0, ra
-         sw t0, 8(sp)
+         sw t0, 4(sp)
          call _init_func
-         sw zero, 4(sp)
-         call getInt
-         mv t0, a0
+         sw zero, 0(sp)
+         lui t0, %hi(A)
          sw t0, 12(sp)
-         lui t0, %hi(n)
+         lw t0, 12(sp)
+         lw t0, %lo(A)(t0)
+         sw t0, 8(sp)
+         slli t0, zero, 2
          sw t0, 16(sp)
-         lw t0, 16(sp)
-         lw t1, 12(sp)
-         sw t1, %lo(n)(t0)
-         call getInt
-         mv t0, a0
-         sw t0, 20(sp)
-         lui t0, %hi(p)
-         sw t0, 24(sp)
-         lw t0, 24(sp)
-         lw t1, 20(sp)
-         sw t1, %lo(p)(t0)
-         call getInt
-         mv t0, a0
-         sw t0, 28(sp)
-         lui t0, %hi(k)
-         sw t0, 32(sp)
-         lw t0, 32(sp)
-         lw t1, 28(sp)
-         sw t1, %lo(k)(t0)
-         lui t0, %hi(p)
-         sw t0, 40(sp)
-         lw t0, 40(sp)
-         lw t0, %lo(p)(t0)
-         sw t0, 36(sp)
-         lui t0, %hi(k)
-         sw t0, 48(sp)
-         lw t0, 48(sp)
-         lw t0, %lo(k)(t0)
-         sw t0, 44(sp)
-         lw t0, 36(sp)
-         lw t1, 44(sp)
-         sub t0, t0, t1
-         sw t0, 52(sp)
-         li t0, 1
-         sw t0, 60(sp)
-         lw t0, 60(sp)
-         lw t1, 52(sp)
-         slt t0, t0, t1
-         sw t0, 56(sp)
-         lw t0, 56(sp)
-         beq t0, zero, if_false
-         j if_true
-main.exit:
          lw t0, 8(sp)
-         mv ra, t0
-         addi sp, sp, 316
-         ret
-if_true:
-         lui t0, %hi(strConst)
-         sw t0, 64(sp)
-         lw t0, 64(sp)
-         addi t0, t0, %lo(strConst)
-         sw t0, 64(sp)
-         lw t0, 64(sp)
-         mv a0, t0
-         call print
-         j if_exit
-if_false:
-         j if_exit
-if_exit:
-         lui t0, %hi(p)
-         sw t0, 72(sp)
-         lw t0, 72(sp)
-         lw t0, %lo(p)(t0)
-         sw t0, 68(sp)
-         lui t0, %hi(k)
-         sw t0, 80(sp)
-         lw t0, 80(sp)
-         lw t0, %lo(k)(t0)
-         sw t0, 76(sp)
-         lw t0, 68(sp)
-         lw t1, 76(sp)
-         sub t0, t0, t1
-         sw t0, 84(sp)
-         lui t0, %hi(i)
-         sw t0, 88(sp)
-         lw t0, 88(sp)
-         lw t1, 84(sp)
-         sw t1, %lo(i)(t0)
-         j for_cond
-for_cond:
-         lui t0, %hi(i)
-         sw t0, 96(sp)
-         lw t0, 96(sp)
-         lw t0, %lo(i)(t0)
-         sw t0, 92(sp)
-         lui t0, %hi(p)
-         sw t0, 104(sp)
-         lw t0, 104(sp)
-         lw t0, %lo(p)(t0)
-         sw t0, 100(sp)
-         lui t0, %hi(k)
-         sw t0, 112(sp)
-         lw t0, 112(sp)
-         lw t0, %lo(k)(t0)
-         sw t0, 108(sp)
-         lw t0, 100(sp)
-         lw t1, 108(sp)
+         lw t1, 16(sp)
          add t0, t0, t1
-         sw t0, 116(sp)
-         lw t0, 116(sp)
-         lw t1, 92(sp)
-         slt t0, t0, t1
-         sw t0, 120(sp)
-         lw t0, 120(sp)
-         xori t0, t0, 1
-         sw t0, 124(sp)
-         lw t0, 124(sp)
-         beq t0, zero, for_exit
-         j for_body
-for_body:
-         lui t0, %hi(i)
-         sw t0, 132(sp)
-         lw t0, 132(sp)
-         lw t0, %lo(i)(t0)
-         sw t0, 128(sp)
+         sw t0, 20(sp)
          li t0, 1
-         sw t0, 140(sp)
-         lw t0, 128(sp)
-         lw t1, 140(sp)
-         slt t0, t0, t1
-         sw t0, 136(sp)
-         lw t0, 136(sp)
-         xori t0, t0, 1
-         sw t0, 144(sp)
-         lw t0, 144(sp)
-         andi t0, t0, 1
-         sw t0, 148(sp)
-         lw t0, 148(sp)
-         mv t0, t0
-         sw t0, 152(sp)
-         lw t1, 152(sp)
-         sw t1, 0(sp)
-         lw t0, 144(sp)
-         beq t0, zero, logicExitBlock
-         j noShortCutBlock
-for_step:
-         lui t0, %hi(i)
-         sw t0, 160(sp)
-         lw t0, 160(sp)
-         lw t0, %lo(i)(t0)
-         sw t0, 156(sp)
-         lw t0, 156(sp)
-         addi t0, t0, 1
-         sw t0, 164(sp)
+         sw t0, 24(sp)
+         lw t0, 20(sp)
+         lw t1, 24(sp)
+         sw t1, 0(t0)
          li t0, 1
-         sw t0, 168(sp)
-         lw t0, 156(sp)
-         lw t1, 168(sp)
-         add t0, t0, t1
-         sw t0, 164(sp)
-         lui t0, %hi(i)
-         sw t0, 172(sp)
-         lw t0, 172(sp)
-         lw t1, 164(sp)
-         sw t1, %lo(i)(t0)
-         j for_cond
-for_exit:
-         lui t0, %hi(p)
-         sw t0, 180(sp)
-         lw t0, 180(sp)
-         lw t0, %lo(p)(t0)
-         sw t0, 176(sp)
-         lui t0, %hi(k)
-         sw t0, 188(sp)
-         lw t0, 188(sp)
-         lw t0, %lo(k)(t0)
-         sw t0, 184(sp)
-         lw t0, 176(sp)
-         lw t1, 184(sp)
-         add t0, t0, t1
-         sw t0, 192(sp)
-         lui t0, %hi(n)
-         sw t0, 200(sp)
-         lw t0, 200(sp)
-         lw t0, %lo(n)(t0)
-         sw t0, 196(sp)
-         lw t0, 192(sp)
-         lw t1, 196(sp)
-         slt t0, t0, t1
-         sw t0, 204(sp)
-         lw t0, 204(sp)
-         beq t0, zero, if_false.3
-         j if_true.3
-if_true.1:
-         lui t0, %hi(i)
-         sw t0, 212(sp)
-         lw t0, 212(sp)
-         lw t0, %lo(i)(t0)
-         sw t0, 208(sp)
-         lui t0, %hi(p)
-         sw t0, 220(sp)
-         lw t0, 220(sp)
-         lw t0, %lo(p)(t0)
-         sw t0, 216(sp)
-         lw t0, 208(sp)
-         lw t1, 216(sp)
-         sub t0, t0, t1
-         sw t0, 224(sp)
-         lw t0, 224(sp)
-         seqz t0, t0
-         sw t0, 228(sp)
-         lw t0, 228(sp)
-         beq t0, zero, if_false.2
-         j if_true.2
-if_false.1:
-         j if_exit.1
-if_exit.1:
-         j for_step
-noShortCutBlock:
-         lui t0, %hi(i)
-         sw t0, 236(sp)
-         lw t0, 236(sp)
-         lw t0, %lo(i)(t0)
-         sw t0, 232(sp)
-         lui t0, %hi(n)
-         sw t0, 244(sp)
-         lw t0, 244(sp)
-         lw t0, %lo(n)(t0)
-         sw t0, 240(sp)
-         lw t0, 240(sp)
-         lw t1, 232(sp)
-         slt t0, t0, t1
-         sw t0, 248(sp)
-         lw t0, 248(sp)
-         xori t0, t0, 1
-         sw t0, 252(sp)
-         lw t0, 144(sp)
-         lw t1, 252(sp)
-         and t0, t0, t1
-         sw t0, 256(sp)
-         lw t0, 256(sp)
-         andi t0, t0, 1
-         sw t0, 260(sp)
-         lw t0, 260(sp)
-         mv t0, t0
-         sw t0, 264(sp)
-         lw t1, 264(sp)
-         sw t1, 0(sp)
-         j logicExitBlock
-logicExitBlock:
-         lw t0, 0(sp)
-         sw t0, 268(sp)
-         lw t0, 268(sp)
-         andi t0, t0, 1
-         sw t0, 272(sp)
-         lw t0, 272(sp)
-         mv t0, t0
-         sw t0, 276(sp)
-         lw t0, 276(sp)
-         beq t0, zero, if_false.1
-         j if_true.1
-if_true.2:
-         lui t0, %hi(strConst.1)
-         sw t0, 280(sp)
-         lw t0, 280(sp)
-         addi t0, t0, %lo(strConst.1)
-         sw t0, 280(sp)
-         lw t0, 280(sp)
-         mv a0, t0
-         call print
-         lui t0, %hi(i)
-         sw t0, 288(sp)
-         lw t0, 288(sp)
-         lw t0, %lo(i)(t0)
-         sw t0, 284(sp)
-         lw t0, 284(sp)
+         sw t0, 28(sp)
+         lw t0, 28(sp)
          mv a0, t0
          call toString
          mv t0, a0
-         sw t0, 292(sp)
-         lw t0, 292(sp)
+         sw t0, 32(sp)
+         lw t0, 32(sp)
          mv a0, t0
-         call print
-         lui t0, %hi(strConst.2)
-         sw t0, 296(sp)
-         lw t0, 296(sp)
-         addi t0, t0, %lo(strConst.2)
-         sw t0, 296(sp)
-         lw t0, 296(sp)
+         call println
+         lui t0, %hi(A)
+         sw t0, 40(sp)
+         lw t0, 40(sp)
+         lw t0, %lo(A)(t0)
+         sw t0, 36(sp)
+         slli t0, zero, 2
+         sw t0, 44(sp)
+         lw t0, 36(sp)
+         lw t1, 44(sp)
+         add t0, t0, t1
+         sw t0, 48(sp)
+         lw t0, 0(sp)
+         sw t0, 52(sp)
+         lw t0, 52(sp)
          mv a0, t0
-         call print
-         j if_exit.2
-if_false.2:
-         lui t0, %hi(i)
-         sw t0, 304(sp)
-         lw t0, 304(sp)
-         lw t0, %lo(i)(t0)
-         sw t0, 300(sp)
-         lw t0, 300(sp)
+         call toString
+         mv t0, a0
+         sw t0, 56(sp)
+         lw t0, 56(sp)
          mv a0, t0
-         call printInt
-         lui t0, %hi(strConst.3)
-         sw t0, 308(sp)
-         lw t0, 308(sp)
-         addi t0, t0, %lo(strConst.3)
-         sw t0, 308(sp)
-         lw t0, 308(sp)
-         mv a0, t0
-         call print
-         j if_exit.2
-if_exit.2:
-         j if_exit.1
-if_true.3:
-         lui t0, %hi(strConst.4)
-         sw t0, 312(sp)
-         lw t0, 312(sp)
-         addi t0, t0, %lo(strConst.4)
-         sw t0, 312(sp)
-         lw t0, 312(sp)
-         mv a0, t0
-         call print
-         j if_exit.3
-if_false.3:
-         j if_exit.3
-if_exit.3:
-         sw zero, 4(sp)
+         call println
          j main.exit
+main.exit:
+         lw t0, 4(sp)
+         mv ra, t0
+         addi sp, sp, 60
+         ret
 
 .section .bss
- .globl p
- .type p, @object
-p:
+ .globl A
+ .type A, @object
+A:
   .word 0
- .size p, 4
-
-
- .globl i
- .type i, @object
-i:
-  .word 0
- .size i, 4
-
-
- .globl k
- .type k, @object
-k:
-  .word 0
- .size k, 4
-
-
- .globl n
- .type n, @object
-n:
-  .word 0
- .size n, 4
+ .size A, 4
 
 
 .section .rodata
- .type strConst, @object
-strConst:
-         .string "<< "
-         .size strConst, 4
-
-
- .type strConst.3, @object
-strConst.3:
-         .string " "
-         .size strConst.3, 2
-
-
- .type strConst.4, @object
-strConst.4:
-         .string ">> "
-         .size strConst.4, 4
-
-
- .type strConst.2, @object
-strConst.2:
-         .string ") "
-         .size strConst.2, 3
-
-
- .type strConst.1, @object
-strConst.1:
-         .string "("
-         .size strConst.1, 2
-
-
 
  		.text
        	.attribute	4, 16

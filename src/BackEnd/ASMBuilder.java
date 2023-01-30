@@ -82,7 +82,7 @@ public class ASMBuilder implements IRVisitor {
         ASMFunction asmInitFunc = new ASMFunction(irModule.initFunc.funcName);
         irModule.initFunc.asmOperand = asmInitFunc;
         asmModule.funcList.add(asmInitFunc);
-        irModule.initFunc.accept(this);
+
 
 
         irModule.IRFunctionMap.forEach((name, function) -> {
@@ -90,6 +90,8 @@ public class ASMBuilder implements IRVisitor {
             asmModule.funcList.add(asmFunction);
             function.asmOperand = asmFunction;
         });
+
+        irModule.initFunc.accept(this);
 
         irModule.IRFunctionMap.forEach((name, function) -> {
             if (!function.isBuiltIn) function.accept(this);
@@ -282,6 +284,12 @@ public class ASMBuilder implements IRVisitor {
 
     @Override
     public void visit(IRCallInst irCallInst) {
+        //debug
+        if(irCallInst.calledFunc() == null || irCallInst.calledFunc().asmOperand == null){
+            int A = 0;
+        }
+
+
         for (int i = 0; i < irCallInst.operandSize() - 1; ++i) {
             IRValue arg = irCallInst.args(i);
             if (i < 8) {
