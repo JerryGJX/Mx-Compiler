@@ -18,20 +18,281 @@ _init_func.exit:
   .type main, @function
 main:
 main.entry:
-         addi sp, sp, -8
+         addi sp, sp, -188
          mv t0, ra
          sw t0, 4(sp)
          call _init_func
          sw zero, 0(sp)
-         sw zero, 0(sp)
-         j main.exit
+         lui t0, %hi(i)
+         sw t0, 8(sp)
+         lw t0, 8(sp)
+         sw zero, %lo(i)(t0)
+         j for_cond
 main.exit:
+         lw t0, 0(sp)
+         sw t0, 184(sp)
+         lw t0, 184(sp)
+         mv a0, t0
          lw t0, 4(sp)
          mv ra, t0
-         addi sp, sp, 8
+         addi sp, sp, 188
          ret
+for_cond:
+         lui t0, %hi(i)
+         sw t0, 16(sp)
+         lw t0, 16(sp)
+         lw t0, %lo(i)(t0)
+         sw t0, 12(sp)
+         li t0, 5
+         sw t0, 24(sp)
+         lw t0, 12(sp)
+         lw t1, 24(sp)
+         slt t0, t0, t1
+         sw t0, 20(sp)
+         lw t0, 20(sp)
+         beq t0, zero, for_exit
+         j for_body
+for_body:
+         lui t0, %hi(j)
+         sw t0, 28(sp)
+         lw t0, 28(sp)
+         sw zero, %lo(j)(t0)
+         j for_cond.1
+for_step:
+         lui t0, %hi(i)
+         sw t0, 36(sp)
+         lw t0, 36(sp)
+         lw t0, %lo(i)(t0)
+         sw t0, 32(sp)
+         lw t0, 32(sp)
+         addi t0, t0, 1
+         sw t0, 40(sp)
+         li t0, 1
+         sw t0, 44(sp)
+         lw t0, 32(sp)
+         lw t1, 44(sp)
+         add t0, t0, t1
+         sw t0, 40(sp)
+         lui t0, %hi(i)
+         sw t0, 48(sp)
+         lw t0, 48(sp)
+         lw t1, 40(sp)
+         sw t1, %lo(i)(t0)
+         j for_cond
+for_exit:
+         lui t0, %hi(r)
+         sw t0, 56(sp)
+         lw t0, 56(sp)
+         lw t0, %lo(r)(t0)
+         sw t0, 52(sp)
+         li t0, 2
+         sw t0, 64(sp)
+         lw t0, 64(sp)
+         lw t1, 52(sp)
+         sub t0, t0, t1
+         sw t0, 60(sp)
+         lw t0, 60(sp)
+         mv a0, t0
+         call abs
+         mv t0, a0
+         sw t0, 68(sp)
+         lui t0, %hi(c)
+         sw t0, 76(sp)
+         lw t0, 76(sp)
+         lw t0, %lo(c)(t0)
+         sw t0, 72(sp)
+         li t0, 2
+         sw t0, 84(sp)
+         lw t0, 84(sp)
+         lw t1, 72(sp)
+         sub t0, t0, t1
+         sw t0, 80(sp)
+         lw t0, 80(sp)
+         mv a0, t0
+         call abs
+         mv t0, a0
+         sw t0, 88(sp)
+         lw t0, 68(sp)
+         lw t1, 88(sp)
+         add t0, t0, t1
+         sw t0, 92(sp)
+         lw t0, 92(sp)
+         mv a0, t0
+         call printInt
+         sw zero, 0(sp)
+         j main.exit
+for_cond.1:
+         lui t0, %hi(j)
+         sw t0, 100(sp)
+         lw t0, 100(sp)
+         lw t0, %lo(j)(t0)
+         sw t0, 96(sp)
+         li t0, 5
+         sw t0, 108(sp)
+         lw t0, 96(sp)
+         lw t1, 108(sp)
+         slt t0, t0, t1
+         sw t0, 104(sp)
+         lw t0, 104(sp)
+         beq t0, zero, for_exit.1
+         j for_body.1
+for_body.1:
+         call getInt
+         mv t0, a0
+         sw t0, 112(sp)
+         lui t0, %hi(n)
+         sw t0, 116(sp)
+         lw t0, 116(sp)
+         lw t1, 112(sp)
+         sw t1, %lo(n)(t0)
+         lui t0, %hi(n)
+         sw t0, 124(sp)
+         lw t0, 124(sp)
+         lw t0, %lo(n)(t0)
+         sw t0, 120(sp)
+         li t0, 1
+         sw t0, 132(sp)
+         lw t0, 120(sp)
+         lw t1, 132(sp)
+         sub t0, t0, t1
+         sw t0, 128(sp)
+         lw t0, 128(sp)
+         seqz t0, t0
+         sw t0, 136(sp)
+         lw t0, 136(sp)
+         beq t0, zero, if_false.1
+         j if_true.1
+for_step.1:
+         lui t0, %hi(j)
+         sw t0, 144(sp)
+         lw t0, 144(sp)
+         lw t0, %lo(j)(t0)
+         sw t0, 140(sp)
+         lw t0, 140(sp)
+         addi t0, t0, 1
+         sw t0, 148(sp)
+         li t0, 1
+         sw t0, 152(sp)
+         lw t0, 140(sp)
+         lw t1, 152(sp)
+         add t0, t0, t1
+         sw t0, 148(sp)
+         lui t0, %hi(j)
+         sw t0, 156(sp)
+         lw t0, 156(sp)
+         lw t1, 148(sp)
+         sw t1, %lo(j)(t0)
+         j for_cond.1
+for_exit.1:
+         j for_step
+if_true.1:
+         lui t0, %hi(i)
+         sw t0, 164(sp)
+         lw t0, 164(sp)
+         lw t0, %lo(i)(t0)
+         sw t0, 160(sp)
+         lui t0, %hi(r)
+         sw t0, 168(sp)
+         lw t0, 168(sp)
+         lw t1, 160(sp)
+         sw t1, %lo(r)(t0)
+         lui t0, %hi(j)
+         sw t0, 176(sp)
+         lw t0, 176(sp)
+         lw t0, %lo(j)(t0)
+         sw t0, 172(sp)
+         lui t0, %hi(c)
+         sw t0, 180(sp)
+         lw t0, 180(sp)
+         lw t1, 172(sp)
+         sw t1, %lo(c)(t0)
+         j if_exit.1
+if_false.1:
+         j if_exit.1
+if_exit.1:
+         j for_step.1
+
+  .text
+  .globl abs
+  .type abs, @function
+abs:
+abs.entry:
+         addi sp, sp, -40
+         mv t0, ra
+         sw t0, 8(sp)
+         lw t1, 12(sp)
+         sw t1, 4(sp)
+         lw t0, 4(sp)
+         sw t0, 16(sp)
+         lw t1, 16(sp)
+         slt t0, zero, t1
+         sw t0, 20(sp)
+         lw t0, 20(sp)
+         beq t0, zero, if_false
+         j if_true
+abs.exit:
+         lw t0, 0(sp)
+         sw t0, 36(sp)
+         lw t0, 36(sp)
+         mv a0, t0
+         lw t0, 8(sp)
+         mv ra, t0
+         addi sp, sp, 40
+         ret
+if_true:
+         lw t0, 4(sp)
+         sw t0, 24(sp)
+         lw t1, 24(sp)
+         sw t1, 0(sp)
+         j abs.exit
+if_false:
+         j if_exit
+if_exit:
+         lw t0, 4(sp)
+         sw t0, 28(sp)
+         lw t1, 28(sp)
+         sub t0, zero, t1
+         sw t0, 32(sp)
+         lw t1, 32(sp)
+         sw t1, 0(sp)
+         j abs.exit
 
 .section .bss
+ .globl r
+ .type r, @object
+r:
+  .word 0
+ .size r, 4
+
+
+ .globl c
+ .type c, @object
+c:
+  .word 0
+ .size c, 4
+
+
+ .globl i
+ .type i, @object
+i:
+  .word 0
+ .size i, 4
+
+
+ .globl j
+ .type j, @object
+j:
+  .word 0
+ .size j, 4
+
+
+ .globl n
+ .type n, @object
+n:
+  .word 0
+ .size n, 4
+
+
 .section .rodata
 
  		.text

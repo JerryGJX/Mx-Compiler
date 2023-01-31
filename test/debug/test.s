@@ -3,18 +3,14 @@
   .type _init_func, @function
 _init_func:
 _init_func.entry:
-         addi sp, sp, -8
+         addi sp, sp, -4
          mv t0, ra
          sw t0, 0(sp)
-         lui t0, %hi(A)
-         sw t0, 4(sp)
-         lw t0, 4(sp)
-         sw zero, %lo(A)(t0)
          j _init_func.exit
 _init_func.exit:
          lw t0, 0(sp)
          mv ra, t0
-         addi sp, sp, 8
+         addi sp, sp, 4
          ret
 
   .text
@@ -22,68 +18,72 @@ _init_func.exit:
   .type main, @function
 main:
 main.entry:
-         addi sp, sp, -56
+         addi sp, sp, -32
          mv t0, ra
          sw t0, 4(sp)
          call _init_func
          sw zero, 0(sp)
-         lui t0, %hi(A)
+         li t0, 1
          sw t0, 12(sp)
          lw t0, 12(sp)
-         lw t0, %lo(A)(t0)
+         addi t0, t0, -3
          sw t0, 8(sp)
-         slli t0, zero, 2
-         sw t0, 16(sp)
-         lw t0, 8(sp)
-         lw t1, 16(sp)
-         add t0, t0, t1
-         sw t0, 20(sp)
          li t0, 1
-         sw t0, 24(sp)
-         lw t0, 20(sp)
-         lw t1, 24(sp)
-         sw t1, 0(t0)
-         lui t0, %hi(A)
-         sw t0, 32(sp)
-         lw t0, 32(sp)
-         lw t0, %lo(A)(t0)
-         sw t0, 28(sp)
-         slli t0, zero, 2
-         sw t0, 36(sp)
-         lw t0, 28(sp)
-         lw t1, 36(sp)
-         add t0, t0, t1
-         sw t0, 40(sp)
-         lw t0, 40(sp)
-         lw t0, 0(t0)
-         sw t0, 44(sp)
-         lw t0, 44(sp)
+         sw t0, 16(sp)
+         li t0, 3
+         sw t0, 20(sp)
+         lw t0, 16(sp)
+         lw t1, 20(sp)
+         sub t0, t0, t1
+         sw t0, 8(sp)
+         lw t0, 8(sp)
          mv a0, t0
-         call toString
+         call abs
          mv t0, a0
-         sw t0, 48(sp)
-         lw t0, 48(sp)
+         sw t0, 24(sp)
+         lw t0, 24(sp)
          mv a0, t0
-         call println
+         call printInt
          j main.exit
 main.exit:
          lw t0, 0(sp)
-         sw t0, 52(sp)
-         lw t0, 52(sp)
+         sw t0, 28(sp)
+         lw t0, 28(sp)
          mv a0, t0
          lw t0, 4(sp)
          mv ra, t0
-         addi sp, sp, 56
+         addi sp, sp, 32
+         ret
+
+  .text
+  .globl abs
+  .type abs, @function
+abs:
+abs.entry:
+         addi sp, sp, -28
+         mv t0, ra
+         sw t0, 8(sp)
+         lw t1, 12(sp)
+         sw t1, 4(sp)
+         lw t0, 4(sp)
+         sw t0, 16(sp)
+         lw t1, 16(sp)
+         sub t0, zero, t1
+         sw t0, 20(sp)
+         lw t1, 20(sp)
+         sw t1, 0(sp)
+         j abs.exit
+abs.exit:
+         lw t0, 0(sp)
+         sw t0, 24(sp)
+         lw t0, 24(sp)
+         mv a0, t0
+         lw t0, 8(sp)
+         mv ra, t0
+         addi sp, sp, 28
          ret
 
 .section .bss
- .globl A
- .type A, @object
-A:
-  .word 0
- .size A, 4
-
-
 .section .rodata
 
  		.text

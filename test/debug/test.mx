@@ -1,6 +1,29 @@
-int []A;
+/*
+Test Package: Codegen
+Author: Pikachu
+Time: 2020-02-03
+Input:
+=== input ===
+0 0 0 0 0
+0 0 0 0 0
+0 1 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+=== end ===
+Output:
+=== output ===
+1
+=== end ===
+ExitCode: 0
+InstLimit: -1
+Origin Package: Codeforces 263A #48540584
+*/
 
-int main(){
-A[0] = 1;
-println(toString(A[0]));
+int abs(int c){
+    return -c;
+}
+
+int main()
+{
+	printInt(abs(1-3));
 }

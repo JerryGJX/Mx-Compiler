@@ -25,17 +25,29 @@ declare i32 @_str_parseInt(i8*)
 ; GlobalStrDef
 
 ; GlobalVar
-@A = global i32* zeroinitializer
 
 ; StructDef
 
 ; GlobalFunc
 define void @_init_func() {
 _init_func.entry:
-    store i32* null, i32** @A
     br label %_init_func.exit
 _init_func.exit:
     ret void
+}
+
+define i32 @abs(i32 %c) {
+abs.entry:
+    %abs.ret.addr = alloca i32
+    %c.addr = alloca i32
+    store i32 %c, i32* %c.addr
+    %c.load = load i32, i32* %c.addr
+    %sub = sub i32 0, %c.load
+    store i32 %sub, i32* %abs.ret.addr
+    br label %abs.exit
+abs.exit:
+    %abs.ret.load = load i32, i32* %abs.ret.addr
+    ret i32 %abs.ret.load
 }
 
 
@@ -45,14 +57,9 @@ main.entry:
     %main.ret.addr = alloca i32
     call void @_init_func()
     store i32 0, i32* %main.ret.addr
-    %A.load = load i32*, i32** @A
-    %getelementptr = getelementptr i32, i32* %A.load, i32 0
-    store i32 1, i32* %getelementptr
-    %A.load.1 = load i32*, i32** @A
-    %getelementptr.1 = getelementptr i32, i32* %A.load.1, i32 0
-    %null.load = load i32, i32* %getelementptr.1
-    %toString.call = call i8* @toString(i32 %null.load)
-    call void @println(i8* %toString.call)
+    %sub.1 = sub i32 1, 3
+    %abs.call = call i32 @abs(i32 %sub.1)
+    call void @printInt(i32 %abs.call)
     br label %main.exit
 main.exit:
     %main.ret.load = load i32, i32* %main.ret.addr
