@@ -1,10 +1,7 @@
 import ASM.ASMModule;
 import AST.ASTBuilder;
 import AST.node.concretNode.RootNode;
-import BackEnd.ASMBuilder;
-import BackEnd.ASMPrinter;
-import BackEnd.ASMTranslator;
-import BackEnd.RegAllocator;
+import BackEnd.*;
 import FrontEnd.SemanticChecker;
 import FrontEnd.SymbolCollector;
 import IR.IRModule;
@@ -27,21 +24,16 @@ import java.io.PrintStream;
 
 public class Compiler {
     public static void main(String[] args) throws Exception {
-//        String fileName = "../test/debug/test.mx";
 
-        String fileName = "output.s";
-//        String fileName = "test/debug/test.mx";
-//        InputStream inputStream = new FileInputStream(fileName);
-//
-////        File llvmir = new File("../test/debug/test.ll");
-//        File llvmir = new File("test/debug/test.ll");
-//        PrintStream irPs = new PrintStream(llvmir);
         File asm = new File("output.s");
         PrintStream asmPs = new PrintStream(asm);
 
         CharStream inputStream = CharStreams.fromStream(System.in);
-//        PrintStream outputStream = System.out;
-        System.setOut(asmPs);
+
+
+        File builtin = new File("builtin.s");
+        PrintStream binPs = new PrintStream(builtin);
+
 
         Log log = new Log();
         GlobalScope globalScope = new GlobalScope();
@@ -59,7 +51,7 @@ public class Compiler {
             new SymbolCollector(globalScope, log).visit(ASTRoot);
             new SemanticChecker(globalScope, log).visit(ASTRoot);
 
-            IRModule projectIRModule = new IRModule(fileName);
+            IRModule projectIRModule = new IRModule("");
 //            System.setOut(irPs);
             new IRBuilder(projectIRModule, globalScope).visit(ASTRoot);
 
@@ -69,7 +61,11 @@ public class Compiler {
             new RegAllocator().visit(projectASMModule);
             new ASMTranslator().visit(projectASMModule);
 
+            System.setOut(asmPs);
             new ASMPrinter().printAsm(projectASMModule);
+
+            System.setOut(binPs);
+            new ASMBuiltinPrinter().print();
 
         } catch (error er) {
             System.err.println(er.toString());
