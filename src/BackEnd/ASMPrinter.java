@@ -5,7 +5,7 @@ import ASM.ASMModule;
 public class ASMPrinter {
     public void printAsm(ASMModule asmModule) {
         System.out.println(asmModule.toString());
-
+//
 //        String BuiltInAsm = """
 //                 		.text
 //                       	.attribute	4, 16
@@ -482,7 +482,7 @@ public class ASMPrinter {
 //
 //                       	.type	.L.str.1,@object
 //                       .L.str.1:
-//                       	.asciz	"%s\\\\n"
+//                       	.asciz	"%s\\n"
 //                       	.size	.L.str.1, 4
 //
 //                       	.type	.L.str.2,@object
@@ -492,7 +492,7 @@ public class ASMPrinter {
 //
 //                       	.type	.L.str.3,@object
 //                       .L.str.3:
-//                       	.asciz	"%d\\\\n"
+//                       	.asciz	"%d\\n"
 //                       	.size	.L.str.3, 4
 //
 //                       	.ident	"Ubuntu clang version 14.0.0-1ubuntu1"
