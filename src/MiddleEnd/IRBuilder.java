@@ -232,7 +232,6 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             // todo:check boolType(done)
             String fakeVarId = renamer.rename(para.valueName);
             String realVarId = renamer.rename(para.valueName + ".addr");
-            para.valueName = fakeVarId;
 
             var argAllocInst = generateAllocInst(realVarId, allocaType, currentBlock);
             currentBlock.addInstFirst(argAllocInst);
@@ -240,7 +239,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             currentBlock.addInst(storeInst);
             varAddrMap.put(realVarId, argAllocInst);
             irCurrentScope.rawToIdMap.put(para.valueName, realVarId);
-
+            para.valueName = fakeVarId;
 //            IRFunc.argNameList.set(i, fakeVarId);
             IRFunc.addArg(argAllocInst);
         }
