@@ -57,8 +57,7 @@ main.entry:
     %main.ret.addr = alloca i32
     call void @_init_func()
     store i32 0, i32* %main.ret.addr
-    %sub.1 = sub i32 1, 3
-    %abs.call = call i32 @abs(i32 %sub.1)
+    %abs.call = call i32 @abs(i32 1)
     call void @printInt(i32 %abs.call)
     br label %main.exit
 main.exit:

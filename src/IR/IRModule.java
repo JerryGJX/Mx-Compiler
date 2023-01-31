@@ -8,6 +8,7 @@ import AST.typeNode.Type;
 import IR.Type.*;
 import IR.Utils.Renamer;
 import IR.Value.IRDefine;
+import IR.Value.IRValue;
 import IR.Value.User.Constant.GlobalValue.GlobalVariable;
 import IR.Value.User.Constant.GlobalValue.IRFunction;
 import IR.Value.User.Constant.IRStrConstant;
@@ -110,10 +111,13 @@ public class IRModule implements IRDefine {
         BuiltInFuncList.add(new FunctionType(INT32, "getInt"));
         BuiltInFuncList.add(new FunctionType(INT8Star, "toString", INT32));
         BuiltInFuncList.forEach(funcType -> {
-            IRFunction irFunc = new IRFunction(funcType, funcType.funcName, null, true, funcType.parameterTypeList);
-            for (int i = 0; i < funcType.parameterTypeList.size(); i++) {
-                irFunc.argNameList.add(renamer.rename("arg"));
-            }
+            ArrayList<IRValue> paraList = new ArrayList<>();
+            funcType.parameterTypeList.forEach(type -> paraList.add(new IRValue(renamer.rename("arg"), type)));
+
+            IRFunction irFunc = new IRFunction(funcType, funcType.funcName, null, true, paraList);
+//            for (int i = 0; i < funcType.parameterTypeList.size(); i++) {
+//                irFunc.argNameList.add();
+//            }
             IRFunctionMap.put(funcType.funcName, irFunc);
 //            throw new RuntimeException(irFunc.toString());
 
@@ -123,10 +127,12 @@ public class IRModule implements IRDefine {
         BuiltInFuncList.add(new FunctionType(INT32, "_str_ord", INT8Star, INT32));
         BuiltInFuncList.add(new FunctionType(INT32, "_str_parseInt", INT8Star));
         BuiltInFuncList.forEach(funcType -> {
-            IRFunction irFunc = new IRFunction(funcType, funcType.funcName, stringType, true, funcType.parameterTypeList);
-            for (int i = 0; i < funcType.parameterTypeList.size(); i++) {
-                irFunc.argNameList.add(renamer.rename("arg"));
-            }
+            ArrayList<IRValue> paraList = new ArrayList<>();
+            funcType.parameterTypeList.forEach(type -> paraList.add(new IRValue(renamer.rename("arg"), type)));
+            IRFunction irFunc = new IRFunction(funcType, funcType.funcName, stringType, true, paraList);
+//            for (int i = 0; i < funcType.parameterTypeList.size(); i++) {
+//                irFunc.argNameList.add(renamer.rename("arg"));
+//            }
             IRFunctionMap.putIfAbsent(funcType.funcName, irFunc);
         });
 
@@ -159,14 +165,16 @@ public class IRModule implements IRDefine {
             var this_ptr_type = new PointerType(_classType);
 //            System.out.println("[Warning] " + this_ptr_type.toString());
             functionType.addParameterType(this_ptr_type);
-            irFunction.argNameList.add(THIS_POINTER);
+            irFunction.addPara(new IRValue(THIS_POINTER, this_ptr_type));
+//            irFunction.argNameList.add(THIS_POINTER);
         }
         _funcDefNode.argList.forEach(paramDefNode -> {
             var argType = translateVarType(paramDefNode.varType);
             functionType.addParameterType(argType);
-            irFunction.argNameList.add(paramDefNode.varName);
+            irFunction.addPara(new IRValue(paramDefNode.varName, argType));
+//            irFunction.argNameList.add(paramDefNode.varName);
         });
-        irFunction.argTypeList = functionType.parameterTypeList;
+//        irFunction.argTypeList = functionType.parameterTypeList;
         return irFunction;
     }
     //注：默认构造已经在semantic中加入了

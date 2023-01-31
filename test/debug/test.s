@@ -18,41 +18,30 @@ _init_func.exit:
   .type main, @function
 main:
 main.entry:
-         addi sp, sp, -32
+         addi sp, sp, -20
          mv t0, ra
          sw t0, 4(sp)
          call _init_func
          sw zero, 0(sp)
          li t0, 1
-         sw t0, 12(sp)
-         lw t0, 12(sp)
-         addi t0, t0, -3
-         sw t0, 8(sp)
-         li t0, 1
-         sw t0, 16(sp)
-         li t0, 3
-         sw t0, 20(sp)
-         lw t0, 16(sp)
-         lw t1, 20(sp)
-         sub t0, t0, t1
          sw t0, 8(sp)
          lw t0, 8(sp)
          mv a0, t0
          call abs
          mv t0, a0
-         sw t0, 24(sp)
-         lw t0, 24(sp)
+         sw t0, 12(sp)
+         lw t0, 12(sp)
          mv a0, t0
          call printInt
          j main.exit
 main.exit:
          lw t0, 0(sp)
-         sw t0, 28(sp)
-         lw t0, 28(sp)
+         sw t0, 16(sp)
+         lw t0, 16(sp)
          mv a0, t0
          lw t0, 4(sp)
          mv ra, t0
-         addi sp, sp, 32
+         addi sp, sp, 20
          ret
 
   .text
@@ -60,27 +49,26 @@ main.exit:
   .type abs, @function
 abs:
 abs.entry:
-         addi sp, sp, -28
+         addi sp, sp, -24
          mv t0, ra
          sw t0, 8(sp)
-         lw t1, 12(sp)
-         sw t1, 4(sp)
+         sw a0, 4(sp)
          lw t0, 4(sp)
+         sw t0, 12(sp)
+         lw t1, 12(sp)
+         sub t0, zero, t1
          sw t0, 16(sp)
          lw t1, 16(sp)
-         sub t0, zero, t1
-         sw t0, 20(sp)
-         lw t1, 20(sp)
          sw t1, 0(sp)
          j abs.exit
 abs.exit:
          lw t0, 0(sp)
-         sw t0, 24(sp)
-         lw t0, 24(sp)
+         sw t0, 20(sp)
+         lw t0, 20(sp)
          mv a0, t0
          lw t0, 8(sp)
          mv ra, t0
-         addi sp, sp, 28
+         addi sp, sp, 24
          ret
 
 .section .bss

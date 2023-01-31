@@ -17,11 +17,14 @@ import java.util.LinkedList;
 
 public class IRFunction extends IRConstant {
     //for func def display only
-    public ArrayList<String> argNameList = new ArrayList<>();
+//    public ArrayList<String> argNameList = new ArrayList<>();
+
+    public ArrayList<IRValue> paraList = new ArrayList<>();
+
 
     public String funcName;
     public BasicType returnType;
-    public ArrayList<BasicType> argTypeList;
+//    public ArrayList<BasicType> argTypeList;
 
     public LinkedList<IRBasicBlock> blockList = new LinkedList<>();
     public IRBasicBlock entryBlock;//alloca指令从头插入
@@ -31,15 +34,15 @@ public class IRFunction extends IRConstant {
     public boolean isBuiltIn = false;
 
 
-    public IRFunction(FunctionType _funcType, String _funcName, BasicType _classType, boolean _isBuiltIn, ArrayList<BasicType> _argTypeList) {
+    public IRFunction(FunctionType _funcType, String _funcName, BasicType _classType, boolean _isBuiltIn, ArrayList<IRValue> _paraList) {
         super(_funcType);
         this.funcName = _funcName;
         this.retValPtr = null;
         returnType = _funcType.returnType;
         this.parentClassType = _classType;
         isBuiltIn = _isBuiltIn;
-        argTypeList = _argTypeList;
-        if (argTypeList == null) argTypeList = new ArrayList<>();
+        paraList = _paraList;
+        if (paraList == null) paraList = new ArrayList<>();
     }
 
 
@@ -51,9 +54,19 @@ public class IRFunction extends IRConstant {
         return this.getOperand(_idx);
     }
 
-    public BasicType getArgType(int _idx) {
-        return argTypeList.get(_idx);
+    public BasicType getParaType(int _idx) {
+        return paraList.get(_idx).valueType;
     }
+
+    public String getParaName(int _idx) {
+        return paraList.get(_idx).valueName;
+    }
+
+    public void addPara(IRValue _para) {
+        paraList.add(_para);
+    }
+
+
 
 
     public FunctionType getFunctionType() {
@@ -78,10 +91,10 @@ public class IRFunction extends IRConstant {
     public String toString() {
         StringBuilder ans = new StringBuilder("define " + this.returnType.toString() + " @" + this.funcName + "(");
 
-        assert argTypeList.size() == argNameList.size();
-        for (int i = 0; i < argNameList.size(); i++) {
-            ans.append(argTypeList.get(i).toString()).append(" ").append(LOCAL_PREFIX).append(argNameList.get(i));
-            if (i != argNameList.size() - 1) {
+//        assert argTypeList.size() == argNameList.size();
+        for (int i = 0; i < paraList.size(); i++) {
+            ans.append(paraList.get(i).valueType.toString()).append(" ").append(LOCAL_PREFIX).append(paraList.get(i).valueName);
+            if (i != paraList.size() - 1) {
                 ans.append(", ");
             }
         }

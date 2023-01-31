@@ -106,7 +106,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             return _node.irValue;
         }
 //        if (_node.irValue instanceof IRInstruction) currentBlock.addInst((IRInstruction) _node.irValue);
-        if (_node.irValue.valueType instanceof memBoolType) {
+        if (_node.irValue.valueType instanceof memBoolType) { //保证除了 store 之外，bool 全以 i1 存在
             throw new RuntimeException("getExpNodeValue: memBoolType");
         }
         return _node.irValue;
@@ -136,18 +136,23 @@ public class IRBuilder implements ASTVisitor, IRDefine {
 
     @Override
     public void visit(RootNode node) {
+        //此处单独处理 init_func 负责初始化全局变量
         EnterFunc(projectIRModule.initFunc);
         currentBlock = projectIRModule.initFunc.entryBlock;
         node.childNodes.forEach(childNode -> {
             if (childNode instanceof VarDefUnitNode || childNode instanceof VarDefStmtNode) childNode.accept(this);
-        });
+        }); //要保证变量先定义，否则无法在函数里使用
 
-        var lastBlock = (CurFunc().blockList.size() == 0) ? CurFunc().entryBlock : CurFunc().blockList.getLast();
-        var brInst = generateUnConBrInst(CurFunc().exitBlock, lastBlock);
-        lastBlock.addTerminator(brInst);
+//        var lastBlock = (CurFunc().blockList.size() == 0) ? CurFunc().entryBlock : CurFunc().blockList.getLast();
+//        var brInst = generateUnConBrInst(CurFunc().exitBlock, lastBlock);
+//        lastBlock.addTerminator(brInst);
+
+        var brList = generateUnConBrInst(CurFunc().exitBlock, currentBlock);
+        currentBlock.addTerminator(brList);
 
         ExitFunc();
         currentBlock = null;
+        //init_func结束
 
         node.childNodes.forEach(childNode -> {
             if (!(childNode instanceof VarDefUnitNode || childNode instanceof VarDefStmtNode)) {
@@ -181,11 +186,11 @@ public class IRBuilder implements ASTVisitor, IRDefine {
 
     @Override
     public void visit(FuncDefNode node) {
-        boolean isMember = irCurrentScope.currentClassType != null;
+        boolean isMember = (irCurrentScope.currentClassType != null);
 
-        if (node.funcName.equals("println")) {
-            System.out.println("debug");
-        }
+//        if (node.funcName.equals("println")) {
+//            System.out.println("debug");
+//        }
 
 
         var funcName = isMember ? irCurrentScope.currentClassType.classId + "." + node.funcName : node.funcName;
@@ -200,36 +205,43 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         //construct func.exit block
         CurFunc().exitBlock = new IRBasicBlock(renamer.rename(funcName + ".exit"));
 
-        assert IRFunc.argNameList.size() == IRFunc.argTypeList.size();
+        //todo: maybe can use a struct to fix them together
+//        assert IRFunc.argNameList.size() == IRFunc.argTypeList.size();
 
         currentBlock = CurFunc().entryBlock;
 
-        for (int i = 0; i < IRFunc.argNameList.size(); i++) {//process the perimeter
+        for (int i = 0; i < IRFunc.paraList.size(); i++) {//process the perimeter
             if (isMember && i == 0) {
                 String argName = "this";
-                var argType = IRFunc.argTypeList.get(0);
+                var argType = IRFunc.paraList.get(0);
                 var argId = renamer.rename(argName);
-                var argAddr = new IRValue(argId, argType);
+                IRFunc.paraList.get(0).valueName = argId;
+                var argAddr = IRFunc.paraList.get(0);//e.g. %A.1
                 irCurrentScope.rawToIdMap.put(argName, argId);
                 varAddrMap.put(argId, argAddr);
-                IRFunc.argNameList.set(0, argId);
+//                IRFunc.argNameList.set(0, argId);
                 IRFunc.addArg(argAddr);
                 continue;
             }
-            String argName = IRFunc.argNameList.get(i);
-            var argType = IRFunc.argTypeList.get(i);
-            var allocaType = argType;
-            if (argType instanceof BoolType) allocaType = new memBoolType();
+//            String argName = IRFunc.argNameList.get(i);
+//            var argType = IRFunc.argTypeList.get(i);
+            IRValue para = IRFunc.paraList.get(i);
+
+            var allocaType = para.valueType; //分配 mem 空间时使用的类型
+            if (allocaType instanceof BoolType) allocaType = new memBoolType();// mem 上的 bool 只能是 i8
             // todo:check boolType(done)
-            String fakeVarId = renamer.rename(argName);
-            String realVarId = renamer.rename(argName + ".addr");
+            String fakeVarId = renamer.rename(para.valueName);
+            String realVarId = renamer.rename(para.valueName + ".addr");
+            para.valueName = fakeVarId;
+
             var argAllocInst = generateAllocInst(realVarId, allocaType, currentBlock);
             currentBlock.addInstFirst(argAllocInst);
-            var storeInst = generateStoreInst(new IRValue(fakeVarId, argType), argAllocInst, currentBlock);
+            var storeInst = generateStoreInst(para, argAllocInst, currentBlock); //取出传入的参数,存到当前函数分配的地址上
             currentBlock.addInst(storeInst);
             varAddrMap.put(realVarId, argAllocInst);
-            irCurrentScope.rawToIdMap.put(argName, realVarId);
-            IRFunc.argNameList.set(i, fakeVarId);
+            irCurrentScope.rawToIdMap.put(para.valueName, realVarId);
+
+//            IRFunc.argNameList.set(i, fakeVarId);
             IRFunc.addArg(argAllocInst);
         }
 
@@ -242,7 +254,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
                 var varId = renamer.rename(memberName + ".addr");
                 var memberPtrInst = generateNamedElementPtrInst(varId, thisPtr, memberType, currentBlock, new IRIntConstant(offset));
                 if (!irCurrentScope.rawToIdMap.containsKey(memberName)) {
-                    irCurrentScope.rawToIdMap.put(memberName, varId);
+                    irCurrentScope.rawToIdMap.put(memberName, varId); //保证当前成员函数可以访问到成员变量
                     memberVarAddrMap.put(varId, memberPtrInst);
                 }
             });
@@ -445,29 +457,29 @@ public class IRBuilder implements ASTVisitor, IRDefine {
     }
 
 
-    private void stringBinary(BinaryExpNode node) {
-        //todo: stringBinary
-        node.lhs.accept(this);
-        node.rhs.accept(this);
-        var lhsValue = getExpNodeValue(node.lhs);
-        var rhsValue = getExpNodeValue(node.rhs);
-        var opInfo = BinaryOpTransfer(node.operator);
-        var opInfoStr = opInfo.opInfo;
-        var instName = opInfo.instName;
-        if (instName.equals("icmp")) {
-            String funcName = "_str_" + opInfoStr;
-            var IRFunc = getIRFunction(funcName);
-            var callInst = generateCallInst(IRFunc, currentBlock, lhsValue, rhsValue);
-            currentBlock.addInst(callInst);
-            node.irValue = callInst;
-        } else if (opInfoStr.equals("add")) {
-            String funcName = "_str_concat";
-            var IRFunc = getIRFunction(funcName);
-            var callInst = generateCallInst(IRFunc, currentBlock, lhsValue, rhsValue);
-            currentBlock.addInst(callInst);
-            node.irValue = callInst;
-        }
-    }
+//    private void stringBinary(BinaryExpNode node) {
+//        //todo: stringBinary
+//        node.lhs.accept(this);
+//        node.rhs.accept(this);
+//        var lhsValue = getExpNodeValue(node.lhs);
+//        var rhsValue = getExpNodeValue(node.rhs);
+//        var opInfo = BinaryOpTransfer(node.operator);
+//        var opInfoStr = opInfo.opInfo;
+//        var instName = opInfo.instName;
+//        if (instName.equals("icmp")) {
+//            String funcName = "_str_" + opInfoStr;
+//            var IRFunc = getIRFunction(funcName);
+//            var callInst = generateCallInst(IRFunc, currentBlock, lhsValue, rhsValue);
+//            currentBlock.addInst(callInst);
+//            node.irValue = callInst;
+//        } else if (opInfoStr.equals("add")) {
+//            String funcName = "_str_concat";
+//            var IRFunc = getIRFunction(funcName);
+//            var callInst = generateCallInst(IRFunc, currentBlock, lhsValue, rhsValue);
+//            currentBlock.addInst(callInst);
+//            node.irValue = callInst;
+//        }
+//    }
 
     @Override
     public void visit(BinaryExpNode node) {
@@ -638,7 +650,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
 
 
     //_memberType: is for this level of array
-    IRValue newSingleArray(BasicType _headType, Integer _dim, ArrayList<ExpNode> _dimList, Position _pos) {
+    IRValue newSingleArray(BasicType _headType, Integer _dim, ArrayList<ExpNode> _dimList, Position _pos) {//similar to forLoop
 
         _dimList.get(0).accept(this);
         var dimValue = getExpNodeValue(_dimList.get(0));
@@ -745,7 +757,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             currentBlock.addInst(mallocInst);
             var bitCastInst = generateBitCastInst(mallocInst, new PointerType(classType), currentBlock);
             currentBlock.addInst(bitCastInst);
-            var callInst = generateCallInst(getIRFunction(typeName + "." + typeName), currentBlock, bitCastInst);
+            var callInst = generateCallInst(getIRFunction(typeName + "." + typeName), currentBlock, bitCastInst);//构造函数
             currentBlock.addInst(callInst);
             node.irValue = bitCastInst;
         } else node.irValue = newSingleArray(headType, dimSize, node.SizeList, node.nodePos);
@@ -991,12 +1003,13 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         CurFunc().exitBlock = new IRBasicBlock(renamer.rename(funcName + ".exit"));
 
         String argName = "this";
-        var argType = IRFunc.argTypeList.get(0);
+        BasicType argType = IRFunc.paraList.get(0).valueType;
         var argId = renamer.rename(argName);
-        var argAddr = new IRValue(argId, argType);
+        IRFunc.paraList.get(0).valueName = argId;
+        var argAddr = IRFunc.paraList.get(0);
         irCurrentScope.rawToIdMap.put(argName, argId);
         varAddrMap.put(argId, argAddr);
-        IRFunc.argNameList.set(0, argId);
+//        IRFunc.argNameList.set(0, argId);
         IRFunc.addArg(argAddr);
 
 
@@ -1026,9 +1039,12 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         if (node.funcBodyNode != null) node.funcBodyNode.accept(this);
 
 
-        var lastBlock = (IRFunc.blockList.size() == 0) ? IRFunc.entryBlock : IRFunc.blockList.getLast();
-        var brList = generateUnConBrInst(CurFunc().exitBlock, lastBlock);
-        lastBlock.addTerminator(brList);
+//        var lastBlock = (IRFunc.blockList.size() == 0) ? IRFunc.entryBlock : IRFunc.blockList.getLast();
+//        var brList = generateUnConBrInst(CurFunc().exitBlock, lastBlock);
+//        lastBlock.addTerminator(brList);
+
+        var brList = generateUnConBrInst(CurFunc().exitBlock, currentBlock);
+        currentBlock.addTerminator(brList);
 
         ExitFunc();
     }
@@ -1202,11 +1218,11 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         } else return new IRStoreInst(_storeValue, _destPtr, _parentBlock);
     }
 
-    private IRInstruction generateTruncInst(IRValue _fromValue, BasicType _targetType, IRBasicBlock _parentBlock) {
+    private IRInstruction generateTruncInst(IRValue _fromValue, BasicType _targetType, IRBasicBlock _parentBlock) { //i8 to i1
         return new IRTruncInst(renamer.rename(LLVM_TRUNC_INST), _fromValue, _targetType, _parentBlock);
     }
 
-    private IRInstruction generateZextInst(IRValue _fromValue, BasicType _targetType, IRBasicBlock _parentBlock) {
+    private IRInstruction generateZextInst(IRValue _fromValue, BasicType _targetType, IRBasicBlock _parentBlock) { //i1 to i8
         return new IRZextInst(renamer.rename(LLVM_ZEXT_INST), _fromValue, _targetType, _parentBlock);
     }
 }
