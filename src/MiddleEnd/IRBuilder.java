@@ -216,11 +216,11 @@ public class IRBuilder implements ASTVisitor, IRDefine {
                 var argType = IRFunc.paraList.get(0);
                 var argId = renamer.rename(argName);
                 IRFunc.paraList.get(0).valueName = argId;
-                var argAddr = IRFunc.paraList.get(0);//e.g. %A.1
+                var argAddr = irCurrentScope.GetThis();//e.g. %A.1
                 irCurrentScope.rawToIdMap.put(argName, argId);
                 varAddrMap.put(argId, argAddr);
 //                IRFunc.argNameList.set(0, argId);
-                IRFunc.addArg(argAddr);
+//                IRFunc.addArg(argAddr);
                 continue;
             }
 //            String argName = IRFunc.argNameList.get(i);
@@ -584,12 +584,10 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             assert node.function.irValue instanceof IRFunction;
             ArrayList<IRValue> argsList = new ArrayList<>();
 
-//        System.out.println(func.parentClassType);
-//        System.out.println(func.funcName);
-
             if (func.parentClassType != null) {
                 if (node.function instanceof MemberExpNode) {
                     var thisPtr = getExpNodeValue(((MemberExpNode) node.function).base);//change from getPointer
+
                     if (((MemberExpNode) node.function).base.irValue.valueType.equals(stringType)) {
                         thisPtr = getExpNodeValue(((MemberExpNode) node.function).base);
                     }
@@ -638,12 +636,16 @@ public class IRBuilder implements ASTVisitor, IRDefine {
                 node.irValue = loadInst;
             }
         } else {
-            StructType structType = (StructType) ((PointerType) baseType).Dereference();
-            Integer varRank = projectIRModule.getMemberVarRank(structType.classId, node.memberName);
-            BasicType varType = projectIRModule.getMemberVarType(structType.classId, node.memberName);
-            var namedGEPInst = generateNamedElementPtrInst(renamer.rename(node.memberName), baseVar, varType, currentBlock, new IRIntConstant(varRank));
-            currentBlock.addInst(namedGEPInst);
-            node.irAddress = namedGEPInst;
+            if (node.base instanceof ThisExpNode) {
+                node.irAddress = GetVarAddrInCurrentScope(node.memberName);
+            } else {
+                StructType structType = (StructType) ((PointerType) baseType).Dereference();
+                Integer varRank = projectIRModule.getMemberVarRank(structType.classId, node.memberName);
+                BasicType varType = projectIRModule.getMemberVarType(structType.classId, node.memberName);
+                var namedGEPInst = generateNamedElementPtrInst(renamer.rename(node.memberName), baseVar, varType, currentBlock, new IRIntConstant(varRank));
+                currentBlock.addInst(namedGEPInst);
+                node.irAddress = namedGEPInst;
+            }
         }
     }
 
@@ -1005,11 +1007,11 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         BasicType argType = IRFunc.paraList.get(0).valueType;
         var argId = renamer.rename(argName);
         IRFunc.paraList.get(0).valueName = argId;
-        var argAddr = IRFunc.paraList.get(0);
+        var argAddr = irCurrentScope.GetThis();
         irCurrentScope.rawToIdMap.put(argName, argId);
         varAddrMap.put(argId, argAddr);
 //        IRFunc.argNameList.set(0, argId);
-        IRFunc.addArg(argAddr);
+//        IRFunc.addArg(argAddr);
 
 
         currentBlock = CurFunc().entryBlock;

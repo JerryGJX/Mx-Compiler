@@ -66,6 +66,7 @@ public class IRGEPInst extends IRInstruction {
                 ((PointerType) (this.headPointer().valueType)).baseType +
                 ", " + this.headPointer().valueType + " " + this.headPointer().getIdentifier());
 //        for (int i = 0; i < this.numOfIndexes(); i++) {
+        Ans.append(", ").append(this.getIndex().valueType).append(" ").append("0");
         Ans.append(", ").append(this.getIndex().valueType).append(" ").append(this.getIndex().getIdentifier());
 //        }
         return Ans.toString();

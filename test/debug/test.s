@@ -14,169 +14,412 @@ _init_func.exit:
          ret
 
   .text
+  .globl vector.init
+  .type vector.init, @function
+vector.init:
+vector.init.entry:
+         addi sp, sp, -76
+         mv t0, ra
+         sw t0, 0(sp)
+         slli t0, zero, 2
+         sw t0, 4(sp)
+         lw t1, 4(sp)
+         add t0, a0, t1
+         sw t0, 8(sp)
+         li t0, 10
+         sw t0, 16(sp)
+         li t0, 4
+         sw t0, 20(sp)
+         lw t0, 16(sp)
+         lw t1, 20(sp)
+         mul t0, t0, t1
+         sw t0, 12(sp)
+         lw t0, 12(sp)
+         addi t0, t0, 4
+         sw t0, 24(sp)
+         li t0, 4
+         sw t0, 28(sp)
+         lw t0, 12(sp)
+         lw t1, 28(sp)
+         add t0, t0, t1
+         sw t0, 24(sp)
+         lw t0, 24(sp)
+         mv a0, t0
+         call _malloc
+         mv t0, a0
+         sw t0, 32(sp)
+         lw t0, 32(sp)
+         mv t0, t0
+         sw t0, 36(sp)
+         li t0, 10
+         sw t0, 40(sp)
+         lw t0, 36(sp)
+         lw t1, 40(sp)
+         sw t1, 0(t0)
+         li t0, 1
+         sw t0, 48(sp)
+         lw t0, 48(sp)
+         slli t0, t0, 2
+         sw t0, 44(sp)
+         lw t0, 36(sp)
+         lw t1, 44(sp)
+         add t0, t0, t1
+         sw t0, 52(sp)
+         lw t0, 52(sp)
+         mv t0, t0
+         sw t0, 56(sp)
+         lw t0, 8(sp)
+         lw t1, 56(sp)
+         sw t1, 0(t0)
+         lui t0, %hi(strConst)
+         sw t0, 60(sp)
+         lw t0, 60(sp)
+         addi t0, t0, %lo(strConst)
+         sw t0, 60(sp)
+         mv a0, a0
+         call vector.getDim
+         mv t0, a0
+         sw t0, 64(sp)
+         lw t0, 64(sp)
+         mv a0, t0
+         call toString
+         mv t0, a0
+         sw t0, 68(sp)
+         lw t0, 60(sp)
+         mv a0, t0
+         lw t0, 68(sp)
+         mv a1, t0
+         call _str_concat
+         mv t0, a0
+         sw t0, 72(sp)
+         lw t0, 72(sp)
+         mv a0, t0
+         call println
+         j vector.init.exit
+vector.init.exit:
+         lw t0, 0(sp)
+         mv ra, t0
+         addi sp, sp, 76
+         ret
+
+  .text
   .globl main
   .type main, @function
 main:
 main.entry:
-         addi sp, sp, -32
+         addi sp, sp, -108
          mv t0, ra
-         sw t0, 4(sp)
-         call _init_func
-         sw zero, 0(sp)
-         li t0, 2
          sw t0, 8(sp)
-         lw t0, 8(sp)
-         mv a0, t0
-         li t0, 10
+         call _init_func
+         sw zero, 4(sp)
+         li t0, 4
          sw t0, 12(sp)
          lw t0, 12(sp)
-         mv a1, t0
-         li t0, 10000
+         mv a0, t0
+         call _malloc
+         mv t0, a0
          sw t0, 16(sp)
          lw t0, 16(sp)
-         mv a2, t0
-         call qpow
-         mv t0, a0
+         mv t0, t0
          sw t0, 20(sp)
          lw t0, 20(sp)
          mv a0, t0
-         call toString
-         mv t0, a0
+         call vector.vector
+         lw t1, 20(sp)
+         sw t1, 0(sp)
+         lui t0, %hi(strConst.2)
          sw t0, 24(sp)
          lw t0, 24(sp)
-         mv a0, t0
-         call println
-         sw zero, 0(sp)
-         j main.exit
-main.exit:
+         addi t0, t0, %lo(strConst.2)
+         sw t0, 24(sp)
          lw t0, 0(sp)
          sw t0, 28(sp)
          lw t0, 28(sp)
          mv a0, t0
+         call vector.getDim
+         mv t0, a0
+         sw t0, 32(sp)
+         lw t0, 32(sp)
+         mv a0, t0
+         call toString
+         mv t0, a0
+         sw t0, 36(sp)
+         lw t0, 24(sp)
+         mv a0, t0
+         lw t0, 36(sp)
+         mv a1, t0
+         call _str_concat
+         mv t0, a0
+         sw t0, 40(sp)
+         lw t0, 40(sp)
+         mv a0, t0
+         call println
+         lw t0, 0(sp)
+         sw t0, 44(sp)
+         lw t0, 44(sp)
+         mv a0, t0
+         call vector.init
+         lui t0, %hi(strConst.3)
+         sw t0, 48(sp)
+         lw t0, 48(sp)
+         addi t0, t0, %lo(strConst.3)
+         sw t0, 48(sp)
+         lw t0, 0(sp)
+         sw t0, 52(sp)
+         lw t0, 52(sp)
+         mv a0, t0
+         call vector.getDim
+         mv t0, a0
+         sw t0, 56(sp)
+         lw t0, 56(sp)
+         mv a0, t0
+         call toString
+         mv t0, a0
+         sw t0, 60(sp)
+         lw t0, 48(sp)
+         mv a0, t0
+         lw t0, 60(sp)
+         mv a1, t0
+         call _str_concat
+         mv t0, a0
+         sw t0, 64(sp)
+         lw t0, 64(sp)
+         mv a0, t0
+         call println
+         lui t0, %hi(strConst.4)
+         sw t0, 68(sp)
+         lw t0, 68(sp)
+         addi t0, t0, %lo(strConst.4)
+         sw t0, 68(sp)
+         lw t0, 0(sp)
+         sw t0, 72(sp)
+         lw t0, 72(sp)
+         mv a0, t0
+         call vector.tostring
+         mv t0, a0
+         sw t0, 76(sp)
+         lw t0, 68(sp)
+         mv a0, t0
+         lw t0, 76(sp)
+         mv a1, t0
+         call _str_concat
+         mv t0, a0
+         sw t0, 80(sp)
+         lw t0, 80(sp)
+         mv a0, t0
+         call println
+         lui t0, %hi(strConst.5)
+         sw t0, 84(sp)
+         lw t0, 84(sp)
+         addi t0, t0, %lo(strConst.5)
+         sw t0, 84(sp)
+         lw t0, 0(sp)
+         sw t0, 88(sp)
+         lw t0, 88(sp)
+         mv a0, t0
+         call vector.getDim
+         mv t0, a0
+         sw t0, 92(sp)
+         lw t0, 92(sp)
+         mv a0, t0
+         call toString
+         mv t0, a0
+         sw t0, 96(sp)
+         lw t0, 84(sp)
+         mv a0, t0
+         lw t0, 96(sp)
+         mv a1, t0
+         call _str_concat
+         mv t0, a0
+         sw t0, 100(sp)
+         lw t0, 100(sp)
+         mv a0, t0
+         call println
+         j main.exit
+main.exit:
          lw t0, 4(sp)
+         sw t0, 104(sp)
+         lw t0, 104(sp)
+         mv a0, t0
+         lw t0, 8(sp)
          mv ra, t0
-         addi sp, sp, 32
+         addi sp, sp, 108
          ret
 
   .text
-  .globl qpow
-  .type qpow, @function
-qpow:
-qpow.entry:
-         addi sp, sp, -128
+  .globl vector.vector
+  .type vector.vector, @function
+vector.vector:
+vector.vector.entry:
+         addi sp, sp, -4
          mv t0, ra
-         sw t0, 24(sp)
-         sw a0, 20(sp)
-         sw a1, 16(sp)
-         sw a2, 12(sp)
-         li t0, 1
-         sw t0, 28(sp)
-         lw t1, 28(sp)
-         sw t1, 4(sp)
-         lw t0, 20(sp)
-         sw t0, 32(sp)
-         lw t1, 32(sp)
-         sw t1, 0(sp)
-         j while_cond
-qpow.exit:
-         lw t0, 8(sp)
-         sw t0, 124(sp)
-         lw t0, 124(sp)
-         mv a0, t0
-         lw t0, 24(sp)
+         sw t0, 0(sp)
+         j vector.vector.exit
+vector.vector.exit:
+         lw t0, 0(sp)
          mv ra, t0
-         addi sp, sp, 128
+         addi sp, sp, 4
          ret
-while_cond:
+
+  .text
+  .globl vector.getDim
+  .type vector.getDim, @function
+vector.getDim:
+vector.getDim.entry:
+         addi sp, sp, -52
+         mv t0, ra
+         sw t0, 8(sp)
+         slli t0, zero, 2
+         sw t0, 12(sp)
+         lw t1, 12(sp)
+         add t0, a0, t1
+         sw t0, 16(sp)
          lw t0, 16(sp)
+         lw t0, 0(t0)
+         sw t0, 20(sp)
+         lw t0, 20(sp)
+         mv t0, t0
+         sw t0, 24(sp)
+         li t0, -1
+         sw t0, 32(sp)
+         lw t0, 32(sp)
+         slli t0, t0, 2
+         sw t0, 28(sp)
+         lw t0, 24(sp)
+         lw t1, 28(sp)
+         add t0, t0, t1
          sw t0, 36(sp)
-         lw t1, 36(sp)
-         slt t0, zero, t1
+         lw t0, 36(sp)
+         lw t0, 0(t0)
+         sw t0, 40(sp)
+         lw t1, 40(sp)
+         sw t1, 0(sp)
+         lw t0, 0(sp)
+         sw t0, 44(sp)
+         lw t1, 44(sp)
+         sw t1, 4(sp)
+         j vector.getDim.exit
+vector.getDim.exit:
+         lw t0, 4(sp)
+         sw t0, 48(sp)
+         lw t0, 48(sp)
+         mv a0, t0
+         lw t0, 8(sp)
+         mv ra, t0
+         addi sp, sp, 52
+         ret
+
+  .text
+  .globl vector.tostring
+  .type vector.tostring, @function
+vector.tostring:
+vector.tostring.entry:
+         addi sp, sp, -64
+         mv t0, ra
+         sw t0, 4(sp)
+         lui t0, %hi(strConst.1)
+         sw t0, 8(sp)
+         lw t0, 8(sp)
+         addi t0, t0, %lo(strConst.1)
+         sw t0, 8(sp)
+         slli t0, zero, 2
+         sw t0, 12(sp)
+         lw t1, 12(sp)
+         add t0, a0, t1
+         sw t0, 16(sp)
+         lw t0, 16(sp)
+         lw t0, 0(t0)
+         sw t0, 20(sp)
+         lw t0, 20(sp)
+         mv t0, t0
+         sw t0, 24(sp)
+         li t0, -1
+         sw t0, 32(sp)
+         lw t0, 32(sp)
+         slli t0, t0, 2
+         sw t0, 28(sp)
+         lw t0, 24(sp)
+         lw t1, 28(sp)
+         add t0, t0, t1
+         sw t0, 36(sp)
+         lw t0, 36(sp)
+         lw t0, 0(t0)
          sw t0, 40(sp)
          lw t0, 40(sp)
-         beq t0, zero, while_exit
-         j while_body
-while_body:
-         lw t0, 16(sp)
+         mv a0, t0
+         call toString
+         mv t0, a0
          sw t0, 44(sp)
+         lw t0, 8(sp)
+         mv a0, t0
          lw t0, 44(sp)
-         andi t0, t0, 1
+         mv a1, t0
+         call _str_concat
+         mv t0, a0
          sw t0, 48(sp)
-         li t0, 1
-         sw t0, 52(sp)
-         lw t0, 44(sp)
-         lw t1, 52(sp)
-         and t0, t0, t1
-         sw t0, 48(sp)
-         li t0, 1
-         sw t0, 60(sp)
          lw t0, 48(sp)
-         lw t1, 60(sp)
-         sub t0, t0, t1
+         mv a0, t0
+         call println
+         mv a0, a0
+         call vector.getDim
+         mv t0, a0
+         sw t0, 52(sp)
+         lw t0, 52(sp)
+         mv a0, t0
+         call toString
+         mv t0, a0
          sw t0, 56(sp)
-         lw t0, 56(sp)
-         seqz t0, t0
-         sw t0, 64(sp)
-         lw t0, 64(sp)
-         beq t0, zero, if_false
-         j if_true
-while_exit:
-         lw t0, 4(sp)
-         sw t0, 68(sp)
-         lw t1, 68(sp)
-         sw t1, 8(sp)
-         j qpow.exit
-if_true:
-         lw t0, 4(sp)
-         sw t0, 72(sp)
-         lw t0, 0(sp)
-         sw t0, 76(sp)
-         lw t0, 72(sp)
-         lw t1, 76(sp)
-         mul t0, t0, t1
-         sw t0, 80(sp)
-         lw t0, 12(sp)
-         sw t0, 84(sp)
-         lw t0, 80(sp)
-         lw t1, 84(sp)
-         rem t0, t0, t1
-         sw t0, 88(sp)
-         lw t1, 88(sp)
-         sw t1, 4(sp)
-         j if_exit
-if_false:
-         j if_exit
-if_exit:
-         lw t0, 0(sp)
-         sw t0, 92(sp)
-         lw t0, 0(sp)
-         sw t0, 96(sp)
-         lw t0, 92(sp)
-         lw t1, 96(sp)
-         mul t0, t0, t1
-         sw t0, 100(sp)
-         lw t0, 12(sp)
-         sw t0, 104(sp)
-         lw t0, 100(sp)
-         lw t1, 104(sp)
-         rem t0, t0, t1
-         sw t0, 108(sp)
-         lw t1, 108(sp)
+         lw t1, 56(sp)
          sw t1, 0(sp)
-         lw t0, 16(sp)
-         sw t0, 112(sp)
-         li t0, 2
-         sw t0, 120(sp)
-         lw t0, 112(sp)
-         lw t1, 120(sp)
-         div t0, t0, t1
-         sw t0, 116(sp)
-         lw t1, 116(sp)
-         sw t1, 16(sp)
-         j while_cond
+         j vector.tostring.exit
+vector.tostring.exit:
+         lw t0, 0(sp)
+         sw t0, 60(sp)
+         lw t0, 60(sp)
+         mv a0, t0
+         lw t0, 4(sp)
+         mv ra, t0
+         addi sp, sp, 64
+         ret
 
 .section .bss
 .section .rodata
+ .type strConst.4, @object
+strConst.4:
+         .string "x.tostring() in main: "
+         .size strConst.4, 23
+
+
+ .type strConst.5, @object
+strConst.5:
+         .string "x.getDim() in main3: "
+         .size strConst.5, 22
+
+
+ .type strConst.3, @object
+strConst.3:
+         .string "x.getDim() in main2: "
+         .size strConst.3, 22
+
+
+ .type strConst.2, @object
+strConst.2:
+         .string "x.getDim() in main1: "
+         .size strConst.2, 22
+
+
+ .type strConst, @object
+strConst:
+         .string "getDim in init2 = "
+         .size strConst, 19
+
+
+ .type strConst.1, @object
+strConst.1:
+         .string "data.size in tostring = "
+         .size strConst.1, 25
+
+
 
  		.text
        	.attribute	4, 16

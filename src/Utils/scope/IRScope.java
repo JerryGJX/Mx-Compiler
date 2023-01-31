@@ -90,6 +90,6 @@ public class IRScope implements IRDefine {
         if (!inFunc || !inClass) {
             throw new RuntimeException("this expression must be in a class function");
         }
-        return currentIRFunction.getArg(0);
+        return currentIRFunction.paraList.get(0);
     }
 }
