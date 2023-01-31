@@ -8,6 +8,9 @@ public abstract class ASMInst {
     public ASMReg rd, rs1, rs2;
     public ASMImm imm;
 
+    //debug
+    public ASMInst parentInst;
+
     public ASMInst (ASMReg rd, ASMReg rs1, ASMReg rs2, ASMImm imm) {
         this.rd = rd;
         this.rs1 = rs1;

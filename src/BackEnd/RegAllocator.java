@@ -16,6 +16,9 @@ public class RegAllocator implements ASMVisitor {
     ASMFunction curFunc;
     ASMBlock curBlock;
 
+    //debug
+    ASMInst curInst;
+
     private final ASMPhysicalASMReg Reg_SP = ASMPhysicalASMReg.regMap.get("sp");
     //tmp reg
     private final ASMPhysicalASMReg Reg_T0 = ASMPhysicalASMReg.regMap.get("t0");
@@ -27,6 +30,9 @@ public class RegAllocator implements ASMVisitor {
         if (_fromReg instanceof ASMVirtualReg vReg) {
             curFunc.spilledRegCnt = Math.max(curFunc.spilledRegCnt, vReg.rank + 1);//vReg.rank is 0 based
             ASMLoadInst loadInst = new ASMLoadInst(vReg.byteSize, _phyReg, Reg_SP, new ASMStackOffset(vReg.rank, ASMStackOffset.StackOffsetType.spillReg));
+            //debug
+            loadInst.parentInst = curInst;
+
             curBlock.addInst(loadInst);
             return _phyReg;
         } else return (ASMPhysicalASMReg) _fromReg;
@@ -37,6 +43,9 @@ public class RegAllocator implements ASMVisitor {
         if (_toReg instanceof ASMVirtualReg vReg) {
             curFunc.spilledRegCnt = Math.max(curFunc.spilledRegCnt, vReg.rank + 1);//vReg.rank is 0 based
             ASMStoreInst storeInst = new ASMStoreInst(vReg.byteSize, _phyReg, Reg_SP, new ASMStackOffset(vReg.rank, ASMStackOffset.StackOffsetType.spillReg));
+           //debug
+            storeInst.parentInst = curInst;
+
             curBlock.addInst(storeInst);
             return _phyReg;
         } else return (ASMPhysicalASMReg) _toReg;
@@ -70,102 +79,125 @@ public class RegAllocator implements ASMVisitor {
 
     @Override
     public void visit(ASMBinaryInst asmBinaryInst) {
-        asmBinaryInst.rs1 = AllocRegForLoad(asmBinaryInst.rs1, Reg_T0);
-        asmBinaryInst.rs2 = AllocRegForLoad(asmBinaryInst.rs2, Reg_T1);
+        curInst = asmBinaryInst;
+        ASMBinaryInst inst = new ASMBinaryInst(asmBinaryInst.op, null,null,null, asmBinaryInst.imm);
+        inst.rs1 = AllocRegForLoad(asmBinaryInst.rs1, Reg_T0);
+        inst.rs2 = AllocRegForLoad(asmBinaryInst.rs2, Reg_T1);
+
+        //debug
+        inst.parentInst = asmBinaryInst;
 
 //        checkIfVReg(asmBinaryInst.rs1);
 //        checkIfVReg(asmBinaryInst.rs2);
 //        checkIfVReg(asmBinaryInst.rd);
 
-        curBlock.addInst(asmBinaryInst);
-        asmBinaryInst.rd = AllocRegForStore(asmBinaryInst.rd, Reg_T0);
+        curBlock.addInst(inst);
+        inst.rd = AllocRegForStore(asmBinaryInst.rd, Reg_T0);
     }
 
     @Override
     public void visit(ASMBrInst asmBrInst) {
-        asmBrInst.rs1 = AllocRegForLoad(asmBrInst.rs1, Reg_T0);
-        asmBrInst.rs2 = AllocRegForLoad(asmBrInst.rs2, Reg_T1);
+        curInst = asmBrInst;
+        ASMBrInst inst = new ASMBrInst(asmBrInst.op, null, null, asmBrInst.targetBlock);
+        inst.rs1 = AllocRegForLoad(asmBrInst.rs1, Reg_T0);
+        inst.rs2 = AllocRegForLoad(asmBrInst.rs2, Reg_T1);
 
         checkIfVReg(asmBrInst.rs1);
         checkIfVReg(asmBrInst.rs2);
 
-        curBlock.addInst(asmBrInst);
+        curBlock.addInst(inst);
     }
 
     @Override
     public void visit(ASMCallInst asmCallInst) {
-        curBlock.addInst(asmCallInst);
+        curInst = asmCallInst;
+        ASMCallInst inst = new ASMCallInst(asmCallInst.calledFunc);
+        inst.parentInst = asmCallInst;
+        curBlock.addInst(inst);
     }
 
     @Override
     public void visit(ASMJumpInst asmJumpInst) {
-        curBlock.addInst(asmJumpInst);
+        curInst = asmJumpInst;
+        ASMJumpInst inst = new ASMJumpInst(asmJumpInst.targetBlock);
+        inst.parentInst = asmJumpInst;
+        curBlock.addInst(inst);
     }
 
     @Override
     public void visit(ASMLiInst asmLiInst) {
 //        checkIfVReg(asmLiInst.rd);
-
-        curBlock.addInst(asmLiInst);
-        asmLiInst.rd = AllocRegForStore(asmLiInst.rd, Reg_T0);
+        curInst = asmLiInst;
+        ASMLiInst inst = new ASMLiInst(null, asmLiInst.imm);
+        inst.parentInst = asmLiInst;
+        curBlock.addInst(inst);
+        inst.rd = AllocRegForStore(asmLiInst.rd, Reg_T0);
     }
 
     @Override
     public void visit(ASMLoadInst asmLoadInst) {
-        asmLoadInst.rs1 = AllocRegForLoad(asmLoadInst.rs1, Reg_T0);
+        curInst = asmLoadInst;
+        ASMLoadInst inst = new ASMLoadInst(asmLoadInst.byteWidth, null, null, asmLoadInst.imm);
+        inst.rs1 = AllocRegForLoad(asmLoadInst.rs1, Reg_T0);
 
 //        checkIfVReg(asmLoadInst.rs1);
 //        checkIfVReg(asmLoadInst.rd);
+        inst.parentInst = asmLoadInst;
 
-        curBlock.addInst(asmLoadInst);
-        asmLoadInst.rd = AllocRegForStore(asmLoadInst.rd, Reg_T0);
+        curBlock.addInst(inst);
+        inst.rd = AllocRegForStore(asmLoadInst.rd, Reg_T0);
     }
 
     @Override
     public void visit(ASMLuiInst asmLuiInst) {
+        curInst = asmLuiInst;
+        ASMLuiInst inst = new ASMLuiInst(null, asmLuiInst.imm);
+        inst.parentInst = asmLuiInst;
+        curBlock.addInst(inst);
+        inst.rd = AllocRegForStore(asmLuiInst.rd, Reg_T0);
 
-//        checkIfVReg(asmLuiInst.rd);
 
-        curBlock.addInst(asmLuiInst);
-        asmLuiInst.rd = AllocRegForStore(asmLuiInst.rd, Reg_T0);
     }
 
     @Override
     public void visit(ASMMvInst asmMvInst) {
-        asmMvInst.rs1 = AllocRegForLoad(asmMvInst.rs1, Reg_T0);
+        curInst = asmMvInst;
+        ASMMvInst inst = new ASMMvInst(null, null);
+        inst.rs1 = AllocRegForLoad(asmMvInst.rs1, Reg_T0);
+        inst.parentInst = asmMvInst;
 
-//        checkIfVReg(asmMvInst.rs1);
-//        checkIfVReg(asmMvInst.rd);
-
-        curBlock.addInst(asmMvInst);
-        asmMvInst.rd = AllocRegForStore(asmMvInst.rd, Reg_T0);
+        curBlock.addInst(inst);
+        inst.rd = AllocRegForStore(asmMvInst.rd, Reg_T0);
     }
 
     @Override
     public void visit(ASMRetInst asmRetInst) {
-        curBlock.addInst(asmRetInst);
+        curInst = asmRetInst;
+        ASMRetInst inst = new ASMRetInst();
+        curBlock.addInst(inst);
     }
 
     @Override
     public void visit(ASMStoreInst asmStoreInst) {
-        asmStoreInst.rs1 = AllocRegForLoad(asmStoreInst.rs1, Reg_T0);
-        asmStoreInst.rs2 = AllocRegForLoad(asmStoreInst.rs2, Reg_T1);
+        curInst = asmStoreInst;
+        ASMStoreInst inst = new ASMStoreInst(asmStoreInst.byteWidth, null, null, asmStoreInst.imm);
+        inst.rs1 = AllocRegForLoad(asmStoreInst.rs1, Reg_T0);
+        inst.rs2 = AllocRegForLoad(asmStoreInst.rs2, Reg_T1);
 
-        checkIfVReg(asmStoreInst.rs1);
-        checkIfVReg(asmStoreInst.rs2);
+        inst.parentInst = asmStoreInst;
 
-        curBlock.addInst(asmStoreInst);
+        curBlock.addInst(inst);
     }
 
     @Override
     public void visit(ASMUnaryInst asmUnaryInst) {
-        asmUnaryInst.rs1 = AllocRegForLoad(asmUnaryInst.rs1, Reg_T0);
+        curInst = asmUnaryInst;
+        ASMUnaryInst inst = new ASMUnaryInst(asmUnaryInst.op, null, null);
+        inst.rs1 = AllocRegForLoad(asmUnaryInst.rs1, Reg_T0);
+        inst.parentInst = asmUnaryInst;
 
-        checkIfVReg(asmUnaryInst.rs1);
-//        checkIfVReg(asmUnaryInst.rd);
-
-        curBlock.addInst(asmUnaryInst);
-        asmUnaryInst.rd = AllocRegForStore(asmUnaryInst.rd, Reg_T0);
+        curBlock.addInst(inst);
+        inst.rd = AllocRegForStore(asmUnaryInst.rd, Reg_T0);
 
     }
 }

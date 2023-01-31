@@ -3,14 +3,18 @@
   .type _init_func, @function
 _init_func:
 _init_func.entry:
-         addi sp, sp, -4
+         addi sp, sp, -8
          mv t0, ra
          sw t0, 0(sp)
+         lui t0, %hi(A)
+         sw t0, 4(sp)
+         lw t0, 4(sp)
+         sw zero, %lo(A)(t0)
          j _init_func.exit
 _init_func.exit:
          lw t0, 0(sp)
          mv ra, t0
-         addi sp, sp, 4
+         addi sp, sp, 8
          ret
 
   .text
@@ -18,20 +22,64 @@ _init_func.exit:
   .type main, @function
 main:
 main.entry:
-         addi sp, sp, -8
+         addi sp, sp, -52
          mv t0, ra
          sw t0, 4(sp)
          call _init_func
          sw zero, 0(sp)
-         sw zero, 0(sp)
+         lui t0, %hi(A)
+         sw t0, 12(sp)
+         lw t0, 12(sp)
+         lw t0, %lo(A)(t0)
+         sw t0, 8(sp)
+         slli t0, zero, 2
+         sw t0, 16(sp)
+         lw t0, 8(sp)
+         lw t1, 16(sp)
+         add t0, t0, t1
+         sw t0, 20(sp)
+         li t0, 1
+         sw t0, 24(sp)
+         lw t0, 20(sp)
+         lw t1, 24(sp)
+         sw t1, 0(t0)
+         lui t0, %hi(A)
+         sw t0, 32(sp)
+         lw t0, 32(sp)
+         lw t0, %lo(A)(t0)
+         sw t0, 28(sp)
+         slli t0, zero, 2
+         sw t0, 36(sp)
+         lw t0, 28(sp)
+         lw t1, 36(sp)
+         add t0, t0, t1
+         sw t0, 40(sp)
+         lw t0, 40(sp)
+         lw t0, 0(t0)
+         sw t0, 44(sp)
+         lw t0, 44(sp)
+         mv a0, t0
+         call toString
+         mv t0, a0
+         sw t0, 48(sp)
+         lw t0, 48(sp)
+         mv a0, t0
+         call println
          j main.exit
 main.exit:
          lw t0, 4(sp)
          mv ra, t0
-         addi sp, sp, 8
+         addi sp, sp, 52
          ret
 
 .section .bss
+ .globl A
+ .type A, @object
+A:
+  .word 0
+ .size A, 4
+
+
 .section .rodata
 
  		.text

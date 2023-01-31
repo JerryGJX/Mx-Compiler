@@ -289,7 +289,6 @@ public class ASMBuilder implements IRVisitor {
             int A = 0;
         }
 
-
         for (int i = 0; i < irCallInst.operandSize() - 1; ++i) {
             IRValue arg = irCallInst.args(i);
             if (i < 8) {
@@ -398,7 +397,7 @@ public class ASMBuilder implements IRVisitor {
                 curBlock.addInst(asmLoadInst);
             } else {
                 if (fromAddr.asmOperand instanceof ASMReg) {
-                    ASMLoadInst asmLoadInst = new ASMLoadInst(loadSize, destReg, getPhysicalReg("sp"), new ASMImm(0));
+                    ASMLoadInst asmLoadInst = new ASMLoadInst(loadSize, destReg, (ASMReg) (fromAddr.asmOperand), new ASMImm(0));
                     curBlock.addInst(asmLoadInst);
                 } else {
                     throw new RuntimeException("LoadInst: wrong fromAddr.ASMOperand type");

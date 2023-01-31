@@ -5,7 +5,7 @@ import ASM.Operand.ASMReg;
 import BackEnd.ASMVisitor;
 
 public class ASMStoreInst extends ASMInst {
-    int byteWidth;
+    public int byteWidth;
 
     public ASMStoreInst(int byteWidth, ASMReg val, ASMReg addr, ASMImm ASMImm) {
         super(null, addr, val, ASMImm);

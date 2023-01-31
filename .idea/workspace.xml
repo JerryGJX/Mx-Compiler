@@ -2,7 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/test/debug/cmp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ASM/ASMBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/ASMBlock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMLoadInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMLoadInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ASM/Inst/ASMStoreInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Inst/ASMStoreInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BackEnd/RegAllocator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/RegAllocator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/debug/test.ll" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.ll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/debug/test.mx" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.mx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/debug/test.s" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.s" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,12 +68,13 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "19",
-    "last_opened_file_path": "D:/Users/JerryGuo/OneDrive/studying_materials/computer_related/compiler_design/myCompiler/Mx-Compiler/test/debug",
+    "last_opened_file_path": "D:/Users/JerryGuo/OneDrive/studying_materials/computer_related/compiler_design/myCompiler/Mx-Compiler/test/debug/cmp",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "PyConsoleConfigurable.Python Console"
+    "settings.editor.selected.configurable": "PyConsoleConfigurable.Python Console",
+    "two.files.diff.last.used.file": "D:/Users/JerryGuo/OneDrive/studying_materials/computer_related/compiler_design/myCompiler/Mx-Compiler/test/debug/cmp"
   }
 }]]></component>
   <component name="PyConsoleOptionsProvider">
@@ -130,7 +143,7 @@
       <workItem from="1673102484063" duration="85000" />
       <workItem from="1673708274077" duration="57150000" />
       <workItem from="1674975095361" duration="21136000" />
-      <workItem from="1675009928915" duration="38120000" />
+      <workItem from="1675009928915" duration="42439000" />
     </task>
     <servers />
   </component>
@@ -168,6 +181,11 @@
           <url>file://$PROJECT_DIR$/src/BackEnd/ASMBuilder.java</url>
           <line>68</line>
           <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/ASM/ASMBlock.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

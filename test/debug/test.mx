@@ -2,6 +2,5 @@ int []A;
 
 int main(){
 A[0] = 1;
-println(toString(1));
 println(toString(A[0]));
 }

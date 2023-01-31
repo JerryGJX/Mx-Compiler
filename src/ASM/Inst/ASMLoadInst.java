@@ -5,7 +5,7 @@ import ASM.Operand.ASMReg;
 import BackEnd.ASMVisitor;
 
 public class ASMLoadInst extends ASMInst {
-    int byteWidth;
+    public int byteWidth;
 
     public ASMLoadInst(int byteWidth, ASMReg rd, ASMReg rs1, ASMImm offset) {
         super(rd, rs1, null, offset);
