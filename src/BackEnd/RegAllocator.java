@@ -51,10 +51,10 @@ public class RegAllocator implements ASMVisitor {
         } else return (ASMPhysicalASMReg) _toReg;
     }
 
-    void checkIfVReg(ASMReg _reg) {
-        if (_reg == null) return;
-        if (_reg instanceof ASMVirtualReg) throw new RuntimeException("vReg not handled");
-    }
+//    void checkIfVReg(ASMReg _reg) {
+//        if (_reg == null) return;
+//        if (_reg instanceof ASMVirtualReg) throw new RuntimeException("vReg not handled");
+//    }
 
 
     @Override
@@ -101,9 +101,6 @@ public class RegAllocator implements ASMVisitor {
         ASMBrInst inst = new ASMBrInst(asmBrInst.op, null, null, asmBrInst.targetBlock);
         inst.rs1 = AllocRegForLoad(asmBrInst.rs1, Reg_T0);
         inst.rs2 = AllocRegForLoad(asmBrInst.rs2, Reg_T1);
-
-        checkIfVReg(asmBrInst.rs1);
-        checkIfVReg(asmBrInst.rs2);
 
         curBlock.addInst(inst);
     }
