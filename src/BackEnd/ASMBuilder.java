@@ -84,7 +84,6 @@ public class ASMBuilder implements IRVisitor {
         asmModule.funcList.add(asmInitFunc);
 
 
-
         irModule.IRFunctionMap.forEach((name, function) -> {
             ASMFunction asmFunction = new ASMFunction(function.funcName);
             asmModule.funcList.add(asmFunction);
@@ -167,7 +166,7 @@ public class ASMBuilder implements IRVisitor {
         });
 
         curBlock = asmExitBlock;
-
+        function.exitBlock.accept(this);
         //restore callee-save registers
 //        for (int i = 0; i < ASMPhysicalASMReg.calleeSavedRegList.size(); i++) {
 //            ASMMvInst restoreCalleeSaveInst = new ASMMvInst(ASMPhysicalASMReg.calleeSavedRegList.get(i), calleeSaveRegList.get(i));
@@ -185,7 +184,6 @@ public class ASMBuilder implements IRVisitor {
 
         curBlock.addInst(restoreStackInst);
 
-        //return
         ASMRetInst retInst = new ASMRetInst();
         curBlock.addInst(retInst);
     }
@@ -285,7 +283,7 @@ public class ASMBuilder implements IRVisitor {
     @Override
     public void visit(IRCallInst irCallInst) {
         //debug
-        if(irCallInst.calledFunc() == null || irCallInst.calledFunc().asmOperand == null){
+        if (irCallInst.calledFunc() == null || irCallInst.calledFunc().asmOperand == null) {
             int A = 0;
         }
 
