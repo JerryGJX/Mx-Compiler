@@ -60,6 +60,10 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             if (memberVarAddrMap.containsKey(varId)) {
                 IRInstruction inst = memberVarAddrMap.get(varId);
                 currentBlock.addInst(inst);
+                if (!irCurrentScope.inIf) {
+                    varAddrMap.put(varId, inst);
+                    memberVarAddrMap.remove(varId);
+                }
                 return inst;
             } else if (varAddrMap.containsKey(varId)) {
                 return varAddrMap.get(varId);
@@ -1100,7 +1104,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
 
     //scope control
     public void EnterClass(StructType _classTypeInfo) {
-        irCurrentScope = new IRScope(true, _classTypeInfo, irCurrentScope.inFunc, irCurrentScope.currentIRFunction, false, null, null,false,null, irCurrentScope);
+        irCurrentScope = new IRScope(true, _classTypeInfo, irCurrentScope.inFunc, irCurrentScope.currentIRFunction, false, null, null, false, null, irCurrentScope);
     }
 
     public void ExitClass() {
@@ -1108,7 +1112,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
     }
 
     public void EnterFunc(IRFunction _irFunctionInfo) {
-        irCurrentScope = new IRScope(irCurrentScope.inClass, irCurrentScope.currentClassType, true, _irFunctionInfo, false, null, null,false,null, irCurrentScope);
+        irCurrentScope = new IRScope(irCurrentScope.inClass, irCurrentScope.currentClassType, true, _irFunctionInfo, false, null, null, false, null, irCurrentScope);
     }
 
     public void ExitFunc() {
@@ -1116,7 +1120,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
     }
 
     public void EnterLoop(IRBasicBlock _loopExitBlock, IRBasicBlock _loopContinueBlock) {
-        irCurrentScope = new IRScope(irCurrentScope.inClass, irCurrentScope.currentClassType, irCurrentScope.inFunc, irCurrentScope.currentIRFunction, true, _loopExitBlock, _loopContinueBlock, irCurrentScope.inIf,irCurrentScope.ifExitBlock ,irCurrentScope);
+        irCurrentScope = new IRScope(irCurrentScope.inClass, irCurrentScope.currentClassType, irCurrentScope.inFunc, irCurrentScope.currentIRFunction, true, _loopExitBlock, _loopContinueBlock, irCurrentScope.inIf, irCurrentScope.ifExitBlock, irCurrentScope);
     }
 
     public void ExitLoop() {
