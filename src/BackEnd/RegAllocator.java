@@ -27,37 +27,18 @@ public class RegAllocator implements ASMVisitor {
     private final ASMPhysicalASMReg Reg_T1 = ASMPhysicalASMReg.regMap.get("t1");
 
 
-    private LinkedHashMap<ASMPhysicalASMReg, ASMVirtualReg> regMap = new LinkedHashMap<>(); //记录 t0,t1 当前存着的是哪个vReg
+    private final LinkedHashMap<ASMPhysicalASMReg, ASMVirtualReg> regMap = new LinkedHashMap<>(); //记录 t0,t1 当前存着的是哪个vReg
 
-
-//    private ASMPhysicalASMReg availablePRegForMv(ASMVirtualReg vReg) {
-//        if (vReg == null) return null;
-//        else {
-//            if (vReg.equals(regMap.get(Reg_T0))) return Reg_T0;
-//            else if (vReg.equals(regMap.get(Reg_T1))) return Reg_T1;
-//            else return null;
-//        }
-//    }
 
     ASMPhysicalASMReg AllocRegForLoad(ASMReg _fromReg, ASMPhysicalASMReg _phyReg) {
         if (_fromReg == null) return null;
         if (_fromReg instanceof ASMVirtualReg vReg) {
-//            if (!vReg.equals(regMap.get(_phyReg))) {
-//                ASMPhysicalASMReg availablePReg = availablePRegForMv(vReg);
-//                if (availablePReg != null) {
-//                    ASMMvInst mvInst = new ASMMvInst(_phyReg, availablePReg);
-//                    regMap.replace(_phyReg, vReg);
-//                    mvInst.parentInst = curInst;
-//                    curBlock.addInst(mvInst);
-//                }else {
             curFunc.spilledRegCnt = Math.max(curFunc.spilledRegCnt, vReg.rank + 1);//vReg.rank is 0 based
             ASMLoadInst loadInst = new ASMLoadInst(vReg.byteSize, _phyReg, Reg_SP, new ASMStackOffset(vReg.rank, ASMStackOffset.StackOffsetType.spillReg));
             regMap.replace(_phyReg, vReg);
             //debug
             loadInst.parentInst = curInst;
             curBlock.addInst(loadInst);
-//                }
-//            }
             return _phyReg;
         } else return (ASMPhysicalASMReg) _fromReg;
     }
@@ -65,16 +46,12 @@ public class RegAllocator implements ASMVisitor {
     ASMPhysicalASMReg AllocRegForStore(ASMReg _toReg, ASMPhysicalASMReg _phyReg) {
         if (_toReg == null) return null;//for BinaryInst with imm
         if (_toReg instanceof ASMVirtualReg vReg) {
-            if (!vReg.equals(regMap.get(_phyReg))) {
-                curFunc.spilledRegCnt = Math.max(curFunc.spilledRegCnt, vReg.rank + 1);//vReg.rank is 0 based
-                ASMStoreInst storeInst = new ASMStoreInst(vReg.byteSize, _phyReg, Reg_SP, new ASMStackOffset(vReg.rank, ASMStackOffset.StackOffsetType.spillReg));
-
-                regMap.replace(_phyReg, vReg);
-                //debug
-                storeInst.parentInst = curInst;
-
-                curBlock.addInst(storeInst);
-            }
+            curFunc.spilledRegCnt = Math.max(curFunc.spilledRegCnt, vReg.rank + 1);//vReg.rank is 0 based
+            ASMStoreInst storeInst = new ASMStoreInst(vReg.byteSize, _phyReg, Reg_SP, new ASMStackOffset(vReg.rank, ASMStackOffset.StackOffsetType.spillReg));
+            regMap.replace(_phyReg, vReg);
+            //debug
+            storeInst.parentInst = curInst;
+            curBlock.addInst(storeInst);
             return _phyReg;
         } else return (ASMPhysicalASMReg) _toReg;
     }
@@ -193,7 +170,9 @@ public class RegAllocator implements ASMVisitor {
     @Override
     public void visit(ASMMvInst asmMvInst) {
         curInst = asmMvInst;
-
+        ASMReg fromReg = asmMvInst.rs1;
+        ASMReg toReg = asmMvInst.rd;
+        if(fromReg.equals(toReg)) return;//no need to move
 
         ASMMvInst inst = new ASMMvInst(null, null);
         inst.rs1 = AllocRegForLoad(asmMvInst.rs1, Reg_T0);

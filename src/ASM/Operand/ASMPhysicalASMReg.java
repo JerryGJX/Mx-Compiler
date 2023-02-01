@@ -33,7 +33,8 @@ public class ASMPhysicalASMReg extends ASMReg {
         super(name);
     }
 
-    public boolean equals(ASMPhysicalASMReg reg) {
+    public boolean equals(ASMReg reg) {
+        if(!(reg instanceof ASMPhysicalASMReg)) return false;
         return this.identifier.equals(reg.identifier);
     }
 

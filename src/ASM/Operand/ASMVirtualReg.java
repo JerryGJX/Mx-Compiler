@@ -5,7 +5,7 @@ public class ASMVirtualReg extends ASMReg {
     public int rank, byteSize;
     public String funcId;
 
-    public ASMVirtualReg(String _funcId){
+    public ASMVirtualReg(String _funcId) {
         super("v" + virtualRegNum);
         this.rank = virtualRegNum;
         this.byteSize = 4;
@@ -14,7 +14,7 @@ public class ASMVirtualReg extends ASMReg {
     }
 
 
-    public ASMVirtualReg(int byteSize,String _funcId){
+    public ASMVirtualReg(int byteSize, String _funcId) {
         super("v" + virtualRegNum);
         this.rank = virtualRegNum;
         this.byteSize = byteSize;
@@ -23,9 +23,13 @@ public class ASMVirtualReg extends ASMReg {
     }
 
 
-    public boolean equals(ASMVirtualReg vReg) {
-        if(vReg == null) return false;
-        return this.rank == vReg.rank && this.funcId.equals(vReg.funcId);
+    public boolean equals(ASMReg reg) {
+        if (reg == null) return false;
+        else {
+            if (reg instanceof ASMVirtualReg vReg) {
+                return this.rank == vReg.rank && this.funcId.equals(vReg.funcId);
+            } else return false;
+        }
     }
 
     public String toString() {

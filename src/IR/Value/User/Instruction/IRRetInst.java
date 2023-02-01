@@ -14,6 +14,7 @@ public class IRRetInst extends IRInstruction {
         super(LLVM_RET_INST, new VoidType(), _parentBlock);
         this.retType = _retType;
         this.retAddr = _retAddr;
+        this.addOperand(_retAddr);
     }
 
     public boolean hasRetAddr() {

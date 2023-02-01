@@ -18,6 +18,7 @@ public class IRLoadInst extends IRInstruction {
 //        this.loadToAddr = _loadToAddr;
         this.loadType = _loadType;
         this.loadFromAddr = _loadFromAddr;
+        this.addOperand(_loadFromAddr);
     }
 
 

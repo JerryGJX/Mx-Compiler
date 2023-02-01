@@ -16,6 +16,8 @@ public class IRStoreInst extends IRInstruction {
         super(LLVM_STORE_INST, _value.valueType, _parentBlock);
         this.storeValue = _value;
         this.storePtr = _pointer;
+        this.addOperand(_value);
+        this.addOperand(_pointer);
     }
 
     public IRValue getStoreValue() {

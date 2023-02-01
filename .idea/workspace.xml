@@ -2,7 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/BackEnd/Analyzer/LivenessAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ASM/Operand/ASMPhysicalASMReg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMPhysicalASMReg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ASM/Operand/ASMReg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMReg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ASM/Operand/ASMVirtualReg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMVirtualReg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMTranslator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMTranslator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BackEnd/RegAllocator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/RegAllocator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/IRUse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRUse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRBoolConst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/IRBoolConst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/IRUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/IRUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRLoadInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRLoadInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRRetInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRRetInst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRStoreInst.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +143,7 @@
       <workItem from="1673102484063" duration="85000" />
       <workItem from="1673708274077" duration="57150000" />
       <workItem from="1674975095361" duration="21136000" />
-      <workItem from="1675009928915" duration="132388000" />
+      <workItem from="1675009928915" duration="137375000" />
     </task>
     <servers />
   </component>
@@ -157,7 +169,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java</url>
-          <line>1034</line>
+          <line>1030</line>
           <option name="timeStamp" value="66" />
         </line-breakpoint>
       </breakpoints>

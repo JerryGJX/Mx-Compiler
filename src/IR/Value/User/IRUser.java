@@ -19,7 +19,7 @@ public abstract class IRUser extends IRValue {
 
     public void addOperand(IRValue _IRValue) {
         operandList.add(_IRValue);
-        IRUse.addUse(this, _IRValue);
+        addUse(_IRValue);
     }
 
     public IRValue getOperand(int _index) {
