@@ -181,10 +181,12 @@ public class RegAllocator implements ASMVisitor {
     @Override
     public void visit(ASMMvInst asmMvInst) {
         curInst = asmMvInst;
+
+
+
         ASMMvInst inst = new ASMMvInst(null, null);
         inst.rs1 = AllocRegForLoad(asmMvInst.rs1, Reg_T0);
         inst.parentInst = asmMvInst;
-
         curBlock.addInst(inst);
         inst.rd = AllocRegForStore(asmMvInst.rd, Reg_T0);
     }

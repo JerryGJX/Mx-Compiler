@@ -5,7 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BackEnd/RegAllocator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/RegAllocator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.ll" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.ll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.mx" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.mx" afterDir="false" />
@@ -138,7 +137,7 @@
       <workItem from="1673102484063" duration="85000" />
       <workItem from="1673708274077" duration="57150000" />
       <workItem from="1674975095361" duration="21136000" />
-      <workItem from="1675009928915" duration="102903000" />
+      <workItem from="1675009928915" duration="106268000" />
     </task>
     <servers />
   </component>

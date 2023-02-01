@@ -23,13 +23,11 @@ declare i32 @_str_ord(i8*, i32)
 declare i32 @_str_parseInt(i8*)
 
 ; GlobalStrDef
-@strConst.1 = private unnamed_addr constant [2 x i8] c" \00"
-@strConst = private unnamed_addr constant [2 x i8] c"A\00"
-@strConst.2 = private unnamed_addr constant [2 x i8] c"B\00"
 
 ; GlobalVar
 
 ; StructDef
+%class.point = type {i32, i32, i32}
 
 ; GlobalFunc
 define void @_init_func() {
@@ -39,19 +37,49 @@ _init_func.exit:
     ret void
 }
 
+define void @point.printPoint(%class.point* %this.1) {
+point.printPoint.entry:
+    %x.addr.1 = getelementptr %class.point, %class.point* %this.1, i32 0, i32 0
+    %x.load = load i32, i32* %x.addr.1
+    %toString.call = call i8* @toString(i32 %x.load)
+    call void @println(i8* %toString.call)
+    %y.addr.1 = getelementptr %class.point, %class.point* %this.1, i32 0, i32 1
+    %y.load = load i32, i32* %y.addr.1
+    %toString.call.1 = call i8* @toString(i32 %y.load)
+    call void @println(i8* %toString.call.1)
+    br label %point.printPoint.exit
+point.printPoint.exit:
+    ret void
+}
+
+define void @point.point(%class.point* %this) {
+point.point.entry:
+    %x.addr = getelementptr %class.point, %class.point* %this, i32 0, i32 0
+    store i32 0, i32* %x.addr
+    %y.addr = getelementptr %class.point, %class.point* %this, i32 0, i32 1
+    store i32 0, i32* %y.addr
+    %z.addr = getelementptr %class.point, %class.point* %this, i32 0, i32 2
+    store i32 0, i32* %z.addr
+    br label %point.point.exit
+point.point.exit:
+    ret void
+}
+
 
 ; MainFunc
 define i32 @main() {
 main.entry:
+    %a.addr = alloca %class.point*
     %main.ret.addr = alloca i32
     call void @_init_func()
     store i32 0, i32* %main.ret.addr
-    %getelementptr = getelementptr [2 x i8], [2 x i8]* @strConst, i32 0, i32 0
-    %getelementptr.1 = getelementptr [2 x i8], [2 x i8]* @strConst.1, i32 0, i32 0
-    %_str_concat.call = call i8* @_str_concat(i8* %getelementptr, i8* %getelementptr.1)
-    %getelementptr.2 = getelementptr [2 x i8], [2 x i8]* @strConst.2, i32 0, i32 0
-    %_str_concat.call.1 = call i8* @_str_concat(i8* %_str_concat.call, i8* %getelementptr.2)
-    call void @println(i8* %_str_concat.call.1)
+    %_malloc.call = call i8* @_malloc(i32 12)
+    %bitcast = bitcast i8* %_malloc.call to %class.point*
+    call void @point.point(%class.point* %bitcast)
+    store %class.point* %bitcast, %class.point** %a.addr
+    %a.load = load %class.point*, %class.point** %a.addr
+    call void @point.printPoint(%class.point* %a.load)
+    store i32 0, i32* %main.ret.addr
     br label %main.exit
 main.exit:
     %main.ret.load = load i32, i32* %main.ret.addr

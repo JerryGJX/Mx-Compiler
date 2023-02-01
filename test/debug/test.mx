@@ -1,5 +1,20 @@
+class point {
+	int x;
+	int y;
+	int z;
+	point() {
+		x = 0;
+		y = 0;
+		z = 0;
+	}
+	void printPoint() {
+	    println(toString(x));
+	    println(toString(y));
+	}
+};
 
-int main()
-{
-      println("A" + " " + "B");
+int main() {
+	point a = new point;
+	a.printPoint();
+	return 0;
 }

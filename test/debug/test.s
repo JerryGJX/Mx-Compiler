@@ -13,73 +13,124 @@ _init_func.exit:
          ret
 
   .text
-  .globl main
-  .type main, @function
-main:
-main.entry:
-         addi sp, sp, -44
+  .globl point.printPoint
+  .type point.printPoint, @function
+point.printPoint:
+point.printPoint.entry:
+         addi sp, sp, -40
          mv t0, ra
+         sw t0, 0(sp)
+         slli t0, zero, 2
          sw t0, 4(sp)
-         call _init_func
-         sw zero, 0(sp)
-         lui t0, %hi(strConst)
+         lw t1, 4(sp)
+         add t0, a0, t1
          sw t0, 8(sp)
-         addi t0, t0, %lo(strConst)
+         lw t0, 0(t0)
          sw t0, 12(sp)
-         lui t0, %hi(strConst.1)
-         sw t0, 16(sp)
-         addi t0, t0, %lo(strConst.1)
-         sw t0, 20(sp)
-         lw t0, 12(sp)
          mv a0, t0
-         lw t0, 20(sp)
-         mv a1, t0
-         call _str_concat
+         call toString
          mv t0, a0
-         sw t0, 24(sp)
-         lui t0, %hi(strConst.2)
-         sw t0, 28(sp)
-         addi t0, t0, %lo(strConst.2)
-         sw t0, 32(sp)
-         lw t0, 24(sp)
+         sw t0, 16(sp)
          mv a0, t0
-         lw t0, 32(sp)
-         mv a1, t0
-         call _str_concat
+         call println
+         li t0, 1
+         sw t0, 24(sp)
+         slli t0, t0, 2
+         sw t0, 20(sp)
+         lw t1, 20(sp)
+         add t0, a0, t1
+         sw t0, 28(sp)
+         lw t0, 0(t0)
+         sw t0, 32(sp)
+         mv a0, t0
+         call toString
          mv t0, a0
          sw t0, 36(sp)
          mv a0, t0
          call println
+         j point.printPoint.exit
+point.printPoint.exit:
+         lw t0, 0(sp)
+         mv ra, t0
+         addi sp, sp, 40
+         ret
+
+  .text
+  .globl main
+  .type main, @function
+main:
+main.entry:
+         addi sp, sp, -32
+         mv t0, ra
+         sw t0, 8(sp)
+         call _init_func
+         sw zero, 4(sp)
+         li t0, 12
+         sw t0, 12(sp)
+         mv a0, t0
+         call _malloc
+         mv t0, a0
+         sw t0, 16(sp)
+         mv t0, t0
+         sw t0, 20(sp)
+         mv a0, t0
+         call point.point
+         lw t1, 20(sp)
+         sw t1, 0(sp)
+         lw t0, 0(sp)
+         sw t0, 24(sp)
+         mv a0, t0
+         call point.printPoint
+         sw zero, 4(sp)
          j main.exit
 main.exit:
-         lw t0, 0(sp)
-         sw t0, 40(sp)
-         mv a0, t0
          lw t0, 4(sp)
+         sw t0, 28(sp)
+         mv a0, t0
+         lw t0, 8(sp)
          mv ra, t0
-         addi sp, sp, 44
+         addi sp, sp, 32
+         ret
+
+  .text
+  .globl point.point
+  .type point.point, @function
+point.point:
+point.point.entry:
+         addi sp, sp, -36
+         mv t0, ra
+         sw t0, 0(sp)
+         slli t0, zero, 2
+         sw t0, 4(sp)
+         lw t1, 4(sp)
+         add t0, a0, t1
+         sw t0, 8(sp)
+         sw zero, 0(t0)
+         li t0, 1
+         sw t0, 16(sp)
+         slli t0, t0, 2
+         sw t0, 12(sp)
+         lw t1, 12(sp)
+         add t0, a0, t1
+         sw t0, 20(sp)
+         sw zero, 0(t0)
+         li t0, 2
+         sw t0, 28(sp)
+         slli t0, t0, 2
+         sw t0, 24(sp)
+         lw t1, 24(sp)
+         add t0, a0, t1
+         sw t0, 32(sp)
+         sw zero, 0(t0)
+         j point.point.exit
+point.point.exit:
+         lw t0, 0(sp)
+         mv ra, t0
+         addi sp, sp, 36
          ret
 
 .section .bss
 .section .rodata
- .type strConst.1, @object
-strConst.1:
-         .string " "
-         .size strConst.1, 2
-
-
- .type strConst, @object
-strConst:
-         .string "A"
-         .size strConst, 2
-
-
- .type strConst.2, @object
-strConst.2:
-         .string "B"
-         .size strConst.2, 2
-
-
 
  		.text
        	.attribute	4, 16
