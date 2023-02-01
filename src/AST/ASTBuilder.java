@@ -33,7 +33,10 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
         RootNode rootNode = new RootNode(new Position(ctx));
 
         ArrayList<ASTNode> childNodes = new ArrayList<>();
-        for (int i = 0; i < ctx.getChildCount(); i++) {
+
+        int tmp = ctx.getChildCount();
+
+        for (int i = 0; i < tmp; i++) {
             if (ctx.getChild(i) instanceof MxParser.ClassDefContext) {
                 ClassDefNode classDefNode = (ClassDefNode) visit(ctx.getChild(i));
                 childNodes.add(classDefNode);
@@ -42,7 +45,8 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
                 childNodes.add(funcDefNode);
             } else if (ctx.getChild(i) instanceof MxParser.VarDefStmtContext) {
                 VarDefStmtNode varDefStmtNode = (VarDefStmtNode) visit(ctx.getChild(i));
-                for (int j = 0; j < varDefStmtNode.varDefUnitNodes.size(); j++) {
+                int tmp1 = varDefStmtNode.varDefUnitNodes.size();
+                for (int j = 0; j < tmp1; j++) {
                     VarDefUnitNode varDefUnitNode = varDefStmtNode.varDefUnitNodes.get(j);
                     varDefUnitNode.isGlobal = true;
                     childNodes.add(varDefUnitNode);
@@ -62,22 +66,8 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
         LinkedHashMap<String, FuncDefNode> memberFuncList = new LinkedHashMap<>();
         ConstructorDefNode constructorDefNode = null;
 
-//        if (ctx.varDefStmt() != null) {
-//            for (var i : ctx.varDefStmt()) {
-//                VarDefStmtNode varDefStmtNode = (VarDefStmtNode) visit(i);
-//                memberVarList.addAll(varDefStmtNode.varDefUnitNodes);
-//            }
-//        } else if (ctx.funcDef() != null) {
-//            for (var i : ctx.funcDef()) {
-//                FuncDefNode funcDefNode = (FuncDefNode) visit(i);
-//                memberFuncList.add(funcDefNode);
-//            }
-//        } else if (ctx.constructorDef() != null) {
-//            for (var i : ctx.funcDef()) {
-//                constructorDefNode = (ConsDefNode) visit(i);
-//            }
-//        }
-        for (int i = 0; i < ctx.getChildCount(); i++) {
+        int tmp = ctx.getChildCount();
+        for (int i = 0; i < tmp; i++) {
             if (ctx.getChild(i) instanceof MxParser.ConstructorDefContext) {
 
                 if (constructorDefNode != null) {
@@ -109,14 +99,13 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
                 memberFuncList.put(funcDefNode.funcName, funcDefNode);
             } else if (ctx.getChild(i) instanceof MxParser.VarDefStmtContext) {
                 VarDefStmtNode varDefStmtNode = (VarDefStmtNode) visit(ctx.getChild(i));
-                for (int j = 0; j < varDefStmtNode.varDefUnitNodes.size(); j++) {
+                int tmp1 = varDefStmtNode.varDefUnitNodes.size();
+                for (int j = 0; j < tmp1; j++) {
                     VarDefUnitNode varDefUnitNode = varDefStmtNode.varDefUnitNodes.get(j);
                     varDefUnitNode.isGlobal = false;
-
                     if (memberVarList.containsKey(varDefUnitNode.varName)) {
                         throw new semanticError("Class " + ctx.Identifier().getText() + " has more than one variable named " + varDefUnitNode.varName, new Position(ctx));
                     }
-
                     memberVarList.put(varDefUnitNode.varName, varDefUnitNode);
                     classDefNode.memberVarNameList.add(varDefUnitNode.varName);
                 }
@@ -154,7 +143,8 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
         boolean isBuiltin = false;
 
         if (ctx.funcDefArgList() != null) {
-            for (int i = 0; i < ctx.funcDefArgList().varType().size(); i++) {
+            int tmp = ctx.funcDefArgList().varType().size();
+            for (int i = 0; i < tmp; i++) {
                 VarDefUnitNode varDefUnitNode = new VarDefUnitNode(new Position(ctx));
                 var varType = (VarTypeNode) visit(ctx.funcDefArgList().varType(i));
                 var varName = ctx.funcDefArgList().Identifier(i).getText();
@@ -245,7 +235,8 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
     public ASTNode visitSuiteStmt(MxParser.SuiteStmtContext ctx) {
         SuiteStmtNode suiteStmtNode = new SuiteStmtNode(new Position(ctx));
         var stmtList = new ArrayList<StmtNode>();
-        for (int i = 0; i < ctx.statement().size(); i++) {
+        int tmp = ctx.statement().size();
+        for (int i = 0; i < tmp; i++) {
             StmtNode cur = (StmtNode) visit(ctx.statement(i));
             if (cur instanceof VarDefStmtNode) {
                 stmtList.addAll(((VarDefStmtNode) cur).varDefUnitNodes);
@@ -270,7 +261,8 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
         var varType = (VarTypeNode) visit(ctx.varType());
         var varDefUnitNodes = new ArrayList<VarDefUnitNode>();
 
-        for (int i = 0; i < ctx.varDefUnit().size(); i++) {
+        int tmp = ctx.varDefUnit().size();
+        for (int i = 0; i < tmp; i++) {
             VarDefUnitNode varDefUnitNode = new VarDefUnitNode(new Position(ctx.varDefUnit().get(i)));
             varDefUnitNode.varType = varType.varType;
             varDefUnitNode.varName = ctx.varDefUnit(i).Identifier().getText();
@@ -306,16 +298,15 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
 
         if (trueStmtNode instanceof SuiteStmtNode) {
             trueStmtList.addAll(((SuiteStmtNode) trueStmtNode).stmtList);
-        }else if(trueStmtNode != null){
+        } else if (trueStmtNode != null) {
             trueStmtList.add(trueStmtNode);
         }
 
         if (elseStmtNode instanceof SuiteStmtNode) {
             elseStmtList.addAll(((SuiteStmtNode) elseStmtNode).stmtList);
-        }else if(elseStmtNode != null){
+        } else if (elseStmtNode != null) {
             elseStmtList.add(elseStmtNode);
         }
-
 
 
         ifStmtNode.trueStmtList = trueStmtList;
@@ -483,7 +474,8 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
         var ArgList = new ArrayList<ExpNode>();
         var funcExp = (ExpNode) visit(ctx.expression());
         if (ctx.funcCallArgList() != null) {
-            for (var i = 0; i < ctx.funcCallArgList().expression().size(); i++) {
+            int tmp = ctx.funcCallArgList().expression().size();
+            for (var i = 0; i < tmp; i++) {
                 ArgList.add((ExpNode) visit(ctx.funcCallArgList().expression(i)));
             }
         }
@@ -509,13 +501,15 @@ public class ASTBuilder extends MxParserBaseVisitor<ASTNode> {
         var body = (SuiteStmtNode) visit(ctx.lambdaExpression().suiteStmt());
         boolean isCapture = false;
         if (ctx.lambdaExpression().funcCallArgList() != null) {
-            for (var i = 0; i < ctx.lambdaExpression().funcCallArgList().expression().size(); i++) {
+            int tmp = ctx.lambdaExpression().funcCallArgList().expression().size();
+            for (var i = 0; i < tmp; i++) {
                 callArgList.add((ExpNode) visit(ctx.lambdaExpression().funcCallArgList().expression(i)));
             }
         }
 
         if (ctx.lambdaExpression().funcDefArgList() != null) {
-            for (int i = 0; i < ctx.lambdaExpression().funcDefArgList().varType().size(); i++) {
+            int tmp = ctx.lambdaExpression().funcDefArgList().varType().size();
+            for (int i = 0; i < tmp; i++) {
                 VarDefUnitNode varDefUnitNode = new VarDefUnitNode(new Position(ctx.lambdaExpression().funcDefArgList().varType().get(i)));
                 var varType = (VarTypeNode) visit(ctx.lambdaExpression().funcDefArgList().varType(i));
                 var varName = ctx.lambdaExpression().funcDefArgList().Identifier(i).getText();

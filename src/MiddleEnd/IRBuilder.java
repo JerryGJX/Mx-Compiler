@@ -195,12 +195,6 @@ public class IRBuilder implements ASTVisitor, IRDefine {
     @Override
     public void visit(FuncDefNode node) {
         boolean isMember = (irCurrentScope.currentClassType != null);
-
-//        if (node.funcName.equals("println")) {
-//            System.out.println("debug");
-//        }
-
-
         var funcName = isMember ? irCurrentScope.currentClassType.classId + "." + node.funcName : node.funcName;
         var IRFunc = getIRFunction(funcName);
 
@@ -218,7 +212,9 @@ public class IRBuilder implements ASTVisitor, IRDefine {
 
         currentBlock = CurFunc().entryBlock;
 
-        for (int i = 0; i < IRFunc.paraList.size(); i++) {//process the perimeter
+        int tmp = IRFunc.paraList.size();
+
+        for (int i = 0; i < tmp; i++) {//process the perimeter
 //            if (isMember && i == 0) {
 //
 //            }
@@ -243,7 +239,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
 //            var argType = IRFunc.argTypeList.get(i);
             IRValue para = IRFunc.paraList.get(i);
 
-            var allocaType = para.valueType; //分配 mem 空间时使用的类型
+            BasicType allocaType = para.valueType; //分配 mem 空间时使用的类型
             if (allocaType instanceof BoolType) allocaType = new memBoolType();// mem 上的 bool 只能是 i8
             // todo:check boolType(done)
             String fakeVarId = renamer.rename(para.valueName);

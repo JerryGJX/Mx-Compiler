@@ -145,7 +145,8 @@ public class ASMBuilder implements IRVisitor {
 //            curBlock.addInst(saveCalleeSaveInst);
 //        });
         //set arguments
-        for (int i = 0; i < function.paraList.size(); i++) {
+        int tmp = function.paraList.size();
+        for (int i = 0; i < tmp; i++) {
             IRValue arg = function.paraList.get(i);
             if (i < 8) {
                 arg.asmOperand = getPhysicalReg("a" + i);
@@ -286,8 +287,8 @@ public class ASMBuilder implements IRVisitor {
         if (irCallInst.calledFunc() == null || irCallInst.calledFunc().asmOperand == null) {
             int A = 0;
         }
-
-        for (int i = 0; i < irCallInst.operandSize() - 1; ++i) {
+        int tmp = irCallInst.operandSize() - 1;
+        for (int i = 0; i < tmp; ++i) {
             IRValue arg = irCallInst.args(i);
             if (i < 8) {
                 ASMMvInst mvInst = new ASMMvInst(getPhysicalReg("a" + i), getReg(arg));
