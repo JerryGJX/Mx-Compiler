@@ -6,10 +6,6 @@
       <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BackEnd/RegAllocator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/RegAllocator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/debug/test.ll" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.ll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/debug/test.mx" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.mx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/debug/test.s" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.s" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +134,7 @@
       <workItem from="1673102484063" duration="85000" />
       <workItem from="1673708274077" duration="57150000" />
       <workItem from="1674975095361" duration="21136000" />
-      <workItem from="1675009928915" duration="130234000" />
+      <workItem from="1675009928915" duration="131443000" />
     </task>
     <servers />
   </component>
@@ -166,11 +162,6 @@
           <url>file://$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java</url>
           <line>1034</line>
           <option name="timeStamp" value="66" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/BackEnd/RegAllocator.java</url>
-          <line>102</line>
-          <option name="timeStamp" value="75" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

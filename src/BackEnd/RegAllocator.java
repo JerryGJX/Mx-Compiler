@@ -29,6 +29,7 @@ public class RegAllocator implements ASMVisitor {
 
     private LinkedHashMap<ASMPhysicalASMReg, ASMVirtualReg> regMap = new LinkedHashMap<>(); //记录 t0,t1 当前存着的是哪个vReg
 
+
 //    private ASMPhysicalASMReg availablePRegForMv(ASMVirtualReg vReg) {
 //        if (vReg == null) return null;
 //        else {
@@ -49,13 +50,13 @@ public class RegAllocator implements ASMVisitor {
 //                    mvInst.parentInst = curInst;
 //                    curBlock.addInst(mvInst);
 //                }else {
-                    curFunc.spilledRegCnt = Math.max(curFunc.spilledRegCnt, vReg.rank + 1);//vReg.rank is 0 based
-                    ASMLoadInst loadInst = new ASMLoadInst(vReg.byteSize, _phyReg, Reg_SP, new ASMStackOffset(vReg.rank, ASMStackOffset.StackOffsetType.spillReg));
-                    regMap.replace(_phyReg, vReg);
-                    //debug
-                    loadInst.parentInst = curInst;
-                    curBlock.addInst(loadInst);
-                //}
+            curFunc.spilledRegCnt = Math.max(curFunc.spilledRegCnt, vReg.rank + 1);//vReg.rank is 0 based
+            ASMLoadInst loadInst = new ASMLoadInst(vReg.byteSize, _phyReg, Reg_SP, new ASMStackOffset(vReg.rank, ASMStackOffset.StackOffsetType.spillReg));
+            regMap.replace(_phyReg, vReg);
+            //debug
+            loadInst.parentInst = curInst;
+            curBlock.addInst(loadInst);
+//                }
 //            }
             return _phyReg;
         } else return (ASMPhysicalASMReg) _fromReg;
@@ -64,7 +65,7 @@ public class RegAllocator implements ASMVisitor {
     ASMPhysicalASMReg AllocRegForStore(ASMReg _toReg, ASMPhysicalASMReg _phyReg) {
         if (_toReg == null) return null;//for BinaryInst with imm
         if (_toReg instanceof ASMVirtualReg vReg) {
-//            if (!vReg.equals(regMap.get(_phyReg))) {
+            if (!vReg.equals(regMap.get(_phyReg))) {
                 curFunc.spilledRegCnt = Math.max(curFunc.spilledRegCnt, vReg.rank + 1);//vReg.rank is 0 based
                 ASMStoreInst storeInst = new ASMStoreInst(vReg.byteSize, _phyReg, Reg_SP, new ASMStackOffset(vReg.rank, ASMStackOffset.StackOffsetType.spillReg));
 
@@ -73,15 +74,11 @@ public class RegAllocator implements ASMVisitor {
                 storeInst.parentInst = curInst;
 
                 curBlock.addInst(storeInst);
-//            }
+            }
             return _phyReg;
         } else return (ASMPhysicalASMReg) _toReg;
     }
 
-//    void checkIfVReg(ASMReg _reg) {
-//        if (_reg == null) return;
-//        if (_reg instanceof ASMVirtualReg) throw new RuntimeException("vReg not handled");
-//    }
 
     private void clearRegMap() {
         regMap.clear();
@@ -101,7 +98,6 @@ public class RegAllocator implements ASMVisitor {
     @Override
     public void visit(ASMFunction asmFunction) {
         curFunc = asmFunction;
-
         asmFunction.blockList.forEach(block -> block.accept(this));
     }
 
