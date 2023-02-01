@@ -2,12 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/test/debug/test.debug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/Codegen debug.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/Codegen debug.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AST/ASTBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/ASTBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AST/node/concretNode/FuncDefNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AST/node/concretNode/FuncDefNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FrontEnd/SemanticChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrontEnd/SemanticChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/IRModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/IRModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Utils/Renamer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Utils/Renamer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/IRDefine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/IRDefine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/scope/IRScope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/scope/IRScope.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.ll" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.ll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/debug/test.mx" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.mx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.s" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.s" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -137,7 +147,7 @@
       <workItem from="1673102484063" duration="85000" />
       <workItem from="1673708274077" duration="57150000" />
       <workItem from="1674975095361" duration="21136000" />
-      <workItem from="1675009928915" duration="106268000" />
+      <workItem from="1675009928915" duration="115441000" />
     </task>
     <servers />
   </component>
@@ -159,6 +169,15 @@
     </option>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java</url>
+          <line>1027</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="((IRFunction)((HashMap.Node)irModule.IRFunctionMap.entrySet().toArray()[0]).getValue()).asmOperand" custom="IR.Value.User.Constant.GlobalValue.IRFunction,java.util.HashMap.Node" />

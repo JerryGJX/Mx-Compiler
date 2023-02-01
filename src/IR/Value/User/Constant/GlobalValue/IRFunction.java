@@ -50,9 +50,9 @@ public class IRFunction extends IRConstant {
         this.addOperand(_arg);
     }
 
-//    public IRValue getArg(int _idx) {
-//        return this.getOperand(_idx);
-//    }
+    public IRValue getArg(int _idx) {
+        return this.getOperand(_idx);
+    }
 
     public BasicType getParaType(int _idx) {
         return paraList.get(_idx).valueType;

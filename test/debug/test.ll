@@ -39,11 +39,14 @@ _init_func.exit:
 
 define void @point.printPoint(%class.point* %this.1) {
 point.printPoint.entry:
-    %x.addr.1 = getelementptr %class.point, %class.point* %this.1, i32 0, i32 0
+    %this.addr.1 = alloca %class.point*
+    store %class.point* %this.1, %class.point** %this.addr.1
+    %this.load.1 = load %class.point*, %class.point** %this.addr.1
+    %x.addr.1 = getelementptr %class.point, %class.point* %this.load.1, i32 0, i32 0
     %x.load = load i32, i32* %x.addr.1
     %toString.call = call i8* @toString(i32 %x.load)
     call void @println(i8* %toString.call)
-    %y.addr.1 = getelementptr %class.point, %class.point* %this.1, i32 0, i32 1
+    %y.addr.1 = getelementptr %class.point, %class.point* %this.load.1, i32 0, i32 1
     %y.load = load i32, i32* %y.addr.1
     %toString.call.1 = call i8* @toString(i32 %y.load)
     call void @println(i8* %toString.call.1)
@@ -54,11 +57,14 @@ point.printPoint.exit:
 
 define void @point.point(%class.point* %this) {
 point.point.entry:
-    %x.addr = getelementptr %class.point, %class.point* %this, i32 0, i32 0
+    %this.addr = alloca %class.point*
+    store %class.point* %this, %class.point** %this.addr
+    %this.load = load %class.point*, %class.point** %this.addr
+    %x.addr = getelementptr %class.point, %class.point* %this.load, i32 0, i32 0
     store i32 0, i32* %x.addr
-    %y.addr = getelementptr %class.point, %class.point* %this, i32 0, i32 1
+    %y.addr = getelementptr %class.point, %class.point* %this.load, i32 0, i32 1
     store i32 0, i32* %y.addr
-    %z.addr = getelementptr %class.point, %class.point* %this, i32 0, i32 2
+    %z.addr = getelementptr %class.point, %class.point* %this.load, i32 0, i32 2
     store i32 0, i32* %z.addr
     br label %point.point.exit
 point.point.exit:

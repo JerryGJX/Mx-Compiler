@@ -5,11 +5,12 @@ import IR.Value.IRBasicBlock;
 import IR.Value.IRDefine;
 import IR.Value.IRValue;
 import IR.Value.User.Constant.GlobalValue.IRFunction;
+import IR.Value.User.Instruction.IRInstruction;
 
 import java.util.HashMap;
 
 public class IRScope implements IRDefine {
-//    public static class VarInfo{
+    //    public static class VarInfo{
 //        String rawName;
 //        Integer index;
 //        boolean isGlobal;
@@ -51,6 +52,8 @@ public class IRScope implements IRDefine {
 
     public IRBasicBlock loopContinueBlock = null;  //if continueStmt, jump to this block
 
+    public IRInstruction thisPtr = null;
+
 
     public IRScope() {
         inClass = false;
@@ -86,10 +89,12 @@ public class IRScope implements IRDefine {
         }
     }
 
-    public IRValue GetThis(){
-        if (!inFunc || !inClass) {
-            throw new RuntimeException("this expression must be in a class function");
+
+    public IRValue GetThisPtr(){
+        if(this.thisPtr == null){
+            return parentScope.GetThisPtr();
+        }else {
+            return thisPtr;
         }
-        return currentIRFunction.paraList.get(0);
     }
 }

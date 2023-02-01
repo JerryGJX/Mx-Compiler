@@ -43,7 +43,7 @@ public interface IRDefine {
     String IF_FALSE_LABEL = "if_false";
     String IF_EXIT_LABEL = "if_exit";
 
-    String THIS_POINTER = "this_ptr";
+//    String THIS_POINTER = "this_ptr";
 
 
 

@@ -2,7 +2,7 @@ package IR.Utils;
 
 import java.util.HashMap;
 
-import static IR.Value.IRDefine.THIS_POINTER;
+
 
 public class Renamer {
     public static HashMap<String, Integer> renameMap = new HashMap<>();

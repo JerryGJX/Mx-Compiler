@@ -118,6 +118,11 @@ public class IRBuilder implements ASTVisitor, IRDefine {
 
     }
 
+
+    private IRValue getThis() {
+        return irCurrentScope.GetThisPtr();
+    }
+
     //real content
     public IRBuilder(IRModule _projectIRModule, GlobalScope _globalScope) {
         renamer = _projectIRModule.renamer;
@@ -211,18 +216,26 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         currentBlock = CurFunc().entryBlock;
 
         for (int i = 0; i < IRFunc.paraList.size(); i++) {//process the perimeter
-            if (isMember && i == 0) {
-                String argName = "this";
-                var argType = IRFunc.paraList.get(0);
-                var argId = renamer.rename(argName);
-                IRFunc.paraList.get(0).valueName = argId;
-                var argAddr = irCurrentScope.GetThis();//e.g. %A.1
-                irCurrentScope.rawToIdMap.put(argName, argId);
-                varAddrMap.put(argId, argAddr);
-//                IRFunc.argNameList.set(0, argId);
-//                IRFunc.addArg(argAddr);
-                continue;
-            }
+//            if (isMember && i == 0) {
+//
+//            }
+//                var para = IRFunc.paraList.get(0);
+//                var allocaType = para.valueType; //分配 mem 空间时使用的类型
+//                if (allocaType instanceof BoolType) allocaType = new memBoolType();// mem 上的 bool 只能是 i8
+//                String fakeVarId = renamer.rename(para.valueName);
+//                String realVarId = renamer.rename(para.valueName + ".addr");
+//                var argAllocInst = generateAllocInst(realVarId, allocaType, currentBlock);
+//
+//
+//
+//                para.valueName = fakeVarId;
+//                var argAddr = getThis();//e.g. %A.1
+//                irCurrentScope.rawToIdMap.put(argName, argId);
+//                varAddrMap.put(argId, argAddr);
+////                IRFunc.argNameList.set(0, argId);
+////                IRFunc.addArg(argAddr);
+//                continue;
+//            }
 //            String argName = IRFunc.argNameList.get(i);
 //            var argType = IRFunc.argTypeList.get(i);
             IRValue para = IRFunc.paraList.get(i);
@@ -242,11 +255,18 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             para.valueName = fakeVarId;
 //            IRFunc.argNameList.set(i, fakeVarId);
             IRFunc.addArg(argAllocInst);
+
+            if (isMember && i == 0) {
+                IRInstruction loadThis = generateLoadInst("this", argAllocInst, currentBlock);
+                currentBlock.addInst(loadThis);
+                irCurrentScope.thisPtr = loadThis;
+            }
+
         }
 
 
         if (isMember) {
-            var thisPtr = irCurrentScope.GetThis();
+            var thisPtr = getThis();
             StructType parentType = (StructType) IRFunc.parentClassType;
             parentType.memberOffset.forEach((memberName, offset) -> {
                 var memberType = parentType.memberTypeList.get(offset);
@@ -408,7 +428,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
             currentBlock.addInst(gepInst);
         } else if (node instanceof ThisExpNode) {
             node.llvmName = "this";
-            node.irValue = irCurrentScope.GetThis();
+            node.irValue = getThis();
         }
     }
 
@@ -592,7 +612,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
                         thisPtr = getExpNodeValue(((MemberExpNode) node.function).base);
                     }
                     argsList.add(thisPtr);//c++ will allocate the class var
-                } else argsList.add(irCurrentScope.GetThis());
+                } else argsList.add(getThis());
             }
             for (var arg : node.paraList) {
                 arg.accept(this);
@@ -1003,19 +1023,43 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         //construct func.exit block
         CurFunc().exitBlock = new IRBasicBlock(renamer.rename(funcName + ".exit"));
 
-        String argName = "this";
-        BasicType argType = IRFunc.paraList.get(0).valueType;
-        var argId = renamer.rename(argName);
-        IRFunc.paraList.get(0).valueName = argId;
-        var argAddr = irCurrentScope.GetThis();
-        irCurrentScope.rawToIdMap.put(argName, argId);
-        varAddrMap.put(argId, argAddr);
+//        String argName = "this";
+//        BasicType argType = IRFunc.paraList.get(0).valueType;
+//        var argId = renamer.rename(argName);
+//        IRFunc.paraList.get(0).valueName = argId;
+//        var argAddr = getThis();
+//        irCurrentScope.rawToIdMap.put(argName, argId);
+//        varAddrMap.put(argId, argAddr);
+
+        currentBlock = CurFunc().entryBlock;
+        IRValue para = IRFunc.paraList.get(0);
+
+        var allocaType = para.valueType; //分配 mem 空间时使用的类型
+        if (allocaType instanceof BoolType) allocaType = new memBoolType();// mem 上的 bool 只能是 i8
+        // todo:check boolType(done)
+        String fakeVarId = renamer.rename(para.valueName);
+        String realVarId = renamer.rename(para.valueName + ".addr");
+
+        var argAllocInst = generateAllocInst(realVarId, allocaType, currentBlock);
+        currentBlock.addInstFirst(argAllocInst);
+        var storeInst = generateStoreInst(para, argAllocInst, currentBlock); //取出传入的参数,存到当前函数分配的地址上
+        currentBlock.addInst(storeInst);
+        varAddrMap.put(realVarId, argAllocInst);
+        irCurrentScope.rawToIdMap.put(para.valueName, realVarId);
+        para.valueName = fakeVarId;
+//            IRFunc.argNameList.set(i, fakeVarId);
+        IRFunc.addArg(argAllocInst);
+
+        IRInstruction loadThis = generateLoadInst("this", argAllocInst, currentBlock);
+        currentBlock.addInst(loadThis);
+        irCurrentScope.thisPtr = loadThis;
+
+
 //        IRFunc.argNameList.set(0, argId);
 //        IRFunc.addArg(argAddr);
 
 
-        currentBlock = CurFunc().entryBlock;
-        var thisPtr = irCurrentScope.GetThis();
+        var thisPtr = getThis();
         StructType parentType = (StructType) IRFunc.parentClassType;
         parentType.memberOffset.forEach((memberName, offset) -> {
             var memberType = parentType.memberTypeList.get(offset);

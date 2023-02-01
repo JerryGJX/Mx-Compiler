@@ -9,6 +9,7 @@ import AST.typeNode.VarTypeNode;
 import Utils.Position;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class FuncDefNode extends ASTNode {
     public Type returnType; //constructor will set it to null

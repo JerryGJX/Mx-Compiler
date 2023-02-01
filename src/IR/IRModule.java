@@ -165,7 +165,7 @@ public class IRModule implements IRDefine {
             var this_ptr_type = new PointerType(_classType);
 //            System.out.println("[Warning] " + this_ptr_type.toString());
             functionType.addParameterType(this_ptr_type);
-            irFunction.addPara(new IRValue(THIS_POINTER, this_ptr_type));
+            irFunction.addPara(new IRValue("this", this_ptr_type));
 //            irFunction.argNameList.add(THIS_POINTER);
         }
         _funcDefNode.argList.forEach(paramDefNode -> {

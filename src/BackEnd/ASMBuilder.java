@@ -45,13 +45,13 @@ public class ASMBuilder implements IRVisitor {
                 value.asmOperand = getPhysicalReg("zero");
                 return (ASMReg) value.asmOperand;
             } else {
-                ASMVirtualReg reg = new ASMVirtualReg(value.valueType.size(),curFunc.identifier);
+                ASMVirtualReg reg = new ASMVirtualReg(value.valueType.size(), curFunc.identifier);
                 ASMLiInst liInst = new ASMLiInst(reg, new ASMImm(constValue));
                 curBlock.addInst(liInst);
                 return reg;
             }
         } else {
-            ASMVirtualReg reg = new ASMVirtualReg(value.valueType.size(),curFunc.identifier);
+            ASMVirtualReg reg = new ASMVirtualReg(value.valueType.size(), curFunc.identifier);
             value.asmOperand = reg;
             return reg;
         }
@@ -150,7 +150,7 @@ public class ASMBuilder implements IRVisitor {
             if (i < 8) {
                 arg.asmOperand = getPhysicalReg("a" + i);
             } else {
-                ASMVirtualReg virtualReg = new ASMVirtualReg(4,curFunc.identifier);
+                ASMVirtualReg virtualReg = new ASMVirtualReg(4, curFunc.identifier);
                 arg.asmOperand = virtualReg;
                 asmFunction.paraList.add(virtualReg);
                 ASMLoadInst loadInst = new ASMLoadInst(4, virtualReg, getPhysicalReg("sp"), new ASMStackOffset(i - 8, ASMStackOffset.StackOffsetType.getArg));
@@ -445,19 +445,19 @@ public class ASMBuilder implements IRVisitor {
 
     @Override
     public void visit(IRTruncInst irTruncInst) {//only for bool
-//        ASMVirtualReg virtualReg = new ASMVirtualReg(irTruncInst.targetType().size(),curFunc.identifier);
-//        ASMBinaryInst binaryInst = new ASMBinaryInst("andi", virtualReg, getReg(irTruncInst.fromValue()), null, new ASMImm(1));
-//        curBlock.addInst(binaryInst);
-//        ASMMvInst mvInst = new ASMMvInst(getReg(irTruncInst), virtualReg);
-//        curBlock.addInst(mvInst);
+        ASMVirtualReg virtualReg = new ASMVirtualReg(irTruncInst.targetType().size(), curFunc.identifier);
+        ASMBinaryInst binaryInst = new ASMBinaryInst("andi", virtualReg, getReg(irTruncInst.fromValue()), null, new ASMImm(1));
+        curBlock.addInst(binaryInst);
+        ASMMvInst mvInst = new ASMMvInst(getReg(irTruncInst), virtualReg);
+        curBlock.addInst(mvInst);
     }
 
     @Override
     public void visit(IRZextInst irZextInst) {//only for bool
-//        ASMVirtualReg virtualReg = new ASMVirtualReg(irZextInst.targetType().size(),curFunc.identifier);
-//        ASMBinaryInst binaryInst = new ASMBinaryInst("andi", virtualReg, getReg(irZextInst.fromValue()), null, new ASMImm(1));
-//        curBlock.addInst(binaryInst);
-//        ASMMvInst mvInst = new ASMMvInst(getReg(irZextInst), virtualReg);
-//        curBlock.addInst(mvInst);
+        ASMVirtualReg virtualReg = new ASMVirtualReg(irZextInst.targetType().size(), curFunc.identifier);
+        ASMBinaryInst binaryInst = new ASMBinaryInst("andi", virtualReg, getReg(irZextInst.fromValue()), null, new ASMImm(1));
+        curBlock.addInst(binaryInst);
+        ASMMvInst mvInst = new ASMMvInst(getReg(irZextInst), virtualReg);
+        curBlock.addInst(mvInst);
     }
 }

@@ -17,42 +17,47 @@ _init_func.exit:
   .type point.printPoint, @function
 point.printPoint:
 point.printPoint.entry:
-         addi sp, sp, -40
+         addi sp, sp, -48
          mv t0, ra
-         sw t0, 0(sp)
-         slli t0, zero, 2
          sw t0, 4(sp)
-         lw t1, 4(sp)
-         add t0, a0, t1
+         sw a0, 0(sp)
+         lw t0, 0(sp)
          sw t0, 8(sp)
-         lw t0, 0(t0)
+         slli t0, zero, 2
          sw t0, 12(sp)
+         lw t0, 8(sp)
+         lw t1, 12(sp)
+         add t0, t0, t1
+         sw t0, 16(sp)
+         lw t0, 0(t0)
+         sw t0, 20(sp)
          mv a0, t0
          call toString
          mv t0, a0
-         sw t0, 16(sp)
+         sw t0, 24(sp)
          mv a0, t0
          call println
          li t0, 1
-         sw t0, 24(sp)
-         slli t0, t0, 2
-         sw t0, 20(sp)
-         lw t1, 20(sp)
-         add t0, a0, t1
-         sw t0, 28(sp)
-         lw t0, 0(t0)
          sw t0, 32(sp)
+         slli t0, t0, 2
+         sw t0, 28(sp)
+         lw t0, 8(sp)
+         lw t1, 28(sp)
+         add t0, t0, t1
+         sw t0, 36(sp)
+         lw t0, 0(t0)
+         sw t0, 40(sp)
          mv a0, t0
          call toString
          mv t0, a0
-         sw t0, 36(sp)
+         sw t0, 44(sp)
          mv a0, t0
          call println
          j point.printPoint.exit
 point.printPoint.exit:
-         lw t0, 0(sp)
+         lw t0, 4(sp)
          mv ra, t0
-         addi sp, sp, 40
+         addi sp, sp, 48
          ret
 
   .text
@@ -97,36 +102,42 @@ main.exit:
   .type point.point, @function
 point.point:
 point.point.entry:
-         addi sp, sp, -36
+         addi sp, sp, -44
          mv t0, ra
-         sw t0, 0(sp)
-         slli t0, zero, 2
          sw t0, 4(sp)
-         lw t1, 4(sp)
-         add t0, a0, t1
+         sw a0, 0(sp)
+         lw t0, 0(sp)
          sw t0, 8(sp)
+         slli t0, zero, 2
+         sw t0, 12(sp)
+         lw t0, 8(sp)
+         lw t1, 12(sp)
+         add t0, t0, t1
+         sw t0, 16(sp)
          sw zero, 0(t0)
          li t0, 1
-         sw t0, 16(sp)
+         sw t0, 24(sp)
          slli t0, t0, 2
-         sw t0, 12(sp)
-         lw t1, 12(sp)
-         add t0, a0, t1
          sw t0, 20(sp)
+         lw t0, 8(sp)
+         lw t1, 20(sp)
+         add t0, t0, t1
+         sw t0, 28(sp)
          sw zero, 0(t0)
          li t0, 2
-         sw t0, 28(sp)
+         sw t0, 36(sp)
          slli t0, t0, 2
-         sw t0, 24(sp)
-         lw t1, 24(sp)
-         add t0, a0, t1
          sw t0, 32(sp)
+         lw t0, 8(sp)
+         lw t1, 32(sp)
+         add t0, t0, t1
+         sw t0, 40(sp)
          sw zero, 0(t0)
          j point.point.exit
 point.point.exit:
-         lw t0, 0(sp)
+         lw t0, 4(sp)
          mv ra, t0
-         addi sp, sp, 36
+         addi sp, sp, 44
          ret
 
 .section .bss

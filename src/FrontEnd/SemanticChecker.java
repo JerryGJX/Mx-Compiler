@@ -18,6 +18,7 @@ import Utils.scope.GlobalScope;
 import Utils.scope.Scope;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class SemanticChecker implements ASTVisitor, BuiltInElements {
     private GlobalScope globalScope;
