@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/Codegen debug.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/Codegen debug.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.s" beforeDir="false" afterPath="$PROJECT_DIR$/output.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ASM/Operand/ASMVirtualReg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMVirtualReg.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BackEnd/RegAllocator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/RegAllocator.java" afterDir="false" />
@@ -141,7 +138,7 @@
       <workItem from="1673102484063" duration="85000" />
       <workItem from="1673708274077" duration="57150000" />
       <workItem from="1674975095361" duration="21136000" />
-      <workItem from="1675009928915" duration="100241000" />
+      <workItem from="1675009928915" duration="102903000" />
     </task>
     <servers />
   </component>

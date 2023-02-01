@@ -1,20 +1,5 @@
-class vector{
-	int[] data;
-	int init(){
-		data = new int[10];
-		return getDim();
-	}
 
-	int getDim(){
-		int A = data.size();
-		return A;
-	}
-};
-
-int main(){
-	vector x = new vector;
-	int A = x.init();
-	printInt(A);
-	return A;
+int main()
+{
+      println("A" + " " + "B");
 }
-

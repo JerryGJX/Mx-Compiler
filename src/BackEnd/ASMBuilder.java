@@ -14,7 +14,6 @@ import IR.Value.User.Constant.*;
 import IR.Value.User.Constant.GlobalValue.IRFunction;
 import IR.Value.User.Instruction.*;
 
-import java.util.ArrayList;
 
 public class ASMBuilder implements IRVisitor {
     public IRModule irModule;
@@ -313,13 +312,14 @@ public class ASMBuilder implements IRVisitor {
         IRValue headPointer = irgepInst.headPointer();
         BasicType pointedType = ((PointerType) irgepInst.valueType).baseType;
         if (pointedType instanceof IntegerType && ((IntegerType) pointedType).bitWidth == 8) {//string
-            ASMReg tmpReg = new ASMVirtualReg(curFunc.identifier);
+            ASMReg tmpReg1 = new ASMVirtualReg(curFunc.identifier);
+            ASMReg tmpReg2 = new ASMVirtualReg(curFunc.identifier);
             ASMGlobalString str = (ASMGlobalString) headPointer.asmOperand;
-            ASMLuiInst asmLuiInst = new ASMLuiInst(tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.hi, str));
+            ASMLuiInst asmLuiInst = new ASMLuiInst(tmpReg1, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.hi, str));
             curBlock.addInst(asmLuiInst);
-            ASMBinaryInst asmBinaryInst = new ASMBinaryInst("addi", tmpReg, tmpReg, null, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.lo, str));
+            ASMBinaryInst asmBinaryInst = new ASMBinaryInst("addi", tmpReg2, tmpReg1, null, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.lo, str));
             curBlock.addInst(asmBinaryInst);
-            irgepInst.asmOperand = tmpReg;
+            irgepInst.asmOperand = tmpReg2;
         } else {//assert bool, int, pointer all take 4 bytes
             int byteSize = pointedType.size();
             if (byteSize != 4) {

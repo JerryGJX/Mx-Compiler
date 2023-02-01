@@ -67,6 +67,12 @@ public class RegAllocator implements ASMVisitor {
 //        if (_reg instanceof ASMVirtualReg) throw new RuntimeException("vReg not handled");
 //    }
 
+    private void clearRegMap() {
+        regMap.clear();
+        regMap.put(Reg_T0, null);
+        regMap.put(Reg_T1, null);
+    }
+
 
     @Override
     public void visit(ASMModule asmModule) {
@@ -104,8 +110,8 @@ public class RegAllocator implements ASMVisitor {
 //        checkIfVReg(asmBinaryInst.rs1);
 //        checkIfVReg(asmBinaryInst.rs2);
 //        checkIfVReg(asmBinaryInst.rd);
-
         curBlock.addInst(inst);
+
         inst.rd = AllocRegForStore(asmBinaryInst.rd, Reg_T0);
     }
 
@@ -122,9 +128,11 @@ public class RegAllocator implements ASMVisitor {
     @Override
     public void visit(ASMCallInst asmCallInst) {
         curInst = asmCallInst;
+        clearRegMap();//防止当前 tempReg 影响 called func
         ASMCallInst inst = new ASMCallInst(asmCallInst.calledFunc);
         inst.parentInst = asmCallInst;
         curBlock.addInst(inst);
+        clearRegMap();
     }
 
     @Override
