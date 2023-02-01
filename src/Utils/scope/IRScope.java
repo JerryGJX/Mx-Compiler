@@ -52,6 +52,10 @@ public class IRScope implements IRDefine {
 
     public IRBasicBlock loopContinueBlock = null;  //if continueStmt, jump to this block
 
+
+    public  boolean inIf = false;
+    public IRBasicBlock ifExitBlock = null;
+
     public IRInstruction thisPtr = null;
 
 
@@ -63,10 +67,12 @@ public class IRScope implements IRDefine {
         inLoop = false;
         loopExitBlock = null;
         loopContinueBlock = null;
+        inIf = false;
+        ifExitBlock = null;
         parentScope = null;
     }
 
-    public IRScope(boolean _inClass, StructType _classTypeInfo, boolean _inFunc, IRFunction _irFunctionInfo, boolean _inLoop, IRBasicBlock _loopExitBlock, IRBasicBlock _loopContinueBlock, IRScope _parentScope) {
+    public IRScope(boolean _inClass, StructType _classTypeInfo, boolean _inFunc, IRFunction _irFunctionInfo, boolean _inLoop, IRBasicBlock _loopExitBlock, IRBasicBlock _loopContinueBlock,boolean _inIf,IRBasicBlock _ifExitBlock, IRScope _parentScope) {
         inClass = _inClass;
         currentClassType = _classTypeInfo;
         inFunc = _inFunc;
@@ -74,6 +80,8 @@ public class IRScope implements IRDefine {
         inLoop = _inLoop;
         loopExitBlock = _loopExitBlock;
         loopContinueBlock = _loopContinueBlock;
+        inIf = _inIf;
+        ifExitBlock = _ifExitBlock;
         parentScope = _parentScope;
     }
 

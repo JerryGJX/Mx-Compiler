@@ -58,10 +58,9 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         var varId = irCurrentScope.GetVarId(_rawName);
         if (varId != null) {
             if (memberVarAddrMap.containsKey(varId)) {
-                currentBlock.addInst(memberVarAddrMap.get(varId));
-                varAddrMap.put(varId, memberVarAddrMap.get(varId));
-                memberVarAddrMap.remove(varId);
-                return varAddrMap.get(varId);
+                IRInstruction inst = memberVarAddrMap.get(varId);
+                currentBlock.addInst(inst);
+                return inst;
             } else if (varAddrMap.containsKey(varId)) {
                 return varAddrMap.get(varId);
             } else {
@@ -940,16 +939,20 @@ public class IRBuilder implements ASTVisitor, IRDefine {
         currentBlock.addTerminator(condBrInst);
 
         currentBlock = ifTrueBlock;
+        EnterIf(ifExitBlock);
         node.trueStmtList.forEach(stmt -> stmt.accept(this));
         var brInst = generateUnConBrInst(ifExitBlock, currentBlock);
         currentBlock.addTerminator(brInst);
+        ExitIf();
 
+        EnterIf(ifExitBlock);
         currentBlock = ifFalseBlock;
         if (node.elseStmtList != null) {
             node.elseStmtList.forEach(stmt -> stmt.accept(this));
         }
         var brInst2 = generateUnConBrInst(ifExitBlock, currentBlock);
         currentBlock.addTerminator(brInst2);
+        ExitIf();
 
         currentBlock = ifExitBlock;
     }
@@ -1097,7 +1100,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
 
     //scope control
     public void EnterClass(StructType _classTypeInfo) {
-        irCurrentScope = new IRScope(true, _classTypeInfo, irCurrentScope.inFunc, irCurrentScope.currentIRFunction, false, null, null, irCurrentScope);
+        irCurrentScope = new IRScope(true, _classTypeInfo, irCurrentScope.inFunc, irCurrentScope.currentIRFunction, false, null, null,false,null, irCurrentScope);
     }
 
     public void ExitClass() {
@@ -1105,7 +1108,7 @@ public class IRBuilder implements ASTVisitor, IRDefine {
     }
 
     public void EnterFunc(IRFunction _irFunctionInfo) {
-        irCurrentScope = new IRScope(irCurrentScope.inClass, irCurrentScope.currentClassType, true, _irFunctionInfo, false, null, null, irCurrentScope);
+        irCurrentScope = new IRScope(irCurrentScope.inClass, irCurrentScope.currentClassType, true, _irFunctionInfo, false, null, null,false,null, irCurrentScope);
     }
 
     public void ExitFunc() {
@@ -1113,12 +1116,21 @@ public class IRBuilder implements ASTVisitor, IRDefine {
     }
 
     public void EnterLoop(IRBasicBlock _loopExitBlock, IRBasicBlock _loopContinueBlock) {
-        irCurrentScope = new IRScope(irCurrentScope.inClass, irCurrentScope.currentClassType, irCurrentScope.inFunc, irCurrentScope.currentIRFunction, true, _loopExitBlock, _loopContinueBlock, irCurrentScope);
+        irCurrentScope = new IRScope(irCurrentScope.inClass, irCurrentScope.currentClassType, irCurrentScope.inFunc, irCurrentScope.currentIRFunction, true, _loopExitBlock, _loopContinueBlock, irCurrentScope.inIf,irCurrentScope.ifExitBlock ,irCurrentScope);
     }
 
     public void ExitLoop() {
         irCurrentScope = irCurrentScope.parentScope;
     }
+
+    public void EnterIf(IRBasicBlock _ifExitBlock) {
+        irCurrentScope = new IRScope(irCurrentScope.inClass, irCurrentScope.currentClassType, irCurrentScope.inFunc, irCurrentScope.currentIRFunction, irCurrentScope.inLoop, irCurrentScope.loopExitBlock, irCurrentScope.loopContinueBlock, true, _ifExitBlock, irCurrentScope);
+    }
+
+    public void ExitIf() {
+        irCurrentScope = irCurrentScope.parentScope;
+    }
+
 
     //current info
     public StructType CurClass() {

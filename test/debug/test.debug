@@ -1,400 +1,964 @@
 auipc t1, 0
                 # t1: 0 -> 0
-jalr ra, 252(t1)
+jalr ra, 92(t1)
                 # ra: 0 -> 8
-addi sp, sp, -32
-                # sp: 536870912 -> 536870880
+addi sp, sp, -76
+                # sp: 536870912 -> 536870836   //进入 main 函数
 addi t0, ra, 0
                 # t0: 0 -> 8
-sw t0, 8(sp)
+sw t0, 12(sp)
                 # stored value = 8
 auipc t1, 4294967295
-                # t1: 0 -> 4294963464
-jalr ra, 3896(t1)
-                # ra: 8 -> 272
+                # t1: 0 -> 4294963304
+jalr ra, 4056(t1)
+                # ra: 8 -> 112
 addi sp, sp, -4
-                # sp: 536870880 -> 536870876
+                # sp: 536870836 -> 536870832   //进入 _init_func 函数
 addi t0, ra, 0
-                # t0: 8 -> 272
+                # t0: 8 -> 112
 sw t0, 0(sp)
-                # stored value = 272
+                # stored value = 112
 jal zero, 2  # _init_func.exit
                 # zero: 0 -> 80
 addi ra, t0, 0
-                # ra: 272 -> 272
+                # ra: 112 -> 112
 addi sp, sp, 4
-                # sp: 536870876 -> 536870880
+                # sp: 536870832 -> 536870836   //退出 _init_func 函数
 jalr zero, 0(ra)
                 # zero: 0 -> 92
-sw zero, 4(sp)
-                # stored value = 0
-addi t0, zero, 12
-                # t0: 272 -> 12
-sw t0, 12(sp)
-                # stored value = 12
+sw zero, 8(sp)
+                # stored value = 0             //存放默认的 return 0, 即 main 的返回值在 8(sp)
+addi t0, zero, 4
+                # t0: 112 -> 4                 // li t0, 4
+sw t0, 16(sp)
+                # stored value = 4
 addi a0, t0, 0
-                # a0: 0 -> 12
+                # a0: 0 -> 4                   //计算 point 类大小
 auipc t1, 0
-                # t1: 4294963464 -> 288
-jalr ra, 1008(t1)
-                # ra: 272 -> 296
+                # t1: 4294963304 -> 128
+jalr ra, 2620(t1)
+                # ra: 112 -> 136
 addi sp, sp, -16
-                # sp: 536870880 -> 536870864      //开始 _malloc
+                # sp: 536870836 -> 536870820   //进入 _malloc 函数
 sw ra, 12(sp)
-                # stored value = 296
+                # stored value = 136
 sw s0, 8(sp)
                 # stored value = 0
 addi s0, sp, 16
-                # s0: 0 -> 536870880
+                # s0: 0 -> 536870836
 sw a0, -12(s0)
-                # stored value = 12
+                # stored value = 4
 lw a0, -12(s0)
-                # a0: 12 -> 12
+                # a0: 4 -> 4
 auipc t1, 4294967295
-                # t1: 288 -> 4294964520
-jalr ra, 2800(t1)
-                # ra: 296 -> 1328
+                # t1: 128 -> 4294965972
+jalr ra, 1348(t1)
+                # ra: 136 -> 2780
 call libc-24
-                # return value = 1888
+                # return value = 3360
 lw ra, 12(sp)
-                # ra: 5988 -> 296
+                # ra: 7440 -> 136
 lw s0, 8(sp)
-                # s0: 536870880 -> 0
+                # s0: 536870836 -> 0
 addi sp, sp, 16
-                # sp: 536870864 -> 536870880     //结束 _malloc
+                # sp: 536870820 -> 536870836   //退出 _malloc 函数
 jalr zero, 0(ra)
-                # zero: 0 -> 1344
+                # zero: 0 -> 2796
 addi t0, a0, 0
-                # t0: 4672 -> 1888
-sw t0, 16(sp)
-                # stored value = 1888
-addi t0, t0, 0
-                # t0: 1888 -> 1888
+                # t0: 4664 -> 3360             //将返回值 mv 到 t0, 即指向 x 的地址在 t0
 sw t0, 20(sp)
-                # stored value = 1888
+                # stored value = 3360          //将 x 的地址存放在 20(sp), x 的地址为 3360
+addi t0, t0, 0
+                # t0: 3360 -> 3360
+sw t0, 24(sp)
+                # stored value = 3360          //将 x 的地址存放在 24(sp), x 的地址为 3360
 addi a0, t0, 0
-                # a0: 1888 -> 1888
+                # a0: 3360 -> 3360
 auipc t1, 0
-                # t1: 1884 -> 316
-jalr ra, 72(t1)
-                # ra: 296 -> 324
-addi sp, sp, -36
-                # sp: 536870880 -> 536870844    //进入 point.point
+                # t1: 3336 -> 156
+jalr ra, 256(t1)
+                # ra: 136 -> 164
+addi sp, sp, -12
+                # sp: 536870836 -> 536870824   //进入 vector.vector 函数
 addi t0, ra, 0
-                # t0: 1888 -> 324
-sw t0, 0(sp)
-                # stored value = 324
-slli t0, zero, 2
-                # t0: 324 -> 0
+                # t0: 3360 -> 164
 sw t0, 4(sp)
-                # stored value = 0
-lw t1, 4(sp)
-                # t1: 316 -> 0
-add t0, a0, t1
-                # t0: 0 -> 1888
+                # stored value = 164
+sw a0, 0(sp)
+                # stored value = 3360
+lw t0, 0(sp)
+                # t0: 164 -> 3360
 sw t0, 8(sp)
-                # stored value = 1888
-sw zero, 0(t0)
-                # stored value = 0
-addi t0, zero, 1
-                # t0: 1888 -> 1
+                # stored value = 3360
+jal zero, 2  # vector.vector.exit
+                # zero: 0 -> 440
+lw t0, 4(sp)
+                # t0: 3360 -> 164
+addi ra, t0, 0
+                # ra: 164 -> 164
+addi sp, sp, 12
+                # sp: 536870824 -> 536870836   //退出 vector.vector 函数
+jalr zero, 0(ra)
+                # zero: 0 -> 456
+lw t1, 24(sp)
+                # t1: 156 -> 3360
+sw t1, 4(sp)
+                # stored value = 3360          //将 x 的地址存放在 4(sp), x 的地址为 3360
+lw t0, 4(sp)
+                # t0: 164 -> 3360
+sw t0, 28(sp)
+                # stored value = 3360
+addi a0, t0, 0
+                # a0: 3360 -> 3360             //将 x 的地址 mv 到 a0
+auipc t1, 0
+                # t1: 3360 -> 184
+jalr ra, 468(t1)
+                # ra: 164 -> 192
+addi sp, sp, -68
+                # sp: 536870836 -> 536870768   //进入 vector.init 函数
+addi t0, ra, 0
+                # t0: 3360 -> 192
+sw t0, 8(sp)
+                # stored value = 192
+sw a0, 4(sp)
+                # stored value = 3360
+lw t0, 4(sp)
+                # t0: 192 -> 3360
+sw t0, 12(sp)
+                # stored value = 3360
+addi t0, zero, 10
+                # t0: 3360 -> 10
 sw t0, 16(sp)
+                # stored value = 10
+lw t1, 16(sp)
+                # t1: 184 -> 10
+sw t1, 0(sp)
+                # stored value = 10
+slli t0, zero, 2
+                # t0: 10 -> 0
+sw t0, 20(sp)
+                # stored value = 0
+lw t0, 12(sp)
+                # t0: 0 -> 3360
+lw t1, 20(sp)
+                # t1: 10 -> 0
+add t0, t0, t1
+                # t0: 3360 -> 3360
+sw t0, 24(sp)
+                # stored value = 3360
+lw t0, 0(sp)
+                # t0: 3360 -> 10
+sw t0, 28(sp)
+                # stored value = 10
+addi t0, zero, 4
+                # t0: 10 -> 4
+sw t0, 36(sp)
+                # stored value = 4
+lw t0, 28(sp)
+                # t0: 4 -> 10
+lw t1, 36(sp)
+                # t1: 0 -> 4
+mul t0, t0, t1
+                # t0: 10 -> 40
+sw t0, 32(sp)
+                # stored value = 40
+addi t0, t0, 4
+                # t0: 40 -> 44
+sw t0, 40(sp)
+                # stored value = 44
+addi a0, t0, 0
+                # a0: 3360 -> 44
+auipc t1, 0
+                # t1: 4 -> 760
+jalr ra, 1988(t1)
+                # ra: 192 -> 768
+addi sp, sp, -16
+                # sp: 536870768 -> 536870752   //进入 _malloc 函数
+sw ra, 12(sp)
+                # stored value = 768
+sw s0, 8(sp)
+                # stored value = 0
+addi s0, sp, 16
+                # s0: 0 -> 536870768
+sw a0, -12(s0)
+                # stored value = 44
+lw a0, -12(s0)
+                # a0: 44 -> 44
+auipc t1, 4294967295
+                # t1: 760 -> 4294965972
+jalr ra, 1348(t1)
+                # ra: 768 -> 2780
+call libc-24
+                # return value = 3366
+lw ra, 12(sp)
+                # ra: 7440 -> 768
+lw s0, 8(sp)
+                # s0: 536870768 -> 0
+addi sp, sp, 16
+                # sp: 536870752 -> 536870768   //退出 _malloc 函数
+jalr zero, 0(ra)
+                # zero: 0 -> 2796
+addi t0, a0, 0
+                # t0: 4704 -> 3366
+sw t0, 44(sp)
+                # stored value = 3366
+addi t0, t0, 0
+                # t0: 3366 -> 3366
+sw t0, 48(sp)
+                # stored value = 3366
+lw t1, 28(sp)
+                # t1: 3336 -> 10
+sw t1, 0(t0)
+                # stored value = 10
+addi t0, zero, 1
+                # t0: 3366 -> 1
+sw t0, 56(sp)
                 # stored value = 1
 slli t0, t0, 2
                 # t0: 1 -> 4
-sw t0, 12(sp)
+sw t0, 52(sp)
                 # stored value = 4
-lw t1, 12(sp)
-                # t1: 0 -> 4
-add t0, a0, t1
-                # t0: 4 -> 1892
-sw t0, 20(sp)
-                # stored value = 1892
-sw zero, 0(t0)
-                # stored value = 0
-addi t0, zero, 2
-                # t0: 1892 -> 2
-sw t0, 28(sp)
-                # stored value = 2
-slli t0, t0, 2
-                # t0: 2 -> 8
-sw t0, 24(sp)
-                # stored value = 8
-lw t1, 24(sp)
-                # t1: 4 -> 8
-add t0, a0, t1
-                # t0: 8 -> 1896
-sw t0, 32(sp)
-                # stored value = 1896
-sw zero, 0(t0)
-                # stored value = 0
-jal zero, 2  # point.point.exit
-                # zero: 0 -> 492
-lw t0, 0(sp)
-                # t0: 1896 -> 324
+lw t0, 48(sp)
+                # t0: 4 -> 3366
+lw t1, 52(sp)
+                # t1: 10 -> 4
+add t0, t0, t1
+                # t0: 3366 -> 3370
+sw t0, 60(sp)
+                # stored value = 3370
+addi t0, t0, 0
+                # t0: 3370 -> 3370
+sw t0, 64(sp)
+                # stored value = 3370
+lw t0, 24(sp)
+                # t0: 3370 -> 3360
+lw t1, 64(sp)
+                # t1: 4 -> 3370
+sw t1, 0(t0)
+                # stored value = 3370
+jal zero, 2  # vector.init.exit
+                # zero: 0 -> 848
+lw t0, 8(sp)
+                # t0: 3360 -> 192
 addi ra, t0, 0
-                # ra: 324 -> 324
-addi sp, sp, 36
-                # sp: 536870844 -> 536870880   //退出 point.point
+                # ra: 768 -> 192
+addi sp, sp, 68
+                # sp: 536870768 -> 536870836   //退出 vector.init 函数
 jalr zero, 0(ra)
-                # zero: 0 -> 508
-lw t1, 20(sp)
-                # t1: 8 -> 1888
-sw t1, 0(sp)
-                # stored value = 1888
-lw t0, 0(sp)
-                # t0: 324 -> 1888
-sw t0, 24(sp)
-                # stored value = 1888
-addi a0, t0, 0
-                # a0: 1888 -> 1888
-auipc t1, 4294967295
-                # t1: 1888 -> 4294963544
-jalr ra, 3844(t1)
-                # ra: 324 -> 352
-addi sp, sp, -40
-                # sp: 536870880 -> 536870840  //进入 point.printPoint
-addi t0, ra, 0
-                # t0: 1888 -> 352
-sw t0, 0(sp)
-                # stored value = 352
-slli t0, zero, 2
-                # t0: 352 -> 0                //计算 x 的偏移量
-sw t0, 4(sp)
-                # stored value = 0
-lw t1, 4(sp)
-                # t1: 4294963544 -> 0
-add t0, a0, t1
-                # t0: 0 -> 1888              //计算 x 的地址
-sw t0, 8(sp)
-                # stored value = 1888        //存储 x 的地址
-lw t0, 0(t0)
-                # t0: 1888 -> 0              //取出 x 的值
-sw t0, 12(sp)
-                # stored value = 0           //存储 x 的值到 12(sp)
-addi a0, t0, 0
-                # a0: 1888 -> 0              //将 x 的值传入 a0
-auipc t1, 0
-                # t1: 0 -> 136
-jalr ra, 724(t1)
-                # ra: 352 -> 144
-addi sp, sp, -16
-                # sp: 536870840 -> 536870824  //进入 toString
-sw ra, 12(sp)
-                # stored value = 144
-sw s0, 8(sp)
-                # stored value = 0
-addi s0, sp, 16
-                # s0: 0 -> 536870840
-sw a0, -12(s0)
-                # stored value = 0
-addi a0, zero, 256
-                # a0: 0 -> 256
-auipc t1, 4294967295
-                # t1: 136 -> 4294964084
-jalr ra, 3236(t1)
-                # ra: 144 -> 892
-call libc-24
-                # return value = 1902
-sw a0, -16(s0)
-                # stored value = 1902
-lw a0, -16(s0)
-                # a0: 1902 -> 1902
-lw a2, -12(s0)
-                # a2: 9320 -> 0
-lui a1, 0
-                # a1: 9320 -> 0
-addi a1, a1, 1871
-                # a1: 0 -> 1871
-auipc t1, 4294967295
-                # t1: 1448 -> 4294964112
-jalr ra, 3204(t1)
-                # ra: 5552 -> 920
-call libc-20
-                # return value = 1
-lw a0, -16(s0)
-                # a0: 1 -> 1902
-lw ra, 12(sp)
-                # ra: 5580 -> 144
-lw s0, 8(sp)
-                # s0: 536870840 -> 0
-addi sp, sp, 16
-                # sp: 536870824 -> 536870840  //结束 toString
-jalr zero, 0(ra)
-                # zero: 0 -> 940
-addi t0, a0, 0
-                # t0: 9320 -> 1902
-sw t0, 16(sp)
-                # stored value = 1902         //存储 toString 的返回值
-addi a0, t0, 0
-                # a0: 1902 -> 1902
-auipc t1, 0
-                # t1: 1476 -> 156
-jalr ra, 408(t1)
-                # ra: 144 -> 164
-addi sp, sp, -16
-                # sp: 536870840 -> 536870824  //进入 println
-sw ra, 12(sp)
-                # stored value = 164
-sw s0, 8(sp)
-                # stored value = 0
-addi s0, sp, 16
-                # s0: 0 -> 536870840
-sw a0, -12(s0)
-                # stored value = 1902
-lw a1, -12(s0)
-                # a1: 6531 -> 1902
-lui a0, 0
-                # a0: 1902 -> 0
-addi a0, a0, 1867
-                # a0: 0 -> 1867
-auipc t1, 4294967295
-                # t1: 156 -> 4294963796
-jalr ra, 3518(t1)
-                # ra: 164 -> 604
-call libc-18
-                # return value = 2
-lw ra, 12(sp)
-                # ra: 5264 -> 164
-lw s0, 8(sp)
-                # s0: 536870840 -> 0
-addi sp, sp, 16
-                # sp: 536870824 -> 536870840  //结束 println
-jalr zero, 0(ra)
-                # zero: 0 -> 620
-addi t0, zero, 1
-                # t0: 6562 -> 1
-sw t0, 24(sp)
-                # stored value = 1
-slli t0, t0, 2
-                # t0: 1 -> 4                  //计算 y 的偏移量
-sw t0, 20(sp)
-                # stored value = 4
-lw t1, 20(sp)
-                # t1: 1160 -> 4
-add t0, a0, t1
-                # t0: 4 -> 6                  //a0 未复原, y的地址计算错误
-sw t0, 28(sp)
-                # stored value = 6
-lw t0, 0(t0)
-                # t0: 6 -> 131072
+                # zero: 0 -> 864
+addi t0, zero, 4
+                # t0: 192 -> 4
 sw t0, 32(sp)
-                # stored value = 131072
+                # stored value = 4
 addi a0, t0, 0
-                # a0: 2 -> 131072
+                # a0: 3366 -> 4
 auipc t1, 0
-                # t1: 4 -> 204
-jalr ra, 656(t1)
-                # ra: 164 -> 212
+                # t1: 3370 -> 204
+jalr ra, 2544(t1)
+                # ra: 192 -> 212
 addi sp, sp, -16
-                # sp: 536870840 -> 536870824
+                # sp: 536870836 -> 536870820   //进入 _malloc 函数, 构建 y
 sw ra, 12(sp)
                 # stored value = 212
 sw s0, 8(sp)
                 # stored value = 0
 addi s0, sp, 16
-                # s0: 0 -> 536870840
+                # s0: 0 -> 536870836
 sw a0, -12(s0)
-                # stored value = 131072
-addi a0, zero, 256
-                # a0: 131072 -> 256
+                # stored value = 4
+lw a0, -12(s0)
+                # a0: 4 -> 4
 auipc t1, 4294967295
-                # t1: 204 -> 4294964084
-jalr ra, 3236(t1)
-                # ra: 212 -> 892
+                # t1: 204 -> 4294965972
+jalr ra, 1348(t1)
+                # ra: 212 -> 2780
 call libc-24
-                # return value = 2160
-sw a0, -16(s0)
-                # stored value = 2160
-lw a0, -16(s0)
-                # a0: 2160 -> 2160
-lw a2, -12(s0)
-                # a2: 13980 -> 131072
-lui a1, 0
-                # a1: 11222 -> 0
-addi a1, a1, 1871
-                # a1: 0 -> 1871
-auipc t1, 4294967295
-                # t1: 1448 -> 4294964112
-jalr ra, 3204(t1)
-                # ra: 5552 -> 920
-call libc-20
-                # return value = 6
-lw a0, -16(s0)
-                # a0: 6 -> 2160
+                # return value = 3412
 lw ra, 12(sp)
-                # ra: 5580 -> 212
+                # ra: 7440 -> 212
 lw s0, 8(sp)
-                # s0: 536870840 -> 0
+                # s0: 536870836 -> 0
 addi sp, sp, 16
-                # sp: 536870824 -> 536870840
+                # sp: 536870820 -> 536870836   //退出 _malloc 函数
 jalr zero, 0(ra)
-                # zero: 0 -> 940
+                # zero: 0 -> 2796
 addi t0, a0, 0
-                # t0: 140392 -> 2160
+                # t0: 4664 -> 3412             //y 的地址是 3412
 sw t0, 36(sp)
-                # stored value = 2160
+                # stored value = 3412
+addi t0, t0, 0
+                # t0: 3412 -> 3412
+sw t0, 40(sp)
+                # stored value = 3412
 addi a0, t0, 0
-                # a0: 2160 -> 2160
+                # a0: 3412 -> 3412
 auipc t1, 0
-                # t1: 1476 -> 224
-jalr ra, 340(t1)
-                # ra: 212 -> 232
+                # t1: 3336 -> 232
+jalr ra, 180(t1)
+                # ra: 212 -> 240
+addi sp, sp, -12
+                # sp: 536870836 -> 536870824   //进入 vector.vector 函数
+addi t0, ra, 0
+                # t0: 3412 -> 240
+sw t0, 4(sp)
+                # stored value = 240
+sw a0, 0(sp)
+                # stored value = 3412
+lw t0, 0(sp)
+                # t0: 240 -> 3412
+sw t0, 8(sp)
+                # stored value = 3412
+jal zero, 2  # vector.vector.exit
+                # zero: 0 -> 440
+lw t0, 4(sp)
+                # t0: 3412 -> 240
+addi ra, t0, 0
+                # ra: 240 -> 240
+addi sp, sp, 12
+                # sp: 536870824 -> 536870836   //退出 vector.vector 函数
+jalr zero, 0(ra)
+                # zero: 0 -> 456
+lw t1, 40(sp)
+                # t1: 232 -> 3412
+sw t1, 0(sp)
+                # stored value = 3412
+lw t0, 0(sp)
+                # t0: 240 -> 3412
+sw t0, 44(sp)
+                # stored value = 3412
+lw t0, 4(sp)
+                # t0: 3412 -> 3360
+sw t0, 48(sp)
+                # stored value = 3360
+lw t0, 44(sp)
+                # t0: 3360 -> 3412
+addi a0, t0, 0
+                # a0: 3412 -> 3412             //y 的地址是 3412, 传入 a0
+lw t0, 48(sp)
+                # t0: 3412 -> 3360
+addi a1, t0, 0
+                # a1: 13980 -> 3360            //x 的地址是 3360, 传入 a1
+auipc t1, 0
+                # t1: 3412 -> 280
+jalr ra, 584(t1)
+                # ra: 240 -> 288
+addi sp, sp, -160
+                # sp: 536870836 -> 536870676   //进入 vector.copy 函数
+addi t0, ra, 0
+                # t0: 3360 -> 288
+sw t0, 16(sp)
+                # stored value = 288
+sw a0, 12(sp)
+                # stored value = 3412          //y 的地址是 3412, 存在 12(sp)
+lw t0, 12(sp)
+                # t0: 288 -> 3412
+sw t0, 20(sp)
+                # stored value = 3412          //y 的地址是 3412, 存在 20(sp)
+sw a1, 8(sp)
+                # stored value = 3360          //x 的地址是 3360, 存在 8(sp)
+lw t0, 8(sp)
+                # t0: 3412 -> 3360
+sw t0, 24(sp)
+                # stored value = 3360          //x 的地址是 3360, 存在 24(sp)
+sub t0, t0, zero
+                # t0: 3360 -> 3360             //为了计算 rhs 是否为 null
+sw t0, 28(sp)
+                # stored value = 3360          //减法结果存储在 28(sp)
+sltiu t0, t0, 1
+                # t0: 3360 -> 0                //rd = (rs1 < imm) ? 1 : 0
+sw t0, 32(sp)
+                # stored value = 0             //比较结果存储在 32(sp)
+beq t0, zero, 80  # if_false.2                 //rhs != null, 跳转到 if_false.2
+                # t0: 0 -> 0
+jal zero, 2  # if_exit.2                       //执行 if_false.2 中的唯一一条指令
+                # zero: 0 -> 1000
+lw t0, 8(sp)
+                # t0: 0 -> 3360                //取出 x 的地址
+sw t0, 44(sp)
+                # stored value = 3360          //存储在 44(sp)
+addi a0, t0, 0
+                # a0: 3412 -> 3360             //x 的地址是 3360, 传入 a0
+auipc t1, 4294967295
+                # t1: 280 -> 4294964212
+jalr ra, 3540(t1)
+                # ra: 288 -> 1020
+addi sp, sp, -64
+                # sp: 536870676 -> 536870612   //进入 vector.getDim() 函数
+addi t0, ra, 0
+                # t0: 3360 -> 1020
+sw t0, 8(sp)
+                # stored value = 1020
+sw a0, 4(sp)
+                # stored value = 3360
+lw t0, 4(sp)
+                # t0: 1020 -> 3360
+sw t0, 12(sp)
+                # stored value = 3360
+slli t0, zero, 2
+                # t0: 3360 -> 0
+sw t0, 16(sp)
+                # stored value = 0
+lw t0, 12(sp)
+                # t0: 0 -> 3360
+lw t1, 16(sp)
+                # t1: 4294964212 -> 0
+add t0, t0, t1
+                # t0: 3360 -> 3360
+sw t0, 20(sp)
+                # stored value = 3360
+lw t0, 0(t0)
+                # t0: 3360 -> 3370
+sw t0, 24(sp)
+                # stored value = 3370
+sub t0, t0, zero
+                # t0: 3370 -> 3370
+sw t0, 28(sp)
+                # stored value = 3370
+sltiu t0, t0, 1
+                # t0: 3370 -> 0
+sw t0, 32(sp)
+                # stored value = 0
+beq t0, zero, 44  # if_false
+jal zero, 2  # if_exit
+                # zero: 0 -> 576
+lw t0, 20(sp)
+                # t0: 0 -> 3360
+lw t0, 0(t0)
+                # t0: 3360 -> 3370
+sw t0, 36(sp)
+                # stored value = 3370
+addi t0, t0, 0
+                # t0: 3370 -> 3370
+sw t0, 40(sp)
+                # stored value = 3370
+lui t0, 1048575
+                # t0: 3370 -> 4294963200
+ori t0, t0, 4095
+                # t0: 4294963200 -> 4294967295
+sw t0, 48(sp)
+                # stored value = 4294967295
+slli t0, t0, 2
+                # t0: 4294967295 -> 4294967292
+sw t0, 44(sp)
+                # stored value = 4294967292
+lw t0, 40(sp)
+                # t0: 4294967292 -> 3370
+lw t1, 44(sp)
+                # t1: 0 -> 4294967292
+add t0, t0, t1
+                # t0: 3370 -> 3366
+sw t0, 52(sp)
+                # stored value = 3366
+lw t0, 0(t0)
+                # t0: 3366 -> 10
+sw t0, 56(sp)
+                # stored value = 10
+lw t1, 56(sp)
+                # t1: 4294967292 -> 10
+sw t1, 0(sp)
+                # stored value = 10
+jal zero, -56  # vector.getDim.exit
+                # zero: 0 -> 652
+lw t0, 0(sp)
+                # t0: 10 -> 10
+sw t0, 60(sp)
+                # stored value = 10
+addi a0, t0, 0
+                # a0: 3360 -> 10
+lw t0, 8(sp)
+                # t0: 10 -> 1020
+addi ra, t0, 0
+                # ra: 1020 -> 1020
+addi sp, sp, 64
+                # sp: 536870612 -> 536870676     //退出 vector.getDim() 函数
+jalr zero, 0(ra)
+                # zero: 0 -> 564
+addi t0, a0, 0
+                # t0: 1020 -> 10                 //得到 vector.getDim() 的返回值, 为10
+sw t0, 48(sp)
+                # stored value = 10              //存储在 48(sp)
+lw t1, 48(sp)
+                # t1: 10 -> 10                   //取出 48(sp) 的值, 即 10
+sw t1, 0(sp)
+                # stored value = 10              //存储在 0(sp), 即 A 处
+lw t0, 0(sp)
+                # t0: 10 -> 10                   //取出 0(sp) 的值, 即 A
+sw t0, 52(sp)
+                # stored value = 10              //存储在 52(sp)
+sub t0, t0, zero
+                # t0: 10 -> 10
+sw t0, 56(sp)
+                # stored value = 10
+sltiu t0, t0, 1
+                # t0: 10 -> 0
+sw t0, 60(sp)
+                # stored value = 0               //比较结果存储在 60(sp), 即 A != 0
+beq t0, zero, 40  # if_false.3
+lw t0, 0(sp)
+                # t0: 0 -> 10                    //取出 0(sp) 的值, 即 A
+sw t0, 72(sp)
+                # stored value = 10              //存储在 72(sp)
+addi t0, zero, 4
+                # t0: 10 -> 4                    //将 4 存储在 t0
+sw t0, 80(sp)
+                # stored value = 4               //将 4 存储在 80(sp)
+lw t0, 72(sp)
+                # t0: 4 -> 10                    //取出 72(sp) 的值, 即 10
+lw t1, 80(sp)
+                # t1: 10 -> 4
+mul t0, t0, t1
+                # t0: 10 -> 40                   //将 10 * 4 的结果存储在 t0, 即新的 data 大小
+sw t0, 76(sp)
+                # stored value = 40              //将 40 存储在 76(sp)
+addi t0, t0, 4
+                # t0: 40 -> 44                   //加上 size 的存储空间
+sw t0, 84(sp)
+                # stored value = 44              //将 44 存储在 84(sp)
+addi a0, t0, 0
+                # a0: 10 -> 44                   //将 44 存储在 a0
+auipc t1, 0
+                # t1: 4 -> 1144
+jalr ra, 1604(t1)
+                # ra: 1020 -> 1152
 addi sp, sp, -16
-                # sp: 536870840 -> 536870824
+                # sp: 536870676 -> 536870660     //进入 _malloc() 函数
 sw ra, 12(sp)
-                # stored value = 232
+                # stored value = 1152
 sw s0, 8(sp)
                 # stored value = 0
 addi s0, sp, 16
-                # s0: 0 -> 536870840
+                # s0: 0 -> 536870676
 sw a0, -12(s0)
-                # stored value = 2160
-lw a1, -12(s0)
-                # a1: 6531 -> 2160
-lui a0, 0
-                # a0: 2160 -> 0
-addi a0, a0, 1867
-                # a0: 0 -> 1867
+                # stored value = 44
+lw a0, -12(s0)
+                # a0: 44 -> 44
 auipc t1, 4294967295
-                # t1: 224 -> 4294963796
-jalr ra, 3518(t1)
-                # ra: 232 -> 604
-call libc-18
-                # return value = 7
+                # t1: 1144 -> 4294965972
+jalr ra, 1348(t1)
+                # ra: 1152 -> 2780
+call libc-24
+                # return value = 3418
 lw ra, 12(sp)
-                # ra: 5264 -> 232
+                # ra: 7440 -> 1152
 lw s0, 8(sp)
-                # s0: 536870840 -> 0
+                # s0: 536870676 -> 0
 addi sp, sp, 16
-                # sp: 536870824 -> 536870840
+                # sp: 536870660 -> 536870676     //退出 _malloc() 函数
 jalr zero, 0(ra)
-                # zero: 0 -> 620
-jal zero, 2  # point.printPoint.exit
-                # zero: 0 -> 236
-lw t0, 0(sp)
-                # t0: 6820 -> 352
-addi ra, t0, 0
-                # ra: 232 -> 352
-addi sp, sp, 40
-                # sp: 536870840 -> 536870880
-jalr zero, 0(ra)
-                # zero: 0 -> 252
-sw zero, 4(sp)
+                # zero: 0 -> 2796
+addi t0, a0, 0
+                # t0: 4704 -> 3418               //得到 _malloc() 的返回值, 即 data 指针
+sw t0, 88(sp)
+                # stored value = 3418            //存储在 88(sp)
+addi t0, t0, 0
+                # t0: 3418 -> 3418               //将 3418 移动到 t0
+sw t0, 92(sp)
+                # stored value = 3418            //将 3418 存储在 92(sp)
+lw t1, 72(sp)
+                # t1: 3336 -> 10                 //取出 72(sp) 的值, 即 10
+sw t1, 0(t0)
+                # stored value = 10              //将 10 存储在 data 开头处
+addi t0, zero, 1
+                # t0: 3418 -> 1                  //将 1 存储在 t0
+sw t0, 100(sp)
+                # stored value = 1               //将 1 存储在 100(sp)
+slli t0, t0, 2
+                # t0: 1 -> 4                     //将 1 左移 2 位, 即 4
+sw t0, 96(sp)
+                # stored value = 4               //将 4 存储在 96(sp)
+lw t0, 92(sp)
+                # t0: 4 -> 3418                  //取出 92(sp) 的值, 即 3418
+lw t1, 96(sp)
+                # t1: 10 -> 4                    //取出 96(sp) 的值, 即 4
+add t0, t0, t1
+                # t0: 3418 -> 3422               //将 3418 + 4 的结果存储在 t0, 即 data + 4
+sw t0, 104(sp)
+                # stored value = 3422            //将 3422 存储在 104(sp)
+addi t0, t0, 0
+                # t0: 3422 -> 3422               //将 3422 存储在 t0
+sw t0, 108(sp)
+                # stored value = 3422            //将 3422 存储在 108(sp), 即要存入 y 的地址
+lw t0, 68(sp)
+                # t0: 3422 -> 0                  //这里在干嘛
+lw t1, 108(sp)
+                # t1: 4 -> 3422
+sw t1, 0(t0)
+                # stored value = 3422
+lw t0, 0(t0)
+                # t0: 0 -> 3422
+sw t0, 112(sp)
+                # stored value = 3422
+addi t0, t0, 0
+                # t0: 3422 -> 3422
+sw t0, 116(sp)
+                # stored value = 3422
+lui t0, 1048575
+                # t0: 3422 -> 4294963200
+ori t0, t0, 4095
+                # t0: 4294963200 -> 4294967295
+sw t0, 124(sp)
+                # stored value = 4294967295
+slli t0, t0, 2
+                # t0: 4294967295 -> 4294967292
+sw t0, 120(sp)
+                # stored value = 4294967292
+lw t0, 116(sp)
+                # t0: 4294967292 -> 3422
+lw t1, 120(sp)
+                # t1: 3422 -> 4294967292
+add t0, t0, t1
+                # t0: 3422 -> 3418
+sw t0, 128(sp)
+                # stored value = 3418
+lw t0, 0(t0)
+                # t0: 3418 -> 10
+sw t0, 132(sp)
+                # stored value = 10
+addi a0, t0, 0
+                # a0: 3418 -> 10
+auipc t1, 0
+                # t1: 4294967292 -> 1292
+jalr ra, 780(t1)
+                # ra: 1152 -> 1300
+addi sp, sp, -16
+                # sp: 536870676 -> 536870660    //进入 printInt() 函数
+sw ra, 12(sp)
+                # stored value = 1300
+sw s0, 8(sp)
                 # stored value = 0
-jal zero, 2  # main.exit
-                # zero: 0 -> 360
+addi s0, sp, 16
+                # s0: 0 -> 536870676
+sw a0, -12(s0)
+                # stored value = 10
+lw a1, -12(s0)
+                # a1: 8020 -> 10
+lui a0, 0
+                # a0: 10 -> 0
+addi a0, a0, 3339
+                # a0: 0 -> 3339
+auipc t1, 4294967295
+                # t1: 1292 -> 4294965304
+jalr ra, 2010(t1)
+                # ra: 1300 -> 2112
+call libc-18
+                # return value = 2
+lw ra, 12(sp)
+                # ra: 6772 -> 1300
+lw s0, 8(sp)
+                # s0: 536870676 -> 0
+addi sp, sp, 16
+                # sp: 536870660 -> 536870676
+jalr zero, 0(ra)
+                # zero: 0 -> 2128
+jal zero, 2  # if_exit.3
+                # zero: 0 -> 1304
+addi t0, zero, 1
+                # t0: 4670 -> 1
+sw t0, 140(sp)
+                # stored value = 1
+andi t0, t0, 1
+                # t0: 1 -> 1
+sw t0, 136(sp)
+                # stored value = 1
+addi t0, t0, 0
+                # t0: 1 -> 1
+sw t0, 144(sp)
+                # stored value = 1
+lw t1, 144(sp)
+                # t1: 2668 -> 1
+sw t1, 4(sp)
+                # stored value = 1
+jal zero, -206  # vector.copy.exit
+                # zero: 0 -> 1340
 lw t0, 4(sp)
-                # t0: 352 -> 0
+                # t0: 1 -> 1
+sw t0, 148(sp)
+                # stored value = 1
+andi t0, t0, 1
+                # t0: 1 -> 1
+sw t0, 152(sp)
+                # stored value = 1
+addi t0, t0, 0
+                # t0: 1 -> 1
+sw t0, 156(sp)
+                # stored value = 1
+addi a0, t0, 0
+                # a0: 2 -> 1
+lw t0, 16(sp)
+                # t0: 1 -> 288
+addi ra, t0, 0
+                # ra: 1300 -> 288
+addi sp, sp, 160
+                # sp: 536870676 -> 536870836
+jalr zero, 0(ra)
+                # zero: 0 -> 968
+addi t0, a0, 0
+                # t0: 288 -> 1
+sw t0, 52(sp)
+                # stored value = 1
+lw t0, 4(sp)
+                # t0: 1 -> 3360
+sw t0, 56(sp)
+                # stored value = 3360
+addi a0, t0, 0
+                # a0: 1 -> 3360
+auipc t1, 0
+                # t1: 1 -> 308
+jalr ra, 148(t1)
+                # ra: 288 -> 316
+addi sp, sp, -64
+                # sp: 536870836 -> 536870772
+addi t0, ra, 0
+                # t0: 3360 -> 316
+sw t0, 8(sp)
+                # stored value = 316
+sw a0, 4(sp)
+                # stored value = 3360
+lw t0, 4(sp)
+                # t0: 316 -> 3360
+sw t0, 12(sp)
+                # stored value = 3360
+slli t0, zero, 2
+                # t0: 3360 -> 0
+sw t0, 16(sp)
+                # stored value = 0
+lw t0, 12(sp)
+                # t0: 0 -> 3360
+lw t1, 16(sp)
+                # t1: 308 -> 0
+add t0, t0, t1
+                # t0: 3360 -> 3360
+sw t0, 20(sp)
+                # stored value = 3360
+lw t0, 0(t0)
+                # t0: 3360 -> 3370
+sw t0, 24(sp)
+                # stored value = 3370
+sub t0, t0, zero
+                # t0: 3370 -> 3370
+sw t0, 28(sp)
+                # stored value = 3370
+sltiu t0, t0, 1
+                # t0: 3370 -> 0
+sw t0, 32(sp)
+                # stored value = 0
+beq t0, zero, 44  # if_false
+jal zero, 2  # if_exit
+                # zero: 0 -> 576
+lw t0, 20(sp)
+                # t0: 0 -> 3360
+lw t0, 0(t0)
+                # t0: 3360 -> 3370
+sw t0, 36(sp)
+                # stored value = 3370
+addi t0, t0, 0
+                # t0: 3370 -> 3370
+sw t0, 40(sp)
+                # stored value = 3370
+lui t0, 1048575
+                # t0: 3370 -> 4294963200
+ori t0, t0, 4095
+                # t0: 4294963200 -> 4294967295
+sw t0, 48(sp)
+                # stored value = 4294967295
+slli t0, t0, 2
+                # t0: 4294967295 -> 4294967292
+sw t0, 44(sp)
+                # stored value = 4294967292
+lw t0, 40(sp)
+                # t0: 4294967292 -> 3370
+lw t1, 44(sp)
+                # t1: 0 -> 4294967292
+add t0, t0, t1
+                # t0: 3370 -> 3366
+sw t0, 52(sp)
+                # stored value = 3366
+lw t0, 0(t0)
+                # t0: 3366 -> 10
+sw t0, 56(sp)
+                # stored value = 10
+lw t1, 56(sp)
+                # t1: 4294967292 -> 10
+sw t1, 0(sp)
+                # stored value = 10
+jal zero, -56  # vector.getDim.exit
+                # zero: 0 -> 652
+lw t0, 0(sp)
+                # t0: 10 -> 10
+sw t0, 60(sp)
+                # stored value = 10
+addi a0, t0, 0
+                # a0: 3360 -> 10
+lw t0, 8(sp)
+                # t0: 10 -> 316
+addi ra, t0, 0
+                # ra: 316 -> 316
+addi sp, sp, 64
+                # sp: 536870772 -> 536870836
+jalr zero, 0(ra)
+                # zero: 0 -> 564
+addi t0, a0, 0
+                # t0: 316 -> 10
+sw t0, 60(sp)
+                # stored value = 10
+addi a0, t0, 0
+                # a0: 10 -> 10
+auipc t1, 0
+                # t1: 10 -> 328
+jalr ra, 1744(t1)
+                # ra: 316 -> 336
+addi sp, sp, -16
+                # sp: 536870836 -> 536870820
+sw ra, 12(sp)
+                # stored value = 336
+sw s0, 8(sp)
+                # stored value = 0
+addi s0, sp, 16
+                # s0: 0 -> 536870836
+sw a0, -12(s0)
+                # stored value = 10
+lw a1, -12(s0)
+                # a1: 4670 -> 10
+lui a0, 0
+                # a0: 10 -> 0
+addi a0, a0, 3339
+                # a0: 0 -> 3339
+auipc t1, 4294967295
+                # t1: 328 -> 4294965304
+jalr ra, 2010(t1)
+                # ra: 336 -> 2112
+call libc-18
+                # return value = 2
+lw ra, 12(sp)
+                # ra: 6772 -> 336
+lw s0, 8(sp)
+                # s0: 536870836 -> 0
+addi sp, sp, 16
+                # sp: 536870820 -> 536870836
+jalr zero, 0(ra)
+                # zero: 0 -> 2128
+lw t0, 0(sp)
+                # t0: 4670 -> 3412
+sw t0, 64(sp)
+                # stored value = 3412
+addi a0, t0, 0
+                # a0: 2 -> 3412
+auipc t1, 0
+                # t1: 2668 -> 348
+jalr ra, 108(t1)
+                # ra: 336 -> 356
+addi sp, sp, -64
+                # sp: 536870836 -> 536870772
+addi t0, ra, 0
+                # t0: 3412 -> 356
+sw t0, 8(sp)
+                # stored value = 356
+sw a0, 4(sp)
+                # stored value = 3412
+lw t0, 4(sp)
+                # t0: 356 -> 3412
+sw t0, 12(sp)
+                # stored value = 3412
+slli t0, zero, 2
+                # t0: 3412 -> 0
+sw t0, 16(sp)
+                # stored value = 0
+lw t0, 12(sp)
+                # t0: 0 -> 3412
+lw t1, 16(sp)
+                # t1: 348 -> 0
+add t0, t0, t1
+                # t0: 3412 -> 3412
+sw t0, 20(sp)
+                # stored value = 3412
+lw t0, 0(t0)
+                # t0: 3412 -> 0
+sw t0, 24(sp)
+                # stored value = 0
+sub t0, t0, zero
+                # t0: 0 -> 0
 sw t0, 28(sp)
                 # stored value = 0
+sltiu t0, t0, 1
+                # t0: 0 -> 1
+sw t0, 32(sp)
+                # stored value = 1
+beq t0, zero, 44  # if_false
+jal zero, 16  # if_true
+                # zero: 0 -> 536
+sw zero, 0(sp)
+                # stored value = 0
+jal zero, -16  # vector.getDim.exit
+                # zero: 0 -> 572
+lw t0, 0(sp)
+                # t0: 1 -> 0
+sw t0, 60(sp)
+                # stored value = 0
 addi a0, t0, 0
-                # a0: 7 -> 0
+                # a0: 3412 -> 0
 lw t0, 8(sp)
+                # t0: 0 -> 356
+addi ra, t0, 0
+                # ra: 356 -> 356
+addi sp, sp, 64
+                # sp: 536870772 -> 536870836
+jalr zero, 0(ra)
+                # zero: 0 -> 564
+addi t0, a0, 0
+                # t0: 356 -> 0
+sw t0, 68(sp)
+                # stored value = 0
+addi a0, t0, 0
+                # a0: 0 -> 0
+auipc t1, 0
+                # t1: 0 -> 368
+jalr ra, 1704(t1)
+                # ra: 356 -> 376
+addi sp, sp, -16
+                # sp: 536870836 -> 536870820
+sw ra, 12(sp)
+                # stored value = 376
+sw s0, 8(sp)
+                # stored value = 0
+addi s0, sp, 16
+                # s0: 0 -> 536870836
+sw a0, -12(s0)
+                # stored value = 0
+lw a1, -12(s0)
+                # a1: 4670 -> 0
+lui a0, 0
+                # a0: 0 -> 0
+addi a0, a0, 3339
+                # a0: 0 -> 3339
+auipc t1, 4294967295
+                # t1: 368 -> 4294965304
+jalr ra, 2010(t1)
+                # ra: 376 -> 2112
+call libc-18
+                # return value = 1
+lw ra, 12(sp)
+                # ra: 6772 -> 376
+lw s0, 8(sp)
+                # s0: 536870836 -> 0
+addi sp, sp, 16
+                # sp: 536870820 -> 536870836
+jalr zero, 0(ra)
+                # zero: 0 -> 2128
+sw zero, 8(sp)
+                # stored value = 0
+jal zero, 2  # main.exit
+                # zero: 0 -> 384
+lw t0, 8(sp)
+                # t0: 4660 -> 0
+sw t0, 72(sp)
+                # stored value = 0
+addi a0, t0, 0
+                # a0: 1 -> 0
+lw t0, 12(sp)
                 # t0: 0 -> 8
 addi ra, t0, 0
-                # ra: 352 -> 8
-addi sp, sp, 32
-                # sp: 536870880 -> 536870912
+                # ra: 376 -> 8
+addi sp, sp, 76
+                # sp: 536870836 -> 536870912
 jalr zero, 0(ra)
-                # zero: 0 -> 388
+                # zero: 0 -> 412

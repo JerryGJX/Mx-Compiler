@@ -86,6 +86,9 @@ public class ASMTranslator implements ASMVisitor {
     @Override
     public void visit(ASMLoadInst asmLoadInst) {
         asmLoadInst.imm = translateStackOffset(asmLoadInst.imm);
+        if(asmLoadInst.imm != null && (asmLoadInst.imm instanceof ASMImm) && asmLoadInst.imm.val == 68){
+            int A = 0;
+        }
     }
 
     @Override
