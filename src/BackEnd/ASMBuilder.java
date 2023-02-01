@@ -46,13 +46,13 @@ public class ASMBuilder implements IRVisitor {
                 value.asmOperand = getPhysicalReg("zero");
                 return (ASMReg) value.asmOperand;
             } else {
-                ASMVirtualReg reg = new ASMVirtualReg(value.valueType.size());
+                ASMVirtualReg reg = new ASMVirtualReg(value.valueType.size(),curFunc.identifier);
                 ASMLiInst liInst = new ASMLiInst(reg, new ASMImm(constValue));
                 curBlock.addInst(liInst);
                 return reg;
             }
         } else {
-            ASMVirtualReg reg = new ASMVirtualReg(value.valueType.size());
+            ASMVirtualReg reg = new ASMVirtualReg(value.valueType.size(),curFunc.identifier);
             value.asmOperand = reg;
             return reg;
         }
@@ -134,7 +134,7 @@ public class ASMBuilder implements IRVisitor {
 //        asmFunction.decreaseStackPtrInst = setSpaceInst;
         curBlock.addInst(setSpaceInst);
         //save ra
-        ASMVirtualReg raSaveReg = new ASMVirtualReg();
+        ASMVirtualReg raSaveReg = new ASMVirtualReg(curFunc.identifier);
         ASMMvInst saveRaInst = new ASMMvInst(raSaveReg, getPhysicalReg("ra"));
         curBlock.addInst(saveRaInst);
         //save callee-save registers
@@ -151,7 +151,7 @@ public class ASMBuilder implements IRVisitor {
             if (i < 8) {
                 arg.asmOperand = getPhysicalReg("a" + i);
             } else {
-                ASMVirtualReg virtualReg = new ASMVirtualReg(4);
+                ASMVirtualReg virtualReg = new ASMVirtualReg(4,curFunc.identifier);
                 arg.asmOperand = virtualReg;
                 asmFunction.paraList.add(virtualReg);
                 ASMLoadInst loadInst = new ASMLoadInst(4, virtualReg, getPhysicalReg("sp"), new ASMStackOffset(i - 8, ASMStackOffset.StackOffsetType.getArg));
@@ -313,7 +313,7 @@ public class ASMBuilder implements IRVisitor {
         IRValue headPointer = irgepInst.headPointer();
         BasicType pointedType = ((PointerType) irgepInst.valueType).baseType;
         if (pointedType instanceof IntegerType && ((IntegerType) pointedType).bitWidth == 8) {//string
-            ASMReg tmpReg = new ASMVirtualReg();
+            ASMReg tmpReg = new ASMVirtualReg(curFunc.identifier);
             ASMGlobalString str = (ASMGlobalString) headPointer.asmOperand;
             ASMLuiInst asmLuiInst = new ASMLuiInst(tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.hi, str));
             curBlock.addInst(asmLuiInst);
@@ -325,7 +325,7 @@ public class ASMBuilder implements IRVisitor {
             if (byteSize != 4) {
                 throw new RuntimeException("IRGEPInst: wrong byteSize!! Should be 4");
             }
-            ASMReg tmpReg = new ASMVirtualReg();
+            ASMReg tmpReg = new ASMVirtualReg(curFunc.identifier);
             ASMBinaryInst asmBinaryInst1 = new ASMBinaryInst("slli", tmpReg, getReg(irgepInst.getIndex()), null, new ASMImm(2));
             curBlock.addInst(asmBinaryInst1);
             ASMBinaryInst asmBinaryInst2 = new ASMBinaryInst("add", getReg(irgepInst), getReg(headPointer), tmpReg, null);
@@ -345,21 +345,21 @@ public class ASMBuilder implements IRVisitor {
                 curBlock.addInst(binaryInst);
             }
             case "sge" -> { //a >= b <--> !(a < b)
-                ASMVirtualReg tmpReg = new ASMVirtualReg();
+                ASMVirtualReg tmpReg = new ASMVirtualReg(curFunc.identifier);
                 ASMBinaryInst binaryInst1 = new ASMBinaryInst("slt", tmpReg, getReg(irIcmpInst.lhs()), getReg(irIcmpInst.rhs()), null);
                 curBlock.addInst(binaryInst1);
                 ASMBinaryInst binaryInst2 = new ASMBinaryInst("xori", getReg(irIcmpInst), tmpReg, null, new ASMImm(1));
                 curBlock.addInst(binaryInst2);
             }
             case "sle" -> { //a <= b <--> !(a > b)
-                ASMVirtualReg tmpReg = new ASMVirtualReg();
+                ASMVirtualReg tmpReg = new ASMVirtualReg(curFunc.identifier);
                 ASMBinaryInst binaryInst1 = new ASMBinaryInst("slt", tmpReg, getReg(irIcmpInst.rhs()), getReg(irIcmpInst.lhs()), null);
                 curBlock.addInst(binaryInst1);
                 ASMBinaryInst binaryInst2 = new ASMBinaryInst("xori", getReg(irIcmpInst), tmpReg, null, new ASMImm(1));
                 curBlock.addInst(binaryInst2);
             }
             case "eq" -> {
-                ASMVirtualReg tmpReg = new ASMVirtualReg();
+                ASMVirtualReg tmpReg = new ASMVirtualReg(curFunc.identifier);
                 ASMBinaryInst binaryInst = new ASMBinaryInst("sub", tmpReg, getReg(irIcmpInst.lhs()), getReg(irIcmpInst.rhs()), null);
                 curBlock.addInst(binaryInst);
                 //can be merge into binaryInst
@@ -367,7 +367,7 @@ public class ASMBuilder implements IRVisitor {
                 curBlock.addInst(unaryInst);
             }
             case "ne" -> {
-                ASMVirtualReg tmpReg = new ASMVirtualReg();
+                ASMVirtualReg tmpReg = new ASMVirtualReg(curFunc.identifier);
                 ASMBinaryInst binaryInst = new ASMBinaryInst("sub", tmpReg, getReg(irIcmpInst.lhs()), getReg(irIcmpInst.rhs()), null);
                 curBlock.addInst(binaryInst);
                 ASMUnaryInst unaryInst = new ASMUnaryInst("snez", getReg(irIcmpInst), tmpReg);
@@ -384,7 +384,7 @@ public class ASMBuilder implements IRVisitor {
         IRValue fromAddr = irLoadInst.loadFromAddr;
         if (fromAddr instanceof IRConstant) {
             //deal with globalVar and String
-            ASMVirtualReg tmpReg = new ASMVirtualReg();
+            ASMVirtualReg tmpReg = new ASMVirtualReg(curFunc.identifier);
             ASMLuiInst asmLuiInst = new ASMLuiInst(tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.hi, (ASMGlobal) fromAddr.asmOperand));
             curBlock.addInst(asmLuiInst);
             ASMLoadInst asmLoadInst = new ASMLoadInst(loadSize, destReg, tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.lo, (ASMGlobal) fromAddr.asmOperand));
@@ -421,7 +421,7 @@ public class ASMBuilder implements IRVisitor {
         IRValue destAddr = irStoreInst.storePtr;
         if (destAddr instanceof IRConstant) {
             //deal with globalVar and String
-            ASMVirtualReg tmpReg = new ASMVirtualReg();
+            ASMVirtualReg tmpReg = new ASMVirtualReg(curFunc.identifier);
             ASMLuiInst asmLuiInst = new ASMLuiInst(tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.hi, (ASMGlobal) destAddr.asmOperand));
             curBlock.addInst(asmLuiInst);
             ASMStoreInst asmStoreInst = new ASMStoreInst(storeSize, fromReg, tmpReg, new ASMGlobalAddr(ASMGlobalAddr.HiLoType.lo, (ASMGlobal) destAddr.asmOperand));
@@ -444,7 +444,7 @@ public class ASMBuilder implements IRVisitor {
 
     @Override
     public void visit(IRTruncInst irTruncInst) {//only for bool
-        ASMVirtualReg virtualReg = new ASMVirtualReg(irTruncInst.targetType().size());
+        ASMVirtualReg virtualReg = new ASMVirtualReg(irTruncInst.targetType().size(),curFunc.identifier);
         ASMBinaryInst binaryInst = new ASMBinaryInst("andi", virtualReg, getReg(irTruncInst.fromValue()), null, new ASMImm(1));
         curBlock.addInst(binaryInst);
         ASMMvInst mvInst = new ASMMvInst(getReg(irTruncInst), virtualReg);
@@ -453,7 +453,7 @@ public class ASMBuilder implements IRVisitor {
 
     @Override
     public void visit(IRZextInst irZextInst) {//only for bool
-        ASMVirtualReg virtualReg = new ASMVirtualReg(irZextInst.targetType().size());
+        ASMVirtualReg virtualReg = new ASMVirtualReg(irZextInst.targetType().size(),curFunc.identifier);
         ASMBinaryInst binaryInst = new ASMBinaryInst("andi", virtualReg, getReg(irZextInst.fromValue()), null, new ASMImm(1));
         curBlock.addInst(binaryInst);
         ASMMvInst mvInst = new ASMMvInst(getReg(irZextInst), virtualReg);

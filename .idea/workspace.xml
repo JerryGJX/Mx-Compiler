@@ -3,12 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="8074feb6-4621-48af-8e99-94399c1a6e63" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/Codegen debug.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/Codegen debug.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.s" beforeDir="false" afterPath="$PROJECT_DIR$/output.s" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ASM/Operand/ASMVirtualReg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ASM/Operand/ASMVirtualReg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/ASMPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BackEnd/RegAllocator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEnd/RegAllocator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Constant/GlobalValue/IRFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRGEPInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IR/Value/User/Instruction/IRGEPInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/scope/IRScope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/scope/IRScope.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.ll" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.ll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.mx" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.mx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/debug/test.s" beforeDir="false" afterPath="$PROJECT_DIR$/test/debug/test.s" afterDir="false" />
@@ -70,7 +71,7 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "PyConsoleConfigurable.Python Console",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
     "two.files.diff.last.used.file": "D:/Users/JerryGuo/OneDrive/studying_materials/computer_related/compiler_design/myCompiler/Mx-Compiler/test/debug/cmp"
   }
 }]]></component>
@@ -140,7 +141,7 @@
       <workItem from="1673102484063" duration="85000" />
       <workItem from="1673708274077" duration="57150000" />
       <workItem from="1674975095361" duration="21136000" />
-      <workItem from="1675009928915" duration="84401000" />
+      <workItem from="1675009928915" duration="100241000" />
     </task>
     <servers />
   </component>
@@ -162,40 +163,6 @@
     </option>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/BackEnd/RegAllocator.java</url>
-          <line>73</line>
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/BackEnd/ASMBuilder.java</url>
-          <line>149</line>
-          <option name="timeStamp" value="48" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/BackEnd/RegAllocator.java</url>
-          <line>178</line>
-          <option name="timeStamp" value="49" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java</url>
-          <line>614</line>
-          <option name="timeStamp" value="60" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/BackEnd/ASMBuilder.java</url>
-          <line>290</line>
-          <option name="timeStamp" value="61" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/MiddleEnd/IRBuilder.java</url>
-          <line>588</line>
-          <option name="timeStamp" value="63" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="((IRFunction)((HashMap.Node)irModule.IRFunctionMap.entrySet().toArray()[0]).getValue()).asmOperand" custom="IR.Value.User.Constant.GlobalValue.IRFunction,java.util.HashMap.Node" />
