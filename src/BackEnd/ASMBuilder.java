@@ -5,6 +5,7 @@ import ASM.ASMFunction;
 import ASM.ASMModule;
 import ASM.Inst.*;
 import ASM.Operand.*;
+import BackEnd.optimize.DeadInstEliminator;
 import IR.IRModule;
 import IR.IRVisitor;
 import IR.Type.*;
@@ -14,12 +15,19 @@ import IR.Value.User.Constant.*;
 import IR.Value.User.Constant.GlobalValue.IRFunction;
 import IR.Value.User.Instruction.*;
 
+import java.util.HashSet;
+
 
 public class ASMBuilder implements IRVisitor {
     public IRModule irModule;
     public ASMModule asmModule;
     public ASMFunction curFunc = null;
     public ASMBlock curBlock = null;
+
+
+    public HashSet<ASMReg> useSet = new HashSet<>();
+    public HashSet<ASMReg> defSet = new HashSet<>();
+
 
     private ASMPhysicalASMReg getPhysicalReg(String name) {
         if (ASMPhysicalASMReg.regMap.containsKey(name)) return ASMPhysicalASMReg.regMap.get(name);
@@ -65,6 +73,8 @@ public class ASMBuilder implements IRVisitor {
 
     @Override
     public void visit(IRModule _irModule) {
+        new DeadInstEliminator().visit(_irModule);
+
         irModule = _irModule;
         irModule.IRGlobalVariableMap.forEach((name, globalVariable) -> {
             ASMGlobalValue globalValue = new ASMGlobalValue(name);
@@ -271,13 +281,19 @@ public class ASMBuilder implements IRVisitor {
     public void visit(IRBrInst irBrInst) {
         irBrInst.asmOperand = null;
         if (irBrInst.ifCondition()) {
-            ASMBrInst condBrInst = new ASMBrInst(ASMBrInst.ASMBrOp.beq, getReg(irBrInst.condition()), getPhysicalReg("zero"), (ASMBlock) irBrInst.ifFalseBlock().asmOperand);
+            ASMBlock ifFalseBlock = (ASMBlock) irBrInst.ifFalseBlock().asmOperand;
+            ASMBlock ifTrueBlock = (ASMBlock) irBrInst.ifTrueBlock().asmOperand;
+            ASMBrInst condBrInst = new ASMBrInst(ASMBrInst.ASMBrOp.beq, getReg(irBrInst.condition()), getPhysicalReg("zero"), ifFalseBlock);
             curBlock.addInst(condBrInst);
-            ASMJumpInst jumpInst = new ASMJumpInst((ASMBlock) irBrInst.ifTrueBlock().asmOperand);
+            curBlock.sucBlockList.add(ifFalseBlock);
+            ASMJumpInst jumpInst = new ASMJumpInst(ifTrueBlock);
             curBlock.addInst(jumpInst);
+            curBlock.sucBlockList.add(ifTrueBlock);
         } else {
-            ASMJumpInst jumpInst = new ASMJumpInst((ASMBlock) irBrInst.targetBlock().asmOperand);
+            ASMBlock targetBlock = (ASMBlock) irBrInst.targetBlock().asmOperand;
+            ASMJumpInst jumpInst = new ASMJumpInst(targetBlock);
             curBlock.addInst(jumpInst);
+            curBlock.sucBlockList.add(targetBlock);
         }
     }
 

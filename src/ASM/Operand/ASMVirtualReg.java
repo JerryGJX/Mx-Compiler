@@ -14,6 +14,8 @@ public class ASMVirtualReg extends ASMReg {
     }
 
 
+
+
     public ASMVirtualReg(int byteSize, String _funcId) {
         super("v" + virtualRegNum);
         this.rank = virtualRegNum;
@@ -30,6 +32,11 @@ public class ASMVirtualReg extends ASMReg {
                 return this.rank == vReg.rank && this.funcId.equals(vReg.funcId);
             } else return false;
         }
+    }
+
+    @Override
+    public Boolean isReserved() {
+        return false;
     }
 
     public String toString() {

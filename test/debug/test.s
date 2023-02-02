@@ -3,144 +3,63 @@
   .type _init_func, @function
 _init_func:
 _init_func.entry:
-         addi sp, sp, -156
-         mv t0, ra
-         sw t0, 0(sp)
-         li t0, 8
-         sw t0, 4(sp)
-         lui t0, %hi(N)
-         sw t0, 8(sp)
-         lw t0, 8(sp)
-         lw t1, 4(sp)
-         sw t1, %lo(N)(t0)
-         li t0, 8
-         sw t0, 16(sp)
-         li t0, 4
-         sw t0, 20(sp)
-         lw t0, 16(sp)
-         lw t1, 20(sp)
-         mul t0, t0, t1
-         sw t0, 12(sp)
-         lw t0, 12(sp)
-         addi t0, t0, 4
-         sw t0, 24(sp)
-         lw t0, 24(sp)
-         mv a0, t0
+         addi sp, sp, 0
+         mv vReg0, ra
+         li vReg1, 8
+         lui vReg2, %hi(N)
+         sw vReg1, %lo(N)(vReg2)
+         li vReg4, 8
+         li vReg5, 4
+         mul vReg3, vReg4, vReg5
+         addi vReg6, vReg3, 4
+         mv a0, vReg6
          call _malloc
-         mv t0, a0
-         sw t0, 28(sp)
-         lw t0, 28(sp)
-         mv t0, t0
-         sw t0, 32(sp)
-         li t0, 8
-         sw t0, 36(sp)
-         lw t0, 32(sp)
-         lw t1, 36(sp)
-         sw t1, 0(t0)
-         li t0, 1
-         sw t0, 44(sp)
-         lw t0, 44(sp)
-         slli t0, t0, 2
-         sw t0, 40(sp)
-         lw t0, 32(sp)
-         lw t1, 40(sp)
-         add t0, t0, t1
-         sw t0, 48(sp)
-         lw t0, 48(sp)
-         mv t0, t0
-         sw t0, 52(sp)
-         lui t0, %hi(row)
-         sw t0, 56(sp)
-         lw t0, 56(sp)
-         lw t1, 52(sp)
-         sw t1, %lo(row)(t0)
-         li t0, 8
-         sw t0, 64(sp)
-         li t0, 4
-         sw t0, 68(sp)
-         lw t0, 64(sp)
-         lw t1, 68(sp)
-         mul t0, t0, t1
-         sw t0, 60(sp)
-         lw t0, 60(sp)
-         addi t0, t0, 4
-         sw t0, 72(sp)
-         lw t0, 72(sp)
-         mv a0, t0
+         mv vReg7, a0
+         mv vReg8, vReg7
+         li vReg9, 8
+         sw vReg9, 0(vReg8)
+         li vReg11, 1
+         slli vReg10, vReg11, 2
+         add vReg12, vReg8, vReg10
+         mv vReg13, vReg12
+         lui vReg14, %hi(row)
+         sw vReg13, %lo(row)(vReg14)
+         li vReg16, 8
+         li vReg17, 4
+         mul vReg15, vReg16, vReg17
+         addi vReg18, vReg15, 4
+         mv a0, vReg18
          call _malloc
-         mv t0, a0
-         sw t0, 76(sp)
-         lw t0, 76(sp)
-         mv t0, t0
-         sw t0, 80(sp)
-         li t0, 8
-         sw t0, 84(sp)
-         lw t0, 80(sp)
-         lw t1, 84(sp)
-         sw t1, 0(t0)
-         li t0, 1
-         sw t0, 92(sp)
-         lw t0, 92(sp)
-         slli t0, t0, 2
-         sw t0, 88(sp)
-         lw t0, 80(sp)
-         lw t1, 88(sp)
-         add t0, t0, t1
-         sw t0, 96(sp)
-         lw t0, 96(sp)
-         mv t0, t0
-         sw t0, 100(sp)
-         lui t0, %hi(col)
-         sw t0, 104(sp)
-         lw t0, 104(sp)
-         lw t1, 100(sp)
-         sw t1, %lo(col)(t0)
-         li t0, 2
-         sw t0, 112(sp)
-         li t0, 4
-         sw t0, 116(sp)
-         lw t0, 112(sp)
-         lw t1, 116(sp)
-         mul t0, t0, t1
-         sw t0, 108(sp)
-         lw t0, 108(sp)
-         addi t0, t0, 4
-         sw t0, 120(sp)
-         lw t0, 120(sp)
-         mv a0, t0
+         mv vReg19, a0
+         mv vReg20, vReg19
+         li vReg21, 8
+         sw vReg21, 0(vReg20)
+         li vReg23, 1
+         slli vReg22, vReg23, 2
+         add vReg24, vReg20, vReg22
+         mv vReg25, vReg24
+         lui vReg26, %hi(col)
+         sw vReg25, %lo(col)(vReg26)
+         li vReg28, 2
+         li vReg29, 4
+         mul vReg27, vReg28, vReg29
+         addi vReg30, vReg27, 4
+         mv a0, vReg30
          call _malloc
-         mv t0, a0
-         sw t0, 124(sp)
-         lw t0, 124(sp)
-         mv t0, t0
-         sw t0, 128(sp)
-         li t0, 2
-         sw t0, 132(sp)
-         lw t0, 128(sp)
-         lw t1, 132(sp)
-         sw t1, 0(t0)
-         li t0, 1
-         sw t0, 140(sp)
-         lw t0, 140(sp)
-         slli t0, t0, 2
-         sw t0, 136(sp)
-         lw t0, 128(sp)
-         lw t1, 136(sp)
-         add t0, t0, t1
-         sw t0, 144(sp)
-         lw t0, 144(sp)
-         mv t0, t0
-         sw t0, 148(sp)
-         lui t0, %hi(d)
-         sw t0, 152(sp)
-         lw t0, 152(sp)
-         lw t1, 148(sp)
-         sw t1, %lo(d)(t0)
+         mv vReg31, a0
+         mv vReg32, vReg31
+         li vReg33, 2
+         sw vReg33, 0(vReg32)
+         li vReg35, 1
+         slli vReg34, vReg35, 2
+         add vReg36, vReg32, vReg34
+         mv vReg37, vReg36
+         lui vReg38, %hi(d)
+         sw vReg37, %lo(d)(vReg38)
          j _init_func.exit
 _init_func.exit:
-         lw t0, 0(sp)
-         mv ra, t0
-         addi sp, sp, 156
+         mv ra, vReg0
+         addi sp, sp, 0
          ret
 
   .text
@@ -148,160 +67,80 @@ _init_func.exit:
   .type main, @function
 main:
 main.entry:
-         addi sp, sp, -232
-         mv t0, ra
-         sw t0, 12(sp)
+         addi sp, sp, -12
+         mv vReg0, ra
          call _init_func
          sw zero, 8(sp)
          sw zero, 4(sp)
          j for_cond.3
 main.exit:
-         lw t0, 8(sp)
-         sw t0, 228(sp)
-         lw t0, 228(sp)
-         mv a0, t0
-         lw t0, 12(sp)
-         mv ra, t0
-         addi sp, sp, 232
+         lw vReg54, 8(sp)
+         mv a0, vReg54
+         mv ra, vReg0
+         addi sp, sp, 12
          ret
 for_cond.3:
-         lw t0, 4(sp)
-         sw t0, 16(sp)
-         li t0, 8
-         sw t0, 24(sp)
-         lw t0, 16(sp)
-         lw t1, 24(sp)
-         slt t0, t0, t1
-         sw t0, 20(sp)
-         lw t0, 20(sp)
-         beq t0, zero, for_exit.3
+         lw vReg1, 4(sp)
+         li vReg3, 8
+         slt vReg2, vReg1, vReg3
+         beq vReg2, zero, for_exit.3
          j for_body.3
 for_body.3:
-         lui t0, %hi(row)
-         sw t0, 32(sp)
-         lw t0, 32(sp)
-         lw t0, %lo(row)(t0)
-         sw t0, 28(sp)
-         lw t0, 4(sp)
-         sw t0, 36(sp)
-         lw t0, 36(sp)
-         slli t0, t0, 2
-         sw t0, 40(sp)
-         lw t0, 28(sp)
-         lw t1, 40(sp)
-         add t0, t0, t1
-         sw t0, 44(sp)
-         lw t0, 44(sp)
-         sw zero, 0(t0)
-         lui t0, %hi(col)
-         sw t0, 52(sp)
-         lw t0, 52(sp)
-         lw t0, %lo(col)(t0)
-         sw t0, 48(sp)
-         lw t0, 4(sp)
-         sw t0, 56(sp)
-         lw t0, 56(sp)
-         slli t0, t0, 2
-         sw t0, 60(sp)
-         lw t0, 48(sp)
-         lw t1, 60(sp)
-         add t0, t0, t1
-         sw t0, 64(sp)
-         lw t0, 64(sp)
-         sw zero, 0(t0)
+         lui vReg5, %hi(row)
+         lw vReg4, %lo(row)(vReg5)
+         lw vReg6, 4(sp)
+         slli vReg7, vReg6, 2
+         add vReg8, vReg4, vReg7
+         sw zero, 0(vReg8)
+         lui vReg10, %hi(col)
+         lw vReg9, %lo(col)(vReg10)
+         lw vReg11, 4(sp)
+         slli vReg12, vReg11, 2
+         add vReg13, vReg9, vReg12
+         sw zero, 0(vReg13)
          j for_step.3
 for_step.3:
-         lw t0, 4(sp)
-         sw t0, 68(sp)
-         lw t0, 68(sp)
-         addi t0, t0, 1
-         sw t0, 72(sp)
-         lw t1, 72(sp)
-         sw t1, 4(sp)
+         lw vReg14, 4(sp)
+         addi vReg15, vReg14, 1
+         sw vReg15, 4(sp)
          j for_cond.3
 for_exit.3:
          sw zero, 4(sp)
          j for_cond.4
 for_cond.4:
-         lw t0, 4(sp)
-         sw t0, 76(sp)
-         li t0, 2
-         sw t0, 84(sp)
-         lw t0, 76(sp)
-         lw t1, 84(sp)
-         slt t0, t0, t1
-         sw t0, 80(sp)
-         lw t0, 80(sp)
-         beq t0, zero, for_exit.4
+         lw vReg16, 4(sp)
+         li vReg18, 2
+         slt vReg17, vReg16, vReg18
+         beq vReg17, zero, for_exit.4
          j for_body.4
 for_body.4:
-         lui t0, %hi(d)
-         sw t0, 92(sp)
-         lw t0, 92(sp)
-         lw t0, %lo(d)(t0)
-         sw t0, 88(sp)
-         lw t0, 4(sp)
-         sw t0, 96(sp)
-         lw t0, 96(sp)
-         slli t0, t0, 2
-         sw t0, 100(sp)
-         lw t0, 88(sp)
-         lw t1, 100(sp)
-         add t0, t0, t1
-         sw t0, 104(sp)
-         li t0, 8
-         sw t0, 112(sp)
-         lw t0, 112(sp)
-         addi t0, t0, 8
-         sw t0, 108(sp)
-         lw t0, 108(sp)
-         addi t0, t0, -1
-         sw t0, 116(sp)
-         li t0, 4
-         sw t0, 124(sp)
-         lw t0, 116(sp)
-         lw t1, 124(sp)
-         mul t0, t0, t1
-         sw t0, 120(sp)
-         lw t0, 120(sp)
-         addi t0, t0, 4
-         sw t0, 128(sp)
-         lw t0, 128(sp)
-         mv a0, t0
+         lui vReg20, %hi(d)
+         lw vReg19, %lo(d)(vReg20)
+         lw vReg21, 4(sp)
+         slli vReg22, vReg21, 2
+         add vReg23, vReg19, vReg22
+         li vReg25, 8
+         addi vReg24, vReg25, 8
+         addi vReg26, vReg24, -1
+         li vReg28, 4
+         mul vReg27, vReg26, vReg28
+         addi vReg29, vReg27, 4
+         mv a0, vReg29
          call _malloc
-         mv t0, a0
-         sw t0, 132(sp)
-         lw t0, 132(sp)
-         mv t0, t0
-         sw t0, 136(sp)
-         lw t0, 136(sp)
-         lw t1, 116(sp)
-         sw t1, 0(t0)
-         li t0, 1
-         sw t0, 144(sp)
-         lw t0, 144(sp)
-         slli t0, t0, 2
-         sw t0, 140(sp)
-         lw t0, 136(sp)
-         lw t1, 140(sp)
-         add t0, t0, t1
-         sw t0, 148(sp)
-         lw t0, 148(sp)
-         mv t0, t0
-         sw t0, 152(sp)
-         lw t0, 104(sp)
-         lw t1, 152(sp)
-         sw t1, 0(t0)
+         mv vReg30, a0
+         mv vReg31, vReg30
+         sw vReg26, 0(vReg31)
+         li vReg33, 1
+         slli vReg32, vReg33, 2
+         add vReg34, vReg31, vReg32
+         mv vReg35, vReg34
+         sw vReg35, 0(vReg23)
          sw zero, 0(sp)
          j for_cond.5
 for_step.4:
-         lw t0, 4(sp)
-         sw t0, 156(sp)
-         lw t0, 156(sp)
-         addi t0, t0, 1
-         sw t0, 160(sp)
-         lw t1, 160(sp)
-         sw t1, 4(sp)
+         lw vReg36, 4(sp)
+         addi vReg37, vReg36, 1
+         sw vReg37, 4(sp)
          j for_cond.4
 for_exit.4:
          mv a0, zero
@@ -309,61 +148,29 @@ for_exit.4:
          sw zero, 8(sp)
          j main.exit
 for_cond.5:
-         lw t0, 0(sp)
-         sw t0, 164(sp)
-         li t0, 8
-         sw t0, 172(sp)
-         lw t0, 172(sp)
-         addi t0, t0, 8
-         sw t0, 168(sp)
-         lw t0, 168(sp)
-         addi t0, t0, -1
-         sw t0, 176(sp)
-         lw t0, 164(sp)
-         lw t1, 176(sp)
-         slt t0, t0, t1
-         sw t0, 180(sp)
-         lw t0, 180(sp)
-         beq t0, zero, for_exit.5
+         lw vReg38, 0(sp)
+         li vReg40, 8
+         addi vReg39, vReg40, 8
+         addi vReg41, vReg39, -1
+         slt vReg42, vReg38, vReg41
+         beq vReg42, zero, for_exit.5
          j for_body.5
 for_body.5:
-         lui t0, %hi(d)
-         sw t0, 188(sp)
-         lw t0, 188(sp)
-         lw t0, %lo(d)(t0)
-         sw t0, 184(sp)
-         lw t0, 4(sp)
-         sw t0, 192(sp)
-         lw t0, 192(sp)
-         slli t0, t0, 2
-         sw t0, 196(sp)
-         lw t0, 184(sp)
-         lw t1, 196(sp)
-         add t0, t0, t1
-         sw t0, 200(sp)
-         lw t0, 200(sp)
-         lw t0, 0(t0)
-         sw t0, 204(sp)
-         lw t0, 0(sp)
-         sw t0, 208(sp)
-         lw t0, 208(sp)
-         slli t0, t0, 2
-         sw t0, 212(sp)
-         lw t0, 204(sp)
-         lw t1, 212(sp)
-         add t0, t0, t1
-         sw t0, 216(sp)
-         lw t0, 216(sp)
-         sw zero, 0(t0)
+         lui vReg44, %hi(d)
+         lw vReg43, %lo(d)(vReg44)
+         lw vReg45, 4(sp)
+         slli vReg46, vReg45, 2
+         add vReg47, vReg43, vReg46
+         lw vReg48, 0(vReg47)
+         lw vReg49, 0(sp)
+         slli vReg50, vReg49, 2
+         add vReg51, vReg48, vReg50
+         sw zero, 0(vReg51)
          j for_step.5
 for_step.5:
-         lw t0, 0(sp)
-         sw t0, 220(sp)
-         lw t0, 220(sp)
-         addi t0, t0, 1
-         sw t0, 224(sp)
-         lw t1, 224(sp)
-         sw t1, 0(sp)
+         lw vReg52, 0(sp)
+         addi vReg53, vReg52, 1
+         sw vReg53, 0(sp)
          j for_cond.5
 for_exit.5:
          j for_step.4
@@ -373,135 +180,75 @@ for_exit.5:
   .type printBoard, @function
 printBoard:
 printBoard.entry:
-         addi sp, sp, -128
-         mv t0, ra
-         sw t0, 8(sp)
+         addi sp, sp, -8
+         mv vReg0, ra
          sw zero, 4(sp)
          j for_cond
 printBoard.exit:
-         lw t0, 8(sp)
-         mv ra, t0
-         addi sp, sp, 128
+         mv ra, vReg0
+         addi sp, sp, 8
          ret
 for_cond:
-         lw t0, 4(sp)
-         sw t0, 12(sp)
-         lui t0, %hi(N)
-         sw t0, 20(sp)
-         lw t0, 20(sp)
-         lw t0, %lo(N)(t0)
-         sw t0, 16(sp)
-         lw t0, 12(sp)
-         lw t1, 16(sp)
-         slt t0, t0, t1
-         sw t0, 24(sp)
-         lw t0, 24(sp)
-         beq t0, zero, for_exit
+         lw vReg1, 4(sp)
+         lui vReg3, %hi(N)
+         lw vReg2, %lo(N)(vReg3)
+         slt vReg4, vReg1, vReg2
+         beq vReg4, zero, for_exit
          j for_body
 for_body:
          sw zero, 0(sp)
          j for_cond.1
 for_step:
-         lw t0, 4(sp)
-         sw t0, 28(sp)
-         lw t0, 28(sp)
-         addi t0, t0, 1
-         sw t0, 32(sp)
-         lw t1, 32(sp)
-         sw t1, 4(sp)
+         lw vReg5, 4(sp)
+         addi vReg6, vReg5, 1
+         sw vReg6, 4(sp)
          j for_cond
 for_exit:
-         lui t0, %hi(strConst.2)
-         sw t0, 36(sp)
-         lw t0, 36(sp)
-         addi t0, t0, %lo(strConst.2)
-         sw t0, 40(sp)
-         lw t0, 40(sp)
-         mv a0, t0
+         lui vReg7, %hi(strConst.2)
+         addi vReg8, vReg7, %lo(strConst.2)
+         mv a0, vReg8
          call println
          j printBoard.exit
 for_cond.1:
-         lw t0, 0(sp)
-         sw t0, 44(sp)
-         lui t0, %hi(N)
-         sw t0, 52(sp)
-         lw t0, 52(sp)
-         lw t0, %lo(N)(t0)
-         sw t0, 48(sp)
-         lw t0, 44(sp)
-         lw t1, 48(sp)
-         slt t0, t0, t1
-         sw t0, 56(sp)
-         lw t0, 56(sp)
-         beq t0, zero, for_exit.1
+         lw vReg9, 0(sp)
+         lui vReg11, %hi(N)
+         lw vReg10, %lo(N)(vReg11)
+         slt vReg12, vReg9, vReg10
+         beq vReg12, zero, for_exit.1
          j for_body.1
 for_body.1:
-         lui t0, %hi(col)
-         sw t0, 64(sp)
-         lw t0, 64(sp)
-         lw t0, %lo(col)(t0)
-         sw t0, 60(sp)
-         lw t0, 4(sp)
-         sw t0, 68(sp)
-         lw t0, 68(sp)
-         slli t0, t0, 2
-         sw t0, 72(sp)
-         lw t0, 60(sp)
-         lw t1, 72(sp)
-         add t0, t0, t1
-         sw t0, 76(sp)
-         lw t0, 76(sp)
-         lw t0, 0(t0)
-         sw t0, 80(sp)
-         lw t0, 0(sp)
-         sw t0, 84(sp)
-         lw t0, 80(sp)
-         lw t1, 84(sp)
-         sub t0, t0, t1
-         sw t0, 88(sp)
-         lw t0, 88(sp)
-         seqz t0, t0
-         sw t0, 92(sp)
-         lw t0, 92(sp)
-         beq t0, zero, if_false
+         lui vReg14, %hi(col)
+         lw vReg13, %lo(col)(vReg14)
+         lw vReg15, 4(sp)
+         slli vReg16, vReg15, 2
+         add vReg17, vReg13, vReg16
+         lw vReg18, 0(vReg17)
+         lw vReg19, 0(sp)
+         sub vReg20, vReg18, vReg19
+         seqz vReg21, vReg20
+         beq vReg21, zero, if_false
          j if_true
 for_step.1:
-         lw t0, 0(sp)
-         sw t0, 96(sp)
-         lw t0, 96(sp)
-         addi t0, t0, 1
-         sw t0, 100(sp)
-         lw t1, 100(sp)
-         sw t1, 0(sp)
+         lw vReg22, 0(sp)
+         addi vReg23, vReg22, 1
+         sw vReg23, 0(sp)
          j for_cond.1
 for_exit.1:
-         lui t0, %hi(strConst.2)
-         sw t0, 104(sp)
-         lw t0, 104(sp)
-         addi t0, t0, %lo(strConst.2)
-         sw t0, 108(sp)
-         lw t0, 108(sp)
-         mv a0, t0
+         lui vReg24, %hi(strConst.2)
+         addi vReg25, vReg24, %lo(strConst.2)
+         mv a0, vReg25
          call println
          j for_step
 if_true:
-         lui t0, %hi(strConst)
-         sw t0, 112(sp)
-         lw t0, 112(sp)
-         addi t0, t0, %lo(strConst)
-         sw t0, 116(sp)
-         lw t0, 116(sp)
-         mv a0, t0
+         lui vReg26, %hi(strConst)
+         addi vReg27, vReg26, %lo(strConst)
+         mv a0, vReg27
          call print
          j if_exit
 if_false:
-         lui t0, %hi(strConst.1)
-         sw t0, 120(sp)
-         lw t0, 120(sp)
-         addi t0, t0, %lo(strConst.1)
-         sw t0, 124(sp)
-         lw t0, 124(sp)
-         mv a0, t0
+         lui vReg28, %hi(strConst.1)
+         addi vReg29, vReg28, %lo(strConst.1)
+         mv a0, vReg29
          call print
          j if_exit
 if_exit:
@@ -512,31 +259,19 @@ if_exit:
   .type search, @function
 search:
 search.entry:
-         addi sp, sp, -568
-         mv t0, ra
-         sw t0, 16(sp)
+         addi sp, sp, -16
+         mv vReg0, ra
          sw a0, 12(sp)
-         lw t0, 12(sp)
-         sw t0, 20(sp)
-         lui t0, %hi(N)
-         sw t0, 28(sp)
-         lw t0, 28(sp)
-         lw t0, %lo(N)(t0)
-         sw t0, 24(sp)
-         lw t0, 20(sp)
-         lw t1, 24(sp)
-         sub t0, t0, t1
-         sw t0, 32(sp)
-         lw t0, 32(sp)
-         seqz t0, t0
-         sw t0, 36(sp)
-         lw t0, 36(sp)
-         beq t0, zero, if_false.1
+         lw vReg1, 12(sp)
+         lui vReg3, %hi(N)
+         lw vReg2, %lo(N)(vReg3)
+         sub vReg4, vReg1, vReg2
+         seqz vReg5, vReg4
+         beq vReg5, zero, if_false.1
          j if_true.1
 search.exit:
-         lw t0, 16(sp)
-         mv ra, t0
-         addi sp, sp, 568
+         mv ra, vReg0
+         addi sp, sp, 16
          ret
 if_true.1:
          call printBoard
@@ -547,444 +282,176 @@ if_false.1:
 if_exit.1:
          j search.exit
 for_cond.2:
-         lw t0, 8(sp)
-         sw t0, 40(sp)
-         lui t0, %hi(N)
-         sw t0, 48(sp)
-         lw t0, 48(sp)
-         lw t0, %lo(N)(t0)
-         sw t0, 44(sp)
-         lw t0, 40(sp)
-         lw t1, 44(sp)
-         slt t0, t0, t1
-         sw t0, 52(sp)
-         lw t0, 52(sp)
-         beq t0, zero, for_exit.2
+         lw vReg6, 8(sp)
+         lui vReg8, %hi(N)
+         lw vReg7, %lo(N)(vReg8)
+         slt vReg9, vReg6, vReg7
+         beq vReg9, zero, for_exit.2
          j for_body.2
 for_body.2:
-         lui t0, %hi(row)
-         sw t0, 60(sp)
-         lw t0, 60(sp)
-         lw t0, %lo(row)(t0)
-         sw t0, 56(sp)
-         lw t0, 8(sp)
-         sw t0, 64(sp)
-         lw t0, 64(sp)
-         slli t0, t0, 2
-         sw t0, 68(sp)
-         lw t0, 56(sp)
-         lw t1, 68(sp)
-         add t0, t0, t1
-         sw t0, 72(sp)
-         lw t0, 72(sp)
-         lw t0, 0(t0)
-         sw t0, 76(sp)
-         lw t0, 76(sp)
-         sub t0, t0, zero
-         sw t0, 80(sp)
-         lw t0, 80(sp)
-         seqz t0, t0
-         sw t0, 84(sp)
-         lw t0, 84(sp)
-         andi t0, t0, 1
-         sw t0, 88(sp)
-         lw t0, 88(sp)
-         mv t0, t0
-         sw t0, 92(sp)
-         lw t1, 92(sp)
-         sw t1, 4(sp)
-         lw t0, 84(sp)
-         beq t0, zero, logicExitBlock
+         lui vReg11, %hi(row)
+         lw vReg10, %lo(row)(vReg11)
+         lw vReg12, 8(sp)
+         slli vReg13, vReg12, 2
+         add vReg14, vReg10, vReg13
+         lw vReg15, 0(vReg14)
+         sub vReg16, vReg15, zero
+         seqz vReg17, vReg16
+         andi vReg18, vReg17, 1
+         mv vReg19, vReg18
+         sw vReg19, 4(sp)
+         beq vReg17, zero, logicExitBlock
          j noShortCutBlock
 for_step.2:
-         lw t0, 8(sp)
-         sw t0, 96(sp)
-         lw t0, 96(sp)
-         addi t0, t0, 1
-         sw t0, 100(sp)
-         lw t1, 100(sp)
-         sw t1, 8(sp)
+         lw vReg20, 8(sp)
+         addi vReg21, vReg20, 1
+         sw vReg21, 8(sp)
          j for_cond.2
 for_exit.2:
          j if_exit.1
 if_true.2:
-         lui t0, %hi(d)
-         sw t0, 108(sp)
-         lw t0, 108(sp)
-         lw t0, %lo(d)(t0)
-         sw t0, 104(sp)
-         li t0, 1
-         sw t0, 116(sp)
-         lw t0, 116(sp)
-         slli t0, t0, 2
-         sw t0, 112(sp)
-         lw t0, 104(sp)
-         lw t1, 112(sp)
-         add t0, t0, t1
-         sw t0, 120(sp)
-         lw t0, 8(sp)
-         sw t0, 124(sp)
-         lui t0, %hi(N)
-         sw t0, 132(sp)
-         lw t0, 132(sp)
-         lw t0, %lo(N)(t0)
-         sw t0, 128(sp)
-         lw t0, 124(sp)
-         lw t1, 128(sp)
-         add t0, t0, t1
-         sw t0, 136(sp)
-         lw t0, 136(sp)
-         addi t0, t0, -1
-         sw t0, 140(sp)
-         lw t0, 12(sp)
-         sw t0, 144(sp)
-         lw t0, 140(sp)
-         lw t1, 144(sp)
-         sub t0, t0, t1
-         sw t0, 148(sp)
-         lw t0, 120(sp)
-         lw t0, 0(t0)
-         sw t0, 152(sp)
-         lw t0, 148(sp)
-         slli t0, t0, 2
-         sw t0, 156(sp)
-         lw t0, 152(sp)
-         lw t1, 156(sp)
-         add t0, t0, t1
-         sw t0, 160(sp)
-         li t0, 1
-         sw t0, 164(sp)
-         lw t0, 160(sp)
-         lw t1, 164(sp)
-         sw t1, 0(t0)
-         lui t0, %hi(d)
-         sw t0, 172(sp)
-         lw t0, 172(sp)
-         lw t0, %lo(d)(t0)
-         sw t0, 168(sp)
-         slli t0, zero, 2
-         sw t0, 176(sp)
-         lw t0, 168(sp)
-         lw t1, 176(sp)
-         add t0, t0, t1
-         sw t0, 180(sp)
-         lw t0, 8(sp)
-         sw t0, 184(sp)
-         lw t0, 12(sp)
-         sw t0, 188(sp)
-         lw t0, 184(sp)
-         lw t1, 188(sp)
-         add t0, t0, t1
-         sw t0, 192(sp)
-         lw t0, 180(sp)
-         lw t0, 0(t0)
-         sw t0, 196(sp)
-         lw t0, 192(sp)
-         slli t0, t0, 2
-         sw t0, 200(sp)
-         lw t0, 196(sp)
-         lw t1, 200(sp)
-         add t0, t0, t1
-         sw t0, 204(sp)
-         li t0, 1
-         sw t0, 208(sp)
-         lw t0, 204(sp)
-         lw t1, 208(sp)
-         sw t1, 0(t0)
-         lui t0, %hi(row)
-         sw t0, 216(sp)
-         lw t0, 216(sp)
-         lw t0, %lo(row)(t0)
-         sw t0, 212(sp)
-         lw t0, 8(sp)
-         sw t0, 220(sp)
-         lw t0, 220(sp)
-         slli t0, t0, 2
-         sw t0, 224(sp)
-         lw t0, 212(sp)
-         lw t1, 224(sp)
-         add t0, t0, t1
-         sw t0, 228(sp)
-         li t0, 1
-         sw t0, 232(sp)
-         lw t0, 228(sp)
-         lw t1, 232(sp)
-         sw t1, 0(t0)
-         lui t0, %hi(col)
-         sw t0, 240(sp)
-         lw t0, 240(sp)
-         lw t0, %lo(col)(t0)
-         sw t0, 236(sp)
-         lw t0, 12(sp)
-         sw t0, 244(sp)
-         lw t0, 244(sp)
-         slli t0, t0, 2
-         sw t0, 248(sp)
-         lw t0, 236(sp)
-         lw t1, 248(sp)
-         add t0, t0, t1
-         sw t0, 252(sp)
-         lw t0, 8(sp)
-         sw t0, 256(sp)
-         lw t0, 252(sp)
-         lw t1, 256(sp)
-         sw t1, 0(t0)
-         lw t0, 12(sp)
-         sw t0, 260(sp)
-         lw t0, 260(sp)
-         addi t0, t0, 1
-         sw t0, 264(sp)
-         lw t0, 264(sp)
-         mv a0, t0
+         lui vReg23, %hi(d)
+         lw vReg22, %lo(d)(vReg23)
+         li vReg25, 1
+         slli vReg24, vReg25, 2
+         add vReg26, vReg22, vReg24
+         lw vReg27, 8(sp)
+         lui vReg29, %hi(N)
+         lw vReg28, %lo(N)(vReg29)
+         add vReg30, vReg27, vReg28
+         addi vReg31, vReg30, -1
+         lw vReg32, 12(sp)
+         sub vReg33, vReg31, vReg32
+         lw vReg34, 0(vReg26)
+         slli vReg35, vReg33, 2
+         add vReg36, vReg34, vReg35
+         li vReg37, 1
+         sw vReg37, 0(vReg36)
+         lui vReg39, %hi(d)
+         lw vReg38, %lo(d)(vReg39)
+         slli vReg40, zero, 2
+         add vReg41, vReg38, vReg40
+         lw vReg42, 8(sp)
+         lw vReg43, 12(sp)
+         add vReg44, vReg42, vReg43
+         lw vReg45, 0(vReg41)
+         slli vReg46, vReg44, 2
+         add vReg47, vReg45, vReg46
+         li vReg48, 1
+         sw vReg48, 0(vReg47)
+         lui vReg50, %hi(row)
+         lw vReg49, %lo(row)(vReg50)
+         lw vReg51, 8(sp)
+         slli vReg52, vReg51, 2
+         add vReg53, vReg49, vReg52
+         li vReg54, 1
+         sw vReg54, 0(vReg53)
+         lui vReg56, %hi(col)
+         lw vReg55, %lo(col)(vReg56)
+         lw vReg57, 12(sp)
+         slli vReg58, vReg57, 2
+         add vReg59, vReg55, vReg58
+         lw vReg60, 8(sp)
+         sw vReg60, 0(vReg59)
+         lw vReg61, 12(sp)
+         addi vReg62, vReg61, 1
+         mv a0, vReg62
          call search
-         lui t0, %hi(row)
-         sw t0, 272(sp)
-         lw t0, 272(sp)
-         lw t0, %lo(row)(t0)
-         sw t0, 268(sp)
-         lw t0, 8(sp)
-         sw t0, 276(sp)
-         lw t0, 276(sp)
-         slli t0, t0, 2
-         sw t0, 280(sp)
-         lw t0, 268(sp)
-         lw t1, 280(sp)
-         add t0, t0, t1
-         sw t0, 284(sp)
-         lw t0, 284(sp)
-         sw zero, 0(t0)
-         lui t0, %hi(d)
-         sw t0, 292(sp)
-         lw t0, 292(sp)
-         lw t0, %lo(d)(t0)
-         sw t0, 288(sp)
-         slli t0, zero, 2
-         sw t0, 296(sp)
-         lw t0, 288(sp)
-         lw t1, 296(sp)
-         add t0, t0, t1
-         sw t0, 300(sp)
-         lw t0, 8(sp)
-         sw t0, 304(sp)
-         lw t0, 12(sp)
-         sw t0, 308(sp)
-         lw t0, 304(sp)
-         lw t1, 308(sp)
-         add t0, t0, t1
-         sw t0, 312(sp)
-         lw t0, 300(sp)
-         lw t0, 0(t0)
-         sw t0, 316(sp)
-         lw t0, 312(sp)
-         slli t0, t0, 2
-         sw t0, 320(sp)
-         lw t0, 316(sp)
-         lw t1, 320(sp)
-         add t0, t0, t1
-         sw t0, 324(sp)
-         lw t0, 324(sp)
-         sw zero, 0(t0)
-         lui t0, %hi(d)
-         sw t0, 332(sp)
-         lw t0, 332(sp)
-         lw t0, %lo(d)(t0)
-         sw t0, 328(sp)
-         li t0, 1
-         sw t0, 340(sp)
-         lw t0, 340(sp)
-         slli t0, t0, 2
-         sw t0, 336(sp)
-         lw t0, 328(sp)
-         lw t1, 336(sp)
-         add t0, t0, t1
-         sw t0, 344(sp)
-         lw t0, 8(sp)
-         sw t0, 348(sp)
-         lui t0, %hi(N)
-         sw t0, 356(sp)
-         lw t0, 356(sp)
-         lw t0, %lo(N)(t0)
-         sw t0, 352(sp)
-         lw t0, 348(sp)
-         lw t1, 352(sp)
-         add t0, t0, t1
-         sw t0, 360(sp)
-         lw t0, 360(sp)
-         addi t0, t0, -1
-         sw t0, 364(sp)
-         lw t0, 12(sp)
-         sw t0, 368(sp)
-         lw t0, 364(sp)
-         lw t1, 368(sp)
-         sub t0, t0, t1
-         sw t0, 372(sp)
-         lw t0, 344(sp)
-         lw t0, 0(t0)
-         sw t0, 376(sp)
-         lw t0, 372(sp)
-         slli t0, t0, 2
-         sw t0, 380(sp)
-         lw t0, 376(sp)
-         lw t1, 380(sp)
-         add t0, t0, t1
-         sw t0, 384(sp)
-         lw t0, 384(sp)
-         sw zero, 0(t0)
+         lui vReg64, %hi(row)
+         lw vReg63, %lo(row)(vReg64)
+         lw vReg65, 8(sp)
+         slli vReg66, vReg65, 2
+         add vReg67, vReg63, vReg66
+         sw zero, 0(vReg67)
+         lui vReg69, %hi(d)
+         lw vReg68, %lo(d)(vReg69)
+         slli vReg70, zero, 2
+         add vReg71, vReg68, vReg70
+         lw vReg72, 8(sp)
+         lw vReg73, 12(sp)
+         add vReg74, vReg72, vReg73
+         lw vReg75, 0(vReg71)
+         slli vReg76, vReg74, 2
+         add vReg77, vReg75, vReg76
+         sw zero, 0(vReg77)
+         lui vReg79, %hi(d)
+         lw vReg78, %lo(d)(vReg79)
+         li vReg81, 1
+         slli vReg80, vReg81, 2
+         add vReg82, vReg78, vReg80
+         lw vReg83, 8(sp)
+         lui vReg85, %hi(N)
+         lw vReg84, %lo(N)(vReg85)
+         add vReg86, vReg83, vReg84
+         addi vReg87, vReg86, -1
+         lw vReg88, 12(sp)
+         sub vReg89, vReg87, vReg88
+         lw vReg90, 0(vReg82)
+         slli vReg91, vReg89, 2
+         add vReg92, vReg90, vReg91
+         sw zero, 0(vReg92)
          j if_exit.2
 if_false.2:
          j if_exit.2
 if_exit.2:
          j for_step.2
 noShortCutBlock:
-         lui t0, %hi(d)
-         sw t0, 392(sp)
-         lw t0, 392(sp)
-         lw t0, %lo(d)(t0)
-         sw t0, 388(sp)
-         slli t0, zero, 2
-         sw t0, 396(sp)
-         lw t0, 388(sp)
-         lw t1, 396(sp)
-         add t0, t0, t1
-         sw t0, 400(sp)
-         lw t0, 8(sp)
-         sw t0, 404(sp)
-         lw t0, 12(sp)
-         sw t0, 408(sp)
-         lw t0, 404(sp)
-         lw t1, 408(sp)
-         add t0, t0, t1
-         sw t0, 412(sp)
-         lw t0, 400(sp)
-         lw t0, 0(t0)
-         sw t0, 416(sp)
-         lw t0, 412(sp)
-         slli t0, t0, 2
-         sw t0, 420(sp)
-         lw t0, 416(sp)
-         lw t1, 420(sp)
-         add t0, t0, t1
-         sw t0, 424(sp)
-         lw t0, 424(sp)
-         lw t0, 0(t0)
-         sw t0, 428(sp)
-         lw t0, 428(sp)
-         sub t0, t0, zero
-         sw t0, 432(sp)
-         lw t0, 432(sp)
-         seqz t0, t0
-         sw t0, 436(sp)
-         lw t0, 84(sp)
-         lw t1, 436(sp)
-         and t0, t0, t1
-         sw t0, 440(sp)
-         lw t0, 440(sp)
-         andi t0, t0, 1
-         sw t0, 444(sp)
-         lw t0, 444(sp)
-         mv t0, t0
-         sw t0, 448(sp)
-         lw t1, 448(sp)
-         sw t1, 4(sp)
+         lui vReg94, %hi(d)
+         lw vReg93, %lo(d)(vReg94)
+         slli vReg95, zero, 2
+         add vReg96, vReg93, vReg95
+         lw vReg97, 8(sp)
+         lw vReg98, 12(sp)
+         add vReg99, vReg97, vReg98
+         lw vReg100, 0(vReg96)
+         slli vReg101, vReg99, 2
+         add vReg102, vReg100, vReg101
+         lw vReg103, 0(vReg102)
+         sub vReg104, vReg103, zero
+         seqz vReg105, vReg104
+         and vReg106, vReg17, vReg105
+         andi vReg107, vReg106, 1
+         mv vReg108, vReg107
+         sw vReg108, 4(sp)
          j logicExitBlock
 logicExitBlock:
-         lw t0, 4(sp)
-         sw t0, 452(sp)
-         lw t0, 452(sp)
-         andi t0, t0, 1
-         sw t0, 456(sp)
-         lw t0, 456(sp)
-         mv t0, t0
-         sw t0, 460(sp)
-         lw t0, 460(sp)
-         andi t0, t0, 1
-         sw t0, 464(sp)
-         lw t0, 464(sp)
-         mv t0, t0
-         sw t0, 468(sp)
-         lw t1, 468(sp)
-         sw t1, 0(sp)
-         lw t0, 460(sp)
-         beq t0, zero, logicExitBlock.1
+         lw vReg109, 4(sp)
+         andi vReg110, vReg109, 1
+         mv vReg111, vReg110
+         andi vReg112, vReg111, 1
+         mv vReg113, vReg112
+         sw vReg113, 0(sp)
+         beq vReg111, zero, logicExitBlock.1
          j noShortCutBlock.1
 noShortCutBlock.1:
-         lui t0, %hi(d)
-         sw t0, 476(sp)
-         lw t0, 476(sp)
-         lw t0, %lo(d)(t0)
-         sw t0, 472(sp)
-         li t0, 1
-         sw t0, 484(sp)
-         lw t0, 484(sp)
-         slli t0, t0, 2
-         sw t0, 480(sp)
-         lw t0, 472(sp)
-         lw t1, 480(sp)
-         add t0, t0, t1
-         sw t0, 488(sp)
-         lw t0, 8(sp)
-         sw t0, 492(sp)
-         lui t0, %hi(N)
-         sw t0, 500(sp)
-         lw t0, 500(sp)
-         lw t0, %lo(N)(t0)
-         sw t0, 496(sp)
-         lw t0, 492(sp)
-         lw t1, 496(sp)
-         add t0, t0, t1
-         sw t0, 504(sp)
-         lw t0, 504(sp)
-         addi t0, t0, -1
-         sw t0, 508(sp)
-         lw t0, 12(sp)
-         sw t0, 512(sp)
-         lw t0, 508(sp)
-         lw t1, 512(sp)
-         sub t0, t0, t1
-         sw t0, 516(sp)
-         lw t0, 488(sp)
-         lw t0, 0(t0)
-         sw t0, 520(sp)
-         lw t0, 516(sp)
-         slli t0, t0, 2
-         sw t0, 524(sp)
-         lw t0, 520(sp)
-         lw t1, 524(sp)
-         add t0, t0, t1
-         sw t0, 528(sp)
-         lw t0, 528(sp)
-         lw t0, 0(t0)
-         sw t0, 532(sp)
-         lw t0, 532(sp)
-         sub t0, t0, zero
-         sw t0, 536(sp)
-         lw t0, 536(sp)
-         seqz t0, t0
-         sw t0, 540(sp)
-         lw t0, 460(sp)
-         lw t1, 540(sp)
-         and t0, t0, t1
-         sw t0, 544(sp)
-         lw t0, 544(sp)
-         andi t0, t0, 1
-         sw t0, 548(sp)
-         lw t0, 548(sp)
-         mv t0, t0
-         sw t0, 552(sp)
-         lw t1, 552(sp)
-         sw t1, 0(sp)
+         lui vReg115, %hi(d)
+         lw vReg114, %lo(d)(vReg115)
+         li vReg117, 1
+         slli vReg116, vReg117, 2
+         add vReg118, vReg114, vReg116
+         lw vReg119, 8(sp)
+         lui vReg121, %hi(N)
+         lw vReg120, %lo(N)(vReg121)
+         add vReg122, vReg119, vReg120
+         addi vReg123, vReg122, -1
+         lw vReg124, 12(sp)
+         sub vReg125, vReg123, vReg124
+         lw vReg126, 0(vReg118)
+         slli vReg127, vReg125, 2
+         add vReg128, vReg126, vReg127
+         lw vReg129, 0(vReg128)
+         sub vReg130, vReg129, zero
+         seqz vReg131, vReg130
+         and vReg132, vReg111, vReg131
+         andi vReg133, vReg132, 1
+         mv vReg134, vReg133
+         sw vReg134, 0(sp)
          j logicExitBlock.1
 logicExitBlock.1:
-         lw t0, 0(sp)
-         sw t0, 556(sp)
-         lw t0, 556(sp)
-         andi t0, t0, 1
-         sw t0, 560(sp)
-         lw t0, 560(sp)
-         mv t0, t0
-         sw t0, 564(sp)
-         lw t0, 564(sp)
-         beq t0, zero, if_false.2
+         lw vReg135, 0(sp)
+         andi vReg136, vReg135, 1
+         mv vReg137, vReg136
+         beq vReg137, zero, if_false.2
          j if_true.2
 
 .section .bss

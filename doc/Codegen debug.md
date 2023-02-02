@@ -1160,3 +1160,9 @@ jalr zero, 0(ra)
 ![image-20230203185252290](C:\Users\JerryGuo\AppData\Roaming\Typora\typora-user-images\image-20230203185252290.png)
 
 问题出在 if 的 true 分支计算出了 data 的地址，但是在执行另一个分支的时候这条计算指令没有执行，却用了执行后的寄存器，目前认为是 irScope 出了问题
+
+
+
+
+
+134339643

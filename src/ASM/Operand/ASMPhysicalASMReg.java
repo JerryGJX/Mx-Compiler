@@ -12,6 +12,8 @@ public class ASMPhysicalASMReg extends ASMReg {
         regMap.put("zero", new ASMPhysicalASMReg("zero"));
         regMap.put("ra", new ASMPhysicalASMReg("ra"));
         regMap.put("sp", new ASMPhysicalASMReg("sp"));
+        regMap.put("gp", new ASMPhysicalASMReg("gp"));
+        regMap.put("tp", new ASMPhysicalASMReg("tp"));
         for (int i = 0; i < 7; ++i) {
             var reg = new ASMPhysicalASMReg("t" + i);
             regMap.put("t" + i, reg);
@@ -28,6 +30,13 @@ public class ASMPhysicalASMReg extends ASMReg {
             calleeSavedRegList.add(reg);
         }
     }
+
+    @Override
+    public Boolean isReserved() {
+        return this.identifier.equals("zero") || this.identifier.equals("ra") || this.identifier.equals("sp") || this.identifier.equals("gp") || this.identifier.equals("tp");
+    }
+
+
 
     public ASMPhysicalASMReg(String name) {
         super(name);

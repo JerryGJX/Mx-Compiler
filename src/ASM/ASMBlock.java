@@ -13,6 +13,8 @@ public class ASMBlock extends ASMOperand {
     //    String blockId;
     public LinkedList<ASMInst> instList = new LinkedList<>();
 
+    public LinkedList<ASMBlock> sucBlockList = new LinkedList<>();
+
     public ASMBlock(String blockId) {
         super(blockId);
     }
